@@ -1,12 +1,12 @@
 <!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body style="margin:0">
-<title>熊本福岡走走吃吃</title>
+<title>熊本福岡五天四夜</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&display=swap">
 <style>
 /* Layout: 繪本頁面 — sticky 選單 → 插圖首頁 → 航班 → 每日行程（日期膠囊＋時間軸）→ 清單 → 住宿；單一淺色主題 */
 :root{
-  --paper:#FFFCF6; --ink:#3E3A39; --ink-soft:#7a7472;
+  --paper:#FFFCF6; --ink:#3E3A39; --ink-soft:#736d6b;
   --coral:#F2A497; --yellow:#F6D27A; --mizu:#A8D3E6; --take:#B9DAA5;
   --coral-l:#FBE1DB; --yellow-l:#FCF0CC; --mizu-l:#E1F0F6; --take-l:#E5F1DD;
   --line:3px solid var(--ink); --r:22px;
@@ -21,7 +21,6 @@ a{color:inherit}
 button{font-family:inherit;color:inherit}
 :focus-visible{outline:3px dashed var(--ink);outline-offset:3px}
 
-/* 選單 */
 .nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--paper);border-bottom:var(--line)}
 .nav ul{list-style:none;margin:0 auto;max-width:620px;padding:10px 12px;display:flex;gap:6px;justify-content:space-between}
 .nav a{display:block;text-decoration:none;font-size:14px;padding:5px 10px;border:2px solid transparent;border-radius:999px;white-space:nowrap}
@@ -31,37 +30,32 @@ section{margin-top:40px}
 h2{font-size:22px;font-weight:400;margin:0 0 14px;display:flex;align-items:center;gap:10px}
 h2 .chip{width:30px;height:30px;border:var(--line);border-radius:10px;display:grid;place-items:center;flex:0 0 auto}
 h2 .chip svg{width:18px;height:18px}
-.box{background:#fff;border:var(--line);border-radius:var(--r);padding:16px}
 
-/* 首頁 */
 .hero{margin-top:18px;border:var(--line);border-radius:28px;overflow:hidden;background:var(--mizu-l)}
 .hero svg{display:block;width:100%;height:auto}
 .hero-text{background:var(--paper);border-top:var(--line);padding:16px 18px 18px;text-align:center}
 .hero-text .sub{font-size:14px;color:var(--ink-soft)}
-.hero-text h1{font-size:30px;font-weight:400;margin:2px 0 10px;line-height:1.25;text-wrap:balance}
+.hero-text h1{font-size:28px;font-weight:400;margin:2px 0 10px;line-height:1.3;text-wrap:balance}
 .count{display:inline-flex;align-items:baseline;gap:8px;background:var(--coral);border:var(--line);border-radius:999px;padding:6px 18px}
 .count b{font-size:34px;font-weight:400;line-height:1;font-variant-numeric:tabular-nums}
 .count span{font-size:15px}
 .route{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin-top:12px;font-size:13px}
 .route span{border:2px solid var(--ink);border-radius:999px;padding:1px 10px;background:#fff}
 
-/* 航班 */
 .flights{display:grid;gap:14px}
 .flight{background:#fff;border:var(--line);border-radius:var(--r);overflow:hidden}
-.flight .top{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;border-bottom:var(--line);font-size:14px}
+.flight .top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 14px;border-bottom:var(--line);font-size:14px}
 .flight.go .top{background:var(--mizu)} .flight.back .top{background:var(--coral)}
+.fno{font-size:15px;background:#fff;border:2px solid var(--ink);border-radius:8px;padding:0 8px}
 .fl-body{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;padding:14px}
 .ap{text-align:center;min-width:0}
 .ap .code{font-size:30px;line-height:1.1}
 .ap .city{font-size:13px;color:var(--ink-soft)}
-.ap .t{font-size:15px;margin-top:2px}
+.ap .t{font-size:20px;margin-top:2px;font-variant-numeric:tabular-nums}
 .plane{width:64px}
-.fl-foot{display:flex;gap:8px;align-items:center;flex-wrap:wrap;border-top:2px dashed var(--ink);padding:10px 14px;font-size:14px}
-.fl-foot label{color:var(--ink-soft)}
-.fl-foot input{font:inherit;border:2px solid var(--ink);border-radius:10px;padding:2px 8px;width:110px;background:var(--paper)}
-.todo-mark{font-size:12px;background:var(--yellow-l);border:2px solid var(--ink);border-radius:6px;padding:0 6px}
+.fl-foot{border-top:2px dashed var(--ink);padding:8px 14px;font-size:14px;color:var(--ink-soft)}
+.cost{display:inline-block;font-size:13px;background:var(--yellow-l);border:2px solid var(--ink);border-radius:8px;padding:0 8px;color:var(--ink)}
 
-/* 每日行程 */
 .days{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 10px;scrollbar-width:none}
 .days::-webkit-scrollbar{display:none}
 .days button{flex:0 0 auto;border:var(--line);background:#fff;border-radius:18px;padding:6px 12px;cursor:pointer;text-align:center;min-width:70px}
@@ -77,28 +71,46 @@ h2 .chip svg{width:18px;height:18px}
 
 .tl{list-style:none;margin:18px 0 0;padding:0;position:relative}
 .tl::before{content:"";position:absolute;left:62px;top:10px;bottom:10px;border-left:3px dashed var(--ink)}
-.st{display:grid;grid-template-columns:50px 26px 1fr;gap:0;align-items:start;padding:7px 0}
+.st{display:grid;grid-template-columns:50px 26px 1fr;align-items:start;padding:7px 0}
 .st time{font-size:15px;padding-top:12px;font-variant-numeric:tabular-nums}
 .st .dot{width:18px;height:18px;border:var(--line);border-radius:50%;background:#fff;margin:14px 0 0 3px;position:relative;z-index:1}
 .st.food .dot{background:var(--coral)} .st.sight .dot{background:var(--take)} .st.stay .dot{background:var(--mizu)} .st.move .dot{background:var(--yellow)}
 .card{min-width:0;background:#fff;border:var(--line);border-radius:18px;padding:9px 12px}
 .st.must .card{background:var(--coral-l)}
-.card .row{display:flex;gap:8px;align-items:flex-start;justify-content:space-between}
+.card .row{display:flex;gap:6px;align-items:flex-start;justify-content:space-between}
 .card .nm{font-size:16px;overflow-wrap:anywhere}
+.badges{display:flex;gap:4px;flex:0 0 auto;flex-wrap:wrap;justify-content:flex-end}
+.badge{font-size:12px;border:2px solid var(--ink);border-radius:8px;padding:0 6px;white-space:nowrap}
+.b-must{background:var(--coral);transform:rotate(4deg)}
+.b-free{background:var(--take-l)}
+.b-book{background:var(--mizu)}
 .card .meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;align-items:center}
 .pill{font-size:12px;border:2px solid var(--ink);border-radius:999px;padding:0 8px;line-height:20px;white-space:nowrap}
-.p-walk{background:var(--take)} .p-train{background:var(--mizu)} .p-car{background:var(--yellow)} .p-bus{background:var(--coral)} .p-fly{background:#fff} .p-start{background:var(--paper)}
-.must-badge{flex:0 0 auto;font-size:12px;background:var(--coral);border:2px solid var(--ink);border-radius:8px;padding:0 6px;transform:rotate(4deg)}
-.kind{font-size:12px;color:var(--ink-soft)}
+.p-walk{background:var(--take)} .p-train{background:var(--mizu)} .p-car{background:var(--yellow)} .p-bus{background:var(--coral)} .p-fly{background:#fff} .p-tour{background:var(--yellow-l)}
 .maplink{margin-left:auto;font-size:12px;text-decoration:none;border-bottom:2px solid var(--mizu)}
-.late{font-size:12px;color:var(--ink-soft)}
+.note{font-size:14px;color:var(--ink-soft);margin-top:6px}
+.note b{color:var(--ink);font-weight:400}
+.opts{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px}
+.opts li{border:2px solid var(--ink);border-radius:12px;padding:5px 10px;background:var(--paper);font-size:14px}
+.opts li b{font-weight:400;font-size:15px}
+.opts li span{display:block;color:var(--ink-soft);font-size:13px}
+.opts li a{font-size:12px;text-decoration:none;border-bottom:2px solid var(--mizu)}
+details{margin-top:8px}
+summary{cursor:pointer;font-size:14px;display:inline-block;border:2px solid var(--ink);border-radius:999px;padding:0 10px;background:var(--yellow-l);list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::after{content:" ▾"}
+details[open] summary::after{content:" ▴"}
+.tbl{overflow-x:auto;margin-top:8px;border:2px solid var(--ink);border-radius:12px}
+.tbl table{border-collapse:collapse;width:100%;min-width:420px;font-size:13px}
+.tbl th,.tbl td{text-align:left;vertical-align:top;padding:6px 8px;border-bottom:2px dashed #d8d2cc}
+.tbl tr:last-child td{border-bottom:0}
+.tbl th{background:var(--mizu-l);font-weight:400}
+.tbl td:first-child{white-space:nowrap}
 .legend{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;font-size:12px;align-items:center;color:var(--ink-soft)}
 
-/* 清單 */
 .prog{display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .bar{flex:1;height:16px;border:var(--line);border-radius:999px;background:#fff;overflow:hidden}
-.bar i{display:block;height:100%;background:var(--take);border-right:3px solid var(--ink);transition:width .3s}
-.bar i[style*="width:0%"]{border-right:0}
+.bar i{display:block;height:100%;background:var(--take);transition:width .3s}
 .prog span{font-size:14px;font-variant-numeric:tabular-nums;white-space:nowrap}
 .grp{margin-top:12px}
 .grp h3{font-weight:400;font-size:16px;margin:0 0 6px;display:flex;justify-content:space-between}
@@ -110,12 +122,11 @@ h2 .chip svg{width:18px;height:18px}
 .grp input:checked{background:var(--take)}
 .grp input:checked::after{content:"";width:9px;height:5px;border-left:3px solid var(--ink);border-bottom:3px solid var(--ink);transform:translateY(-2px) rotate(-45deg)}
 .grp input:checked+span{text-decoration:line-through;text-decoration-thickness:2px;color:var(--ink-soft)}
-.tabs2{display:flex;gap:8px;margin-bottom:10px}
-.tabs2 button{border:var(--line);border-radius:999px;background:#fff;padding:4px 14px;cursor:pointer;font-size:14px}
-.tabs2 button[aria-selected="true"]{background:var(--take)}
 .reset{background:none;border:0;font-size:13px;color:var(--ink-soft);text-decoration:underline;cursor:pointer;padding:0;margin-top:10px}
+.tips{margin-top:16px;background:#fff;border:var(--line);border-radius:18px;padding:12px 14px;font-size:14px}
+.tips h3{font-weight:400;font-size:16px;margin:0 0 6px}
+.tips ul{margin:0;padding-left:20px;display:grid;gap:4px}
 
-/* 住宿 */
 .hotels{display:grid;gap:14px}
 .hotel{background:#fff;border:var(--line);border-radius:var(--r);display:grid;grid-template-columns:96px 1fr;overflow:hidden}
 .hotel .ill{border-right:var(--line);display:grid;place-items:center}
@@ -123,18 +134,17 @@ h2 .chip svg{width:18px;height:18px}
 .hotel .ill svg{width:72px;height:72px}
 .hotel .info{padding:12px 14px;min-width:0}
 .hotel h3{font-weight:400;font-size:17px;margin:0;line-height:1.35}
-.hotel .nights{display:inline-block;font-size:13px;background:var(--yellow);border:2px solid var(--ink);border-radius:999px;padding:0 10px;margin:6px 0}
+.hotel .nights{display:inline-block;font-size:13px;background:var(--yellow);border:2px solid var(--ink);border-radius:999px;padding:0 10px;margin:6px 6px 6px 0}
 .hotel p{margin:0;font-size:14px;color:var(--ink-soft)}
 .hotel a.btn{display:inline-block;margin-top:8px;font-size:13px;text-decoration:none;border:2px solid var(--ink);border-radius:999px;padding:2px 12px;background:var(--paper)}
 .foot{margin-top:40px;text-align:center;font-size:12px;color:var(--ink-soft)}
 
-/* 動畫 */
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 @keyframes drift{from{transform:translateX(-40px)}to{transform:translateX(400px)}}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes puff{0%{transform:translate(0,0) scale(.6);opacity:0}30%{opacity:1}100%{transform:translate(10px,-26px) scale(1.2);opacity:0}}
 @keyframes ride{0%{transform:translateX(-140px)}100%{transform:translateX(380px)}}
-@keyframes sway{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+@keyframes sway{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
 @keyframes pop{0%{transform:translateY(14px) scale(.96);opacity:0}60%{transform:translateY(-4px) scale(1.01);opacity:1}100%{transform:none;opacity:1}}
 @keyframes boing{0%{transform:translateY(-3px) scale(1)}40%{transform:translateY(-6px) scale(1.08)}70%{transform:translateY(-2px) scale(.97)}100%{transform:translateY(-3px) scale(1)}}
 .a-bob{animation:bob 3.2s ease-in-out infinite}
@@ -144,7 +154,8 @@ h2 .chip svg{width:18px;height:18px}
 .a-puff{transform-box:fill-box;transform-origin:center;animation:puff 3.6s ease-out infinite}
 .a-puff2{animation-delay:-1.8s}
 .a-train{animation:ride 11s linear infinite}
-.a-sway{transform-box:fill-box;transform-origin:bottom center;animation:sway 3s ease-in-out infinite}
+.a-sway{transform-box:fill-box;transform-origin:top center;animation:sway 3s ease-in-out infinite}
+.a-sway-b{transform-box:fill-box;transform-origin:bottom center;animation:sway 3s ease-in-out infinite}
 .bounce .st,.bounce .dayhead{animation:pop .5s cubic-bezier(.3,1.5,.5,1) both}
 .days button.boing{animation:boing .45s ease}
 @media (prefers-reduced-motion:reduce){
@@ -164,22 +175,19 @@ h2 .chip svg{width:18px;height:18px}
 </nav>
 
 <main class="wrap">
-<!-- 首頁 -->
 <section id="home" style="margin-top:0">
   <div class="hero">
-    <svg viewBox="0 0 360 230" role="img" aria-label="熊本城、阿蘇火山與九州新幹線的插圖">
+    <svg viewBox="0 0 360 230" role="img" aria-label="熊本城、阿蘇火山與新幹線的插圖">
       <rect width="360" height="230" fill="#E1F0F6"/>
       <g class="a-sun"><circle cx="300" cy="46" r="20" fill="#F6D27A" stroke="#3E3A39" stroke-width="3"/>
         <g stroke="#3E3A39" stroke-width="3" stroke-linecap="round"><path d="M300 14v-6M300 84v-6M268 46h-6M338 46h-6M277 23l-4-4M327 73l-4-4M323 23l4-4M273 73l4-4"/></g></g>
       <g class="a-cloud"><path d="M20 60a12 12 0 0 1 22-6a10 10 0 0 1 18 6z" fill="#fff" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/></g>
       <g class="a-cloud2"><path d="M10 34a10 10 0 0 1 18-5a8 8 0 0 1 15 5z" fill="#fff" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/></g>
-      <!-- 阿蘇 -->
       <path d="M150 168L206 92h26l56 76z" fill="#B9DAA5" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/>
       <path d="M206 92q13 10 26 0" fill="none" stroke="#3E3A39" stroke-width="3"/>
       <circle class="a-puff" cx="219" cy="80" r="8" fill="#fff" stroke="#3E3A39" stroke-width="3"/>
       <circle class="a-puff a-puff2" cx="214" cy="80" r="7" fill="#fff" stroke="#3E3A39" stroke-width="3"/>
       <path d="M228 168l30-40l40 40z" fill="#9ccb85" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/>
-      <!-- 熊本城 -->
       <g class="a-bob">
         <path d="M44 168l8-34h72l8 34z" fill="#d9d3cb" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/>
         <path d="M58 134v-18h60v18" fill="#FFFCF6" stroke="#3E3A39" stroke-width="3"/>
@@ -193,14 +201,11 @@ h2 .chip svg{width:18px;height:18px}
         <rect x="98" y="120" width="8" height="8" fill="#F6D27A" stroke="#3E3A39" stroke-width="2"/>
         <rect x="84" y="94" width="8" height="7" fill="#F6D27A" stroke="#3E3A39" stroke-width="2"/>
       </g>
-      <!-- 樹 -->
-      <g class="a-sway"><circle cx="150" cy="156" r="12" fill="#F2A497" stroke="#3E3A39" stroke-width="3"/><path d="M150 168v8" stroke="#3E3A39" stroke-width="3"/></g>
-      <g class="a-sway" style="animation-delay:-1.2s"><circle cx="20" cy="158" r="10" fill="#F6D27A" stroke="#3E3A39" stroke-width="3"/><path d="M20 168v8" stroke="#3E3A39" stroke-width="3"/></g>
-      <!-- 地面＋軌道 -->
+      <g class="a-sway-b"><circle cx="150" cy="156" r="12" fill="#F2A497" stroke="#3E3A39" stroke-width="3"/><path d="M150 168v8" stroke="#3E3A39" stroke-width="3"/></g>
+      <g class="a-sway-b" style="animation-delay:-1.2s"><circle cx="20" cy="158" r="10" fill="#F6D27A" stroke="#3E3A39" stroke-width="3"/><path d="M20 168v8" stroke="#3E3A39" stroke-width="3"/></g>
       <rect x="0" y="168" width="360" height="62" fill="#B9DAA5" stroke="#3E3A39" stroke-width="3"/>
       <path d="M0 206h360" stroke="#3E3A39" stroke-width="3"/>
       <path d="M8 212h12M40 212h12M72 212h12M104 212h12M136 212h12M168 212h12M200 212h12M232 212h12M264 212h12M296 212h12M328 212h12" stroke="#3E3A39" stroke-width="3" stroke-linecap="round"/>
-      <!-- 新幹線 -->
       <g class="a-train">
         <path d="M0 182h96q30 0 40 22H0z" fill="#fff" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/>
         <path d="M0 196h128" stroke="#F2A497" stroke-width="5"/>
@@ -211,198 +216,245 @@ h2 .chip svg{width:18px;height:18px}
       </g>
     </svg>
     <div class="hero-text">
-      <div class="sub">2026 / 11 / 22 – 11 / 26 · 5 天 4 夜</div>
-      <h1>熊本福岡走走吃吃</h1>
+      <div class="sub">2026 / 11 / 22 – 11 / 26 · 五天四夜 8 人行</div>
+      <h1>熊本＋福岡</h1>
       <div class="count" id="count"><span>距離出發還有</span><b id="countN">--</b><span>天</span></div>
-      <div class="route"><span>熊本</span><span>阿蘇・高千穗</span><span>太宰府</span><span>博多・天神</span><span>柳川・糸島</span></div>
+      <div class="route"><span>熊本</span><span>高千穗</span><span>太宰府</span><span>博多・天神</span><span>柳川・糸島</span></div>
     </div>
   </div>
 </section>
 
-<!-- 航班 -->
 <section id="flight">
-  <h2><span class="chip" style="background:var(--mizu)"><svg viewBox="0 0 24 24"><path d="M3 13l7-1 5-8h3l-3 8 5 1 2-3h2l-1 5 1 5h-2l-2-3-5 1 3 8h-3l-5-8-7-1z" fill="#fff" stroke="#3E3A39" stroke-width="2" stroke-linejoin="round" transform="scale(.9) translate(1 -2)"/></svg></span>航班</h2>
+  <h2><span class="chip" style="background:var(--mizu)"><svg viewBox="0 0 24 24"><path d="M2 12l8-1 5-7h3l-3 7 5 1 2-3h2l-1 3 1 3h-2l-2-3-5 1 3 7h-3l-5-7-8-1z" fill="#fff" stroke="#3E3A39" stroke-width="1.8" stroke-linejoin="round"/></svg></span>航班</h2>
   <div class="flights">
     <article class="flight go">
-      <div class="top"><span>去程・11/22（日）</span><span class="todo-mark">航班號待填</span></div>
+      <div class="top"><span>去程・11/22（日）</span><span class="fno">星宇 JX846</span></div>
       <div class="fl-body">
-        <div class="ap"><div class="code">TPE</div><div class="city">台灣・桃園</div><div class="t" id="go-dep-t">— : —</div></div>
-        <svg class="plane a-bob" viewBox="0 0 64 30"><path d="M2 15h50" stroke="#3E3A39" stroke-width="3" stroke-dasharray="4 5" stroke-linecap="round"/><path d="M40 6l14 9-14 9 3-9z" fill="#A8D3E6" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/></svg>
-        <div class="ap"><div class="code">KMJ</div><div class="city">熊本機場</div><div class="t">10:30 抵達</div></div>
+        <div class="ap"><div class="code">TPE</div><div class="city">台北</div><div class="t">07:30</div></div>
+        <svg class="plane a-bob" viewBox="0 0 64 30" aria-hidden="true"><path d="M2 15h50" stroke="#3E3A39" stroke-width="3" stroke-dasharray="4 5" stroke-linecap="round"/><path d="M40 6l14 9-14 9 3-9z" fill="#A8D3E6" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/></svg>
+        <div class="ap"><div class="code">KMJ</div><div class="city">熊本機場</div><div class="t">10:35</div></div>
       </div>
-      <div class="fl-foot"><label for="go-no">航班</label><input id="go-no" data-k="go-no" placeholder="例 IT 000"><label for="go-dep">起飛</label><input id="go-dep" data-k="go-dep" placeholder="時間" style="width:80px"></div>
+      <div class="fl-foot">附餐</div>
     </article>
     <article class="flight back">
-      <div class="top"><span>回程・11/26（四）</span><span class="todo-mark">時間待填</span></div>
+      <div class="top"><span>回程・11/26（四）</span><span class="fno">亞航 AK1511</span></div>
       <div class="fl-body">
-        <div class="ap"><div class="code">FUK</div><div class="city">福岡機場 國際線</div><div class="t" id="back-dep-t">— : —</div></div>
-        <svg class="plane a-bob" style="animation-delay:-1.4s" viewBox="0 0 64 30"><path d="M2 15h50" stroke="#3E3A39" stroke-width="3" stroke-dasharray="4 5" stroke-linecap="round"/><path d="M40 6l14 9-14 9 3-9z" fill="#F2A497" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/></svg>
-        <div class="ap"><div class="code">TPE</div><div class="city">台灣・桃園</div><div class="t">回家囉</div></div>
+        <div class="ap"><div class="code">FUK</div><div class="city">福岡機場 國際線</div><div class="t">16:20</div></div>
+        <svg class="plane a-bob" style="animation-delay:-1.4s" viewBox="0 0 64 30" aria-hidden="true"><path d="M2 15h50" stroke="#3E3A39" stroke-width="3" stroke-dasharray="4 5" stroke-linecap="round"/><path d="M40 6l14 9-14 9 3-9z" fill="#F2A497" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/></svg>
+        <div class="ap"><div class="code">TPE</div><div class="city">台北</div><div class="t">18:10</div></div>
       </div>
-      <div class="fl-foot"><label for="back-no">航班</label><input id="back-no" data-k="back-no" placeholder="例 IT 000"><label for="back-dep">起飛</label><input id="back-dep" data-k="back-dep" placeholder="時間" style="width:80px"></div>
+      <div class="fl-foot">13:50 前到福岡機場。生明太子要放托運，詳見 Day 5。</div>
     </article>
+    <div><span class="cost">機票 NT$12,706（已收款）</span></div>
   </div>
 </section>
 
-<!-- 每日行程 -->
 <section id="plan">
   <h2><span class="chip" style="background:var(--yellow)"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3" fill="#fff" stroke="#3E3A39" stroke-width="2"/><path d="M3 10h18M8 3v4M16 3v4" stroke="#3E3A39" stroke-width="2" stroke-linecap="round"/></svg></span>每日行程</h2>
   <div class="days" id="days" role="tablist" aria-label="選擇日期"></div>
   <div id="dayview"></div>
-  <div class="legend">交通：<span class="pill p-walk">步行</span><span class="pill p-train">電車</span><span class="pill p-car">自駕</span><span class="pill p-bus">巴士</span><span class="pill p-fly">飛機</span>（交通方式為建議，可依現場調整）</div>
+  <div class="legend">交通：<span class="pill p-walk">步行</span><span class="pill p-train">電車</span><span class="pill p-car">自駕</span><span class="pill p-bus">巴士</span><span class="pill p-tour">一日遊專車</span><span class="pill p-fly">飛機</span></div>
 </section>
 
-<!-- 清單 -->
 <section id="todo">
   <h2><span class="chip" style="background:var(--take)"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="3" fill="#fff" stroke="#3E3A39" stroke-width="2"/><path d="M8 9l2 2 4-4M8 16h8" stroke="#3E3A39" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>待辦清單</h2>
-  <div class="tabs2" role="tablist">
-    <button role="tab" id="lt-prep" data-l="prep" aria-selected="true">行前準備</button>
-    <button role="tab" id="lt-shop" data-l="shop" aria-selected="false">待買清單</button>
-  </div>
   <div id="list"></div>
+  <div class="tips">
+    <h3>旅途小提醒</h3>
+    <ul>
+      <li>福岡地鐵可直接刷信用卡感應，同一張卡（或同一支手機）一天最多扣 ¥640。</li>
+      <li>高千穗峽遊船的雨衣 ¥200 只收現金、只有 L 號；かろのうろん也只收現金。</li>
+      <li>上通下通：是免稅不是免費！福岡還可以逛！</li>
+      <li>11 月底是熊本草莓季開頭，可以找「夕紅」「淡雪」，還有蜜柑、太秋甜柿。</li>
+    </ul>
+  </div>
 </section>
 
-<!-- 住宿 -->
 <section id="stay">
   <h2><span class="chip" style="background:var(--coral)"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9H4z" fill="#fff" stroke="#3E3A39" stroke-width="2" stroke-linejoin="round"/><rect x="10" y="14" width="4" height="6" fill="#F6D27A" stroke="#3E3A39" stroke-width="2"/></svg></span>住宿資訊</h2>
   <div class="hotels">
     <article class="hotel">
-      <div class="ill"><svg viewBox="0 0 72 72" class="a-bob"><rect x="16" y="14" width="40" height="50" rx="4" fill="#fff" stroke="#3E3A39" stroke-width="3"/><path d="M24 24h8M40 24h8M24 34h8M40 34h8M24 44h8M40 44h8" stroke="#3E3A39" stroke-width="3" stroke-linecap="round"/><rect x="30" y="52" width="12" height="12" fill="#B9DAA5" stroke="#3E3A39" stroke-width="3"/><path d="M8 64h56" stroke="#3E3A39" stroke-width="3" stroke-linecap="round"/></svg></div>
+      <div class="ill"><svg viewBox="0 0 72 72" class="a-bob" aria-hidden="true"><rect x="16" y="14" width="40" height="50" rx="4" fill="#fff" stroke="#3E3A39" stroke-width="3"/><path d="M24 24h8M40 24h8M24 34h8M40 34h8M24 44h8M40 44h8" stroke="#3E3A39" stroke-width="3" stroke-linecap="round"/><rect x="30" y="52" width="12" height="12" fill="#B9DAA5" stroke="#3E3A39" stroke-width="3"/><path d="M8 64h56" stroke="#3E3A39" stroke-width="3" stroke-linecap="round"/></svg></div>
       <div class="info">
-        <h3>熊本 ONE STATION 酒店</h3>
-        <span class="nights">11/22 – 11/24 · 2 晚</span>
-        <p>JR 熊本站白川口（東口）出站，步行約 2 分鐘。</p>
-        <a class="btn" href="https://www.google.com/maps/search/?api=1&query=%E7%86%8A%E6%9C%AC%20ONE%20STATION%20%E3%83%9B%E3%83%86%E3%83%AB" target="_blank" rel="noopener">開地圖</a>
+        <h3>One Station Hotel Kumamoto<br><small style="font-size:13px;color:var(--ink-soft)">DLIGHT LIFE &amp; HOTELS</small></h3>
+        <span class="nights">11/22 – 11/24 · 2 晚</span><span class="cost">NT$4,288／人</span>
+        <p>11/22 12:00 check in。就在 JR 熊本車站旁，附早餐。</p>
+        <a class="btn" href="https://www.google.com/maps/search/?api=1&query=One%20Station%20Hotel%20Kumamoto" target="_blank" rel="noopener">開地圖</a>
       </div>
     </article>
     <article class="hotel">
-      <div class="ill"><svg viewBox="0 0 72 72" class="a-bob" style="animation-delay:-1.5s"><path d="M10 30h52" stroke="#3E3A39" stroke-width="3"/><path d="M6 22q30-8 60 0v6H6z" fill="#F2A497" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/><path d="M18 28v36M54 28v36" stroke="#3E3A39" stroke-width="4" stroke-linecap="round"/><rect x="28" y="34" width="16" height="10" fill="#fff" stroke="#3E3A39" stroke-width="3"/></svg></div>
+      <div class="ill"><svg viewBox="0 0 72 72" class="a-bob" style="animation-delay:-1.5s" aria-hidden="true"><path d="M10 30h52" stroke="#3E3A39" stroke-width="3"/><path d="M6 22q30-8 60 0v6H6z" fill="#F2A497" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/><path d="M18 28v36M54 28v36" stroke="#3E3A39" stroke-width="4" stroke-linecap="round"/><rect x="28" y="34" width="16" height="10" fill="#fff" stroke="#3E3A39" stroke-width="3"/></svg></div>
       <div class="info">
-        <h3>西鐵 Croom 博多祇園櫛田神社前</h3>
-        <span class="nights">11/24 – 11/26 · 2 晚</span>
-        <p>就在櫛田神社旁，走路可到中洲屋台與運河城。</p>
+        <h3>西鐵飯店 Croom 博多 祇園櫛田神社前</h3>
+        <span class="nights">11/24 – 11/26 · 2 晚</span><span class="cost">NT$3,793／人</span>
+        <p>11/24 10:00 先寄放行李。博多運河城走路 3 分鐘。</p>
+        <a class="btn" href="https://www.trip.com/w/0bUNcMoNEV2" target="_blank" rel="noopener">訂房頁</a>
         <a class="btn" href="https://www.google.com/maps/search/?api=1&query=%E8%A5%BF%E9%89%84%E3%82%AF%E3%83%AB%E3%83%BC%E3%83%A0%E5%8D%9A%E5%A4%9A%E7%A5%87%E5%9C%92%E6%AB%9B%E7%94%B0%E7%A5%9E%E7%A4%BE%E5%89%8D" target="_blank" rel="noopener">開地圖</a>
       </div>
     </article>
   </div>
 </section>
 
-<p class="foot">資料來源：Notion「熊本福岡走走吃吃｜行程整理」<br>打勾與航班欄位只存在這台裝置的瀏覽器</p>
+<p class="foot">資料來源：Notion「2026.11.22～11.26 熊本+福岡 五天四夜８人行」<br>打勾狀態只存在這台裝置的瀏覽器</p>
 </main>
 
 <script>
-const S="#3E3A39";
-/* 每日小插圖 */
-const ILL=[
- /* Day1 拉麵碗＋城 */ `<svg viewBox="0 0 120 80" aria-hidden="true"><path d="M20 40h56q-2 26-28 26T20 40z" fill="#F2A497" stroke="${S}" stroke-width="3" stroke-linejoin="round"/><circle cx="38" cy="38" r="7" fill="#fff" stroke="${S}" stroke-width="3"/><circle cx="38" cy="38" r="3" fill="#F6D27A"/><path d="M50 36q6-4 12 0" fill="none" stroke="${S}" stroke-width="3" stroke-linecap="round"/><g class="a-bob"><path d="M60 16l26 4M60 22l26 2" stroke="${S}" stroke-width="3" stroke-linecap="round"/></g><path d="M44 30q-4-8 2-14M54 30q-4-8 2-14" fill="none" stroke="${S}" stroke-width="2.5" stroke-linecap="round" class="a-bob"/><path d="M88 66h24l-3-14H91z" fill="#d9d3cb" stroke="${S}" stroke-width="3" stroke-linejoin="round"/><path d="M90 52l10-8 10 8z" fill="${S}"/><path d="M94 44l6-6 6 6z" fill="${S}"/></svg>`,
- /* Day2 峽谷瀑布＋車 */ `<svg viewBox="0 0 120 80" aria-hidden="true"><path d="M4 72V18l26 6v48zM116 72V14l-28 8v50z" fill="#B9DAA5" stroke="${S}" stroke-width="3" stroke-linejoin="round"/><path d="M30 30h12v42H30z" fill="#A8D3E6" stroke="${S}" stroke-width="3"/><path d="M34 36v30M38 40v26" stroke="#fff" stroke-width="2" class="a-bob"/><path d="M30 72h58" stroke="${S}" stroke-width="3"/><path d="M42 66q20-6 46 0v6H42z" fill="#A8D3E6" stroke="${S}" stroke-width="3" stroke-linejoin="round"/><g class="a-bob"><path d="M54 62l4-6q4-4 8 0l4 6z" fill="#F6D27A" stroke="${S}" stroke-width="2.5" stroke-linejoin="round"/></g><g class="a-bob" style="animation-delay:-1s"><rect x="62" y="34" width="26" height="12" rx="5" fill="#F6D27A" stroke="${S}" stroke-width="3"/><path d="M68 34l4-6h10l4 6" fill="#fff" stroke="${S}" stroke-width="3" stroke-linejoin="round"/><circle cx="69" cy="47" r="3.5" fill="#fff" stroke="${S}" stroke-width="3"/><circle cx="82" cy="47" r="3.5" fill="#fff" stroke="${S}" stroke-width="3"/></g></svg>`,
- /* Day3 鳥居＋梅枝餅 */ `<svg viewBox="0 0 120 80" aria-hidden="true"><path d="M14 22q36-8 72 0v7H14z" fill="#F2A497" stroke="${S}" stroke-width="3" stroke-linejoin="round"/><path d="M20 36h60" stroke="${S}" stroke-width="3"/><path d="M28 28v46M72 28v46" stroke="${S}" stroke-width="5" stroke-linecap="round"/><g class="a-sway"><circle cx="100" cy="30" r="5" fill="#fff" stroke="${S}" stroke-width="2.5"/><circle cx="108" cy="22" r="4" fill="#F2A497" stroke="${S}" stroke-width="2.5"/><path d="M100 35v38" stroke="${S}" stroke-width="3"/></g><g class="a-bob"><ellipse cx="50" cy="62" rx="13" ry="8" fill="#F6D27A" stroke="${S}" stroke-width="3"/><path d="M44 60h4M52 64h4" stroke="${S}" stroke-width="2.5" stroke-linecap="round"/></g></svg>`,
- /* Day4 風車＋柳川小船＋牡蠣 */ `<svg viewBox="0 0 120 80" aria-hidden="true"><path d="M30 70l4-36h12l4 36z" fill="#fff" stroke="${S}" stroke-width="3" stroke-linejoin="round"/><g class="a-sun" style="transform-origin:40px 32px;transform-box:view-box"><path d="M40 32l-4-24h8zM40 32l24-4v8zM40 32l4 24h-8zM40 32l-24 4v-8z" fill="#A8D3E6" stroke="${S}" stroke-width="2.5" stroke-linejoin="round"/></g><circle cx="40" cy="32" r="3" fill="${S}"/><path d="M60 66h56" stroke="${S}" stroke-width="3"/><g class="a-bob"><path d="M64 60h44l-6 8H70z" fill="#F6D27A" stroke="${S}" stroke-width="3" stroke-linejoin="round"/><path d="M98 60l6-22" stroke="${S}" stroke-width="3" stroke-linecap="round"/></g><path d="M84 30q10-10 20 0q-10 8-20 0z" fill="#d9d3cb" stroke="${S}" stroke-width="3" stroke-linejoin="round"/></svg>`,
- /* Day5 飛機＋咖啡 */ `<svg viewBox="0 0 120 80" aria-hidden="true"><g class="a-bob"><path d="M10 34l40-4 20-18h8l-10 18 22 2 6-6h6l-4 10 4 10h-6l-6-6-22 2 10 18h-8L50 42l-40-4z" fill="#fff" stroke="${S}" stroke-width="3" stroke-linejoin="round"/></g><path d="M74 54h28v10q0 10-14 10t-14-10z" fill="#A8D3E6" stroke="${S}" stroke-width="3" stroke-linejoin="round"/><path d="M102 58q8 0 6 6t-6 4" fill="none" stroke="${S}" stroke-width="3"/><path d="M82 48q-3-5 1-9M92 48q-3-5 1-9" fill="none" stroke="${S}" stroke-width="2.5" stroke-linecap="round" class="a-bob"/></svg>`
-];
-
-/* [時間, 地點, 類型, 交通方式, 必去, 地區, 隔夜] 交通方式指「前往這一站」 */
+/* ===== 行程資料（要改行程只改這一段） =====
+   類型 type：food 吃 / sight 逛 / stay 住 / move 移動 / misc 其他
+   交通 how：walk 步行 / train 電車 / car 自駕 / bus 巴士 / tour 一日遊專車 / fly 飛機
+   must 必去、free 自由參加、booked 已訂位、opts 選項、recs 美食推薦表、map 自訂地圖連結 */
 const DAYS=[
- {date:"2026-11-22",wd:"日",title:"熊本市區：吃喝＋城下町",area:"熊本",stops:[
-  ["10:30","熊本機場","move","fly"],["11:30","熊本 ONE STATION 酒店","stay","bus+train"],["12:36","Mekkemon Sushi","food","train"],
-  ["14:01","櫻之馬場 城彩苑","sight","train",1],["15:10","熊本城稻荷神社","sight","walk"],["16:16","上通商店街","sight","walk"],
-  ["17:19","Akagumi Ramen（Kamitori Store）","food","walk"],["18:24","岡田咖啡店","food","walk"],["19:37","勝烈亭 新市街本店","food","walk",1],
-  ["20:44","熊本拉麵黑亭 熊本下通店","food","walk",1],["22:05","熊本 ONE STATION 酒店","stay","train"]]},
- {date:"2026-11-23",wd:"一",title:"高千穗一日來回",area:"阿蘇",
-  note:"自駕日：記得帶駕照與中日文譯本。11/23 是日本國定假日（勤勞感謝之日），景點可能人較多。",stops:[
-  ["08:00","熊本 ONE STATION 酒店","stay","start",0,"熊本"],["09:03","Toyota Rent a Car（熊本站前店鋪）","move","walk",0,"熊本"],["11:26","上色見熊野座神社","sight","car",1],
-  ["12:26","Yamakaze 岳風","food","car"],["13:26","Asoburu","sight","car"],["14:26","高森田樂之里","food","car"],["15:26","天岩戸神社","sight","car",1,"高千穂"],
-  ["16:39","高千穂駅（高千穗小火車）","sight","car",0,"高千穂"],["17:48","café TAKACHIHO-BASE","food","car",0,"高千穂"],["18:48","高千穗峽 第 2 停車場（Araragi 停車場）","move","car",0,"高千穂"],
-  ["19:48","千穂之家 元祖流水麵","food","walk",0,"高千穂"],["20:52","高千穗峽","sight","walk",1,"高千穂"],["21:52","あか牛 レストラン mou","food","car"],
-  ["00:15","Toyota Rent a Car（熊本站前店鋪）","move","car",0,"熊本",1],["01:18","熊本 ONE STATION 酒店","stay","walk",0,"熊本",1]]},
- {date:"2026-11-24",wd:"二",title:"移動到福岡：太宰府＋天神／中洲",area:"福岡",stops:[
-  ["08:00","熊本 ONE STATION 酒店","stay","start",0,"熊本"],["09:47","博多祇園櫛田神社前西鐵克魯姆酒店","stay","train"],["11:23","太宰府天滿宮","sight","train",1,"太宰府"],
-  ["12:27","梅枝餅 寺田屋","food","walk",0,"太宰府"],["13:28","梅枝餅 かさの家","food","walk",0,"太宰府"],["14:28","寶滿宮 竈門神社","sight","bus",0,"太宰府"],
-  ["15:28","中州屋台","food","train",1],["16:37","Ganso Hakata Mentaiju Nishinakasu","food","walk"],["17:42","ICHIRAN Original Shop and Headquarters","food","walk",1],
-  ["18:58","Full Full Bld.","food","walk"],["20:14","赤坂煙草店","food","train"],["21:26","水果派 Qu'il fait bon","food","walk"],["22:32","天神屋台","food","walk"]]},
- {date:"2026-11-25",wd:"三",title:"近郊走走：豪斯登堡＋柳川＋糸島",area:"福岡近郊",stops:[
-  ["08:00","豪斯登堡","sight","train",1,"佐世保"],["11:30","水鄉柳川觀光","sight","train",0,"柳川"],["12:30","糸島牡蠣小屋 正榮","food","train",1,"糸島"]]},
- {date:"2026-11-26",wd:"四",title:"福岡市區＋回程",area:"福岡",stops:[
-  ["08:00","福岡機場國際線","move","start"],["09:23","冷凍炸雞 努努雞","food","train"],["10:36","Fuk Coffee","food","walk"],["11:39","The Full Full Hakata","food","walk"],
-  ["12:42","博多運河城","sight","walk",1],["13:55","藍瓶咖啡 福岡天神店","food","bus"],["15:11","Full full","food","walk"],["16:33","櫛田神社","sight","walk",1]]}
-];
-const HOW={walk:["步行","p-walk"],train:["電車","p-train"],car:["自駕","p-car"],bus:["巴士","p-bus"],fly:["飛機","p-fly"],start:["出發","p-start"],"bus+train":["接駁巴士＋JR","p-train"]};
-const KIND={food:"吃",sight:"逛",stay:"住",move:"移動"};
-const LISTS={
- prep:[
-  ["證件與預約",["護照（效期 6 個月以上）","機票／電子登機證","中日文駕照譯本＋台灣駕照","Toyota 租車預約確認（11/23）","兩間飯店訂房確認","Visit Japan Web 填寫"]],
-  ["出發前確認",["準備折疊購物袋","預留行李重量與空間","整理收據與免稅文件","確認液體、食品及藥品入境規定"]]
- ],
- shop:[
-  ["藥妝與日用品",["感冒藥／止痛藥","眼藥水","喉糖／退熱貼","防曬乳","面膜","護手霜／護唇膏","免稅店限定藥妝","葉黃素"]],
-  ["生活雜貨",["MUJI 乾燥棒","MUJI 文具／收納用品","濾掛咖啡或茶包","香氛／沐浴用品","手帕／襪子"]],
-  ["零食與伴手禮",["地區限定甜點","白色戀人／生巧克力","抹茶點心","柿種／仙貝","拉麵／咖哩調理包","清酒／梅酒（確認托運與入境規定）"]],
-  ["電器與 3C",["充電線／轉接頭","行動電源","耳機或小型 3C 配件","日本限定電器（確認電壓與保固）"]],
-  ["服飾與紀念品",["Uniqlo／GU 限定款","運動鞋或戶外用品","神社御守","車站限定商品","動漫／角色周邊"]]
- ]
-};
+ {date:"2026-11-22",wd:"日",title:"熊本市區一日遊",area:"熊本",stops:[
+  {t:"10:35",name:"抵達熊本機場",type:"move",how:"fly"},
+  {t:"11:00",name:"機場 → 熊本市區",type:"move",how:"bus",opts:[
+    {name:"方案 A：利木津巴士",note:"車資 ¥1,200。停「通町筋」（近上通／下通）、「櫻町巴士總站」、「JR 熊本車站」"},
+    {name:"方案 B：免費空港 Liner ＋ JR",note:"6 號站牌搭免費接駁車到 JR 肥後大津站（約 15 分）→ JR 豐肥本線到熊本車站（約 35 分，¥480）"}]},
+  {t:"12:00",name:"Check in：One Station Hotel Kumamoto",type:"stay",how:"walk",map:"One Station Hotel Kumamoto"},
+  {t:"12:30",name:"午餐（二選一）",type:"food",how:"walk",note:"兩家都要抽號碼牌",opts:[
+    {name:"勝烈亭 AMU PLAZA 熊本店",note:"步行 5 分。鹿兒島六白黑豚，米其林推薦、Tabelog 熊本炸豬排冠軍。聽說炸蝦比豬排好吃，必吃炸蝦！"},
+    {name:"廻る寿司めっけもん",note:"步行 6 分。11:00–14:30／17:00–21:00。市場直送，迴轉壽司價格吃到無菜單等級"}]},
+  {t:"14:00",name:"櫻之馬場 城彩苑",type:"sight",how:"walk",must:1,note:"熊本城下的江戶風情街，自由活動 2 小時。<b>櫻之小路</b>吃美食買伴手禮，<b>湧湧座</b>是歷史文化展示館",
+   recs:[["菅乃屋","馬肉可樂餅、馬肉咖哩麵包","適合不敢吃生馬肉的人入門"],["阿蘇庭 山見茶屋","馬肉熔岩燒、赤牛丼","適合想坐下來吃正餐"],["天草海食 Maruken","海膽可樂餅（奶油口味）","奶油口味濃郁滑順"],["高田蒲鉾","沙拉竹輪","熊本在地吃法，現炸最好吃"],["MONARIO","熊本熊人形燒","造型可愛，拍照打卡"],["香梅庵","陣太鼓霜淇淋","紅豆麻糬＋冰淇淋"],["五木屋本舗","炸豆腐、豆乳甜甜圈","現炸豆腐外酥內嫩"],["お茶の泉園","抹茶霜淇淋","可選不同濃度（如 5%）"]]},
+  {t:"17:00",name:"上通・下通商店街",type:"sight",how:"walk",note:"熊本最熱鬧的地方，百貨、藥妝、甜品店一整排。下通的 COCOSA 五樓整層是無印良品。<b>不要買太多～是免稅不是免費！</b>"},
+  {t:"18:00",name:"晚餐：黑亭拉麵",type:"food",how:"walk",must:1,note:"下通店或熊本車站本店。熊本拉麵的靈魂是焦蒜黑麻油＋炸蒜片",map:"黒亭 熊本"},
+  {t:"19:00",name:"自由活動：AMU PLAZA／肥後よかモン市場",type:"sight",how:"walk",free:1,note:"肥後よかモン市場在 JR 熊本站閘口外，有伴手禮和美食街。11 月底剛好是熊本草莓季開頭：<b>夕紅</b>、<b>淡雪</b>，還有蜜柑、太秋甜柿"}]},
 
+ {date:"2026-11-23",wd:"一",title:"高千穗一日遊（自駕）",area:"高千穂",
+  note:"11/23 是日本國定假日（勤勞感謝之日），景點可能人比較多。",stops:[
+  {t:"07:00",name:"Morning call",type:"misc"},
+  {t:"08:00",name:"飯店早餐＋阿蘇牛乳，要吃飽！",type:"food"},
+  {t:"09:00",name:"Toyota Rent a Car 取車",type:"move",how:"walk",note:"能提早到就提早到",cost:"NT$740／人",map:"トヨタレンタカー 熊本駅前"},
+  {t:"10:35",name:"休息站：道之站 通潤橋",type:"sight",how:"car",map:"道の駅 通潤橋"},
+  {t:"11:30",name:"高千穗峽遊船",type:"sight",how:"car",must:1,note:"划船限 30 分鐘。雨衣 ¥200（只有 L 號、只收現金），救生衣氣瓶自動充氣後要付 ¥3,000。之後走<b>峽谷步道</b>：槍飛橋、高千穗三橋，從展望台拍「瀑布＋小舟＋峽谷」",
+   recsTitle:"停車場一覽",recsHead:["停車場","費用","到船場"],
+   recs:[["御塩井停車場","¥1,000","最近"],["第 2 あららぎ停車場","¥1,000","步行約 15 分"],["第 3 大橋停車場","¥800","步行約 20 分"],["第 4 押方停車場","¥500","步行約 25 分"],["第 5 田口野停車場","免費","步行約 30 分"]]},
+  {t:"13:00",name:"高千穗小火車",type:"sight",how:"car",note:"要先預約，<b>看預約是幾點！</b>從高千穗走路 20 分或開車 5 分",map:"高千穂あまてらす鉄道"},
+  {t:"13:10",name:"午餐：café TAKACHIHO-BASE",type:"food",how:"car",must:1,booked:1,note:"已訂位 8 人，有停車場。超好吃的南蠻炸雞（不吃牛首選），也有宮崎牛",map:"https://maps.app.goo.gl/LmNWcAHL9gjXtb5o6",
+   opts:[{name:"備案：燒肉 初榮",note:"平價又好吃的宮崎牛。只能電話預約。12:00–13:00，走路 2 分"},
+         {name:"備案：高千穗牛餐廳 和",note:"在高千穗 Gamadase 市場內，JA 直營，可選鐵板燒／牛排／烤肉。11:00–14:30，電話預約，走路 6 分"}]},
+  {t:"14:30",name:"高千穗小火車（搭乘約 30 分）",type:"sight",how:"car",note:"實際時間看預約"},
+  {t:"15:30",name:"高千穗神社",type:"sight",how:"car",note:"祈求開車平安，參拜完回程"},
+  {t:"16:30",name:"最晚回程時間",type:"move",how:"car"},
+  {t:"18:00",name:"晚餐自由選",type:"food",free:1,note:"黑亭拉麵／勝烈亭／迴轉壽司／肥後よかモン市場馬肉料理…"}]},
+
+ {date:"2026-11-24",wd:"二",title:"福岡市區一日遊",area:"福岡",
+  note:"福岡搭地鐵直接刷信用卡，同一張卡／同一個裝置一天上限 ¥640。",stops:[
+  {t:"07:30",name:"Morning call",type:"misc"},
+  {t:"08:00",name:"飯店早餐＋阿蘇牛乳，再見囉熊本！",type:"food"},
+  {t:"09:00",name:"搭 JR 前往福岡市區",type:"move",how:"train"},
+  {t:"10:00",name:"Check in／寄放行李：西鐵飯店 Croom 博多 祇園櫛田神社前",type:"stay",how:"walk",map:"https://www.trip.com/w/0bUNcMoNEV2"},
+  {t:"10:30",name:"Fuk Coffee 必吃布丁",type:"food",how:"walk",must:1,note:"走路 1 分鐘，每天 8:00–22:00"},
+  {t:"10:30",name:"前往太宰府",type:"move",how:"train",opts:[
+    {name:"從西鐵福岡（天神）站",note:"西鐵天神大牟田線（特急／急行）到「西鐵二日市」（約 15–20 分）→ 轉西鐵太宰府線到終點「西鐵太宰府」（約 5 分）"},
+    {name:"從博多站",note:"先搭地下鐵空港線到「天神」（約 6 分），走到西鐵福岡（天神）站，再照上面路線"}]},
+  {t:"10:50",name:"太宰府天滿宮",type:"sight",how:"walk",must:1,note:"停留約 2 小時",
+   recs:[["かさの家／やす武／松屋／寺田屋","梅枝餅","店內有日式茶室，梅枝餅配熱抹茶"],["福太郎","明太子烤飯糰","紫蘇葉＋明太子"],["天山","甘王草莓大福最中","不要買餅乾的"],["Fukuya","明太子泡飯","招牌三吃：原味＋炙燒＋芝麻油漬蔥花"],["香菓 かぐのこのみ","金絲栗子蒙布朗／季節限定甘王草莓","現擠，五分鐘內要吃完；熱門季節可能提前賣完"],["山屋 Yamaya","明太子麵包",""],["一蘭拉麵 太宰府參道店","拉麵","全日本唯一五角形的碗，碗底有「合格」字樣"],["星巴克 太宰府表參道店","拍照","隈研吾設計，約 2,000 根木條交織"]]},
+  {t:"14:00",name:"離開太宰府",type:"move",how:"train"},
+  {t:"15:00",name:"回到住宿",type:"stay",how:"train",note:"看大家要不要逛街"},
+  {t:"15:30",name:"自由活動（三選）",type:"sight",free:1,opts:[
+    {name:"博多運河城"},{name:"天神地下街"},
+    {name:"大濠公園 日本庭園",note:"門票 ¥250。11 月下旬～12 月初是賞楓精華，紅葉倒映池面，茶室有抹茶和當季和菓子"}]},
+  {t:"17:30",name:"晚餐集合：博多水炊鍋專門 橙",type:"food",must:1,note:"米其林必比登推薦，福岡必吃水炊鍋！",cost:"約 NT$1,000",map:"博多水炊き専門 橙"},
+  {t:"19:30",name:"teamLab",type:"sight",free:1,note:"吃完回飯店後自由活動"},
+  {t:"20:00",name:"一蘭本社總本店：一蘭和樂團演舞",type:"sight",free:1,note:"約 15 分鐘，開始時間會隨日落變動，天候不佳可能取消",
+   opts:[{name:"博多運河城 Canal City Hakata",note:"飯店走路 3 分。光影水舞秀 Canal Aqua Panorama 18:00–22:00，約每半小時到一小時一場"}]}]},
+
+ {date:"2026-11-25",wd:"三",title:"紅葉古寺＋柳川遊船＋牡蠣小屋",area:"福岡",
+  note:"KKday 一日遊，NT$13,264 ÷ 8 = 每人 NT$1,658。",stops:[
+  {t:"07:00",name:"Morning call，吃早餐！",type:"misc"},
+  {t:"08:20",name:"集合：博多站筑紫口 Lawson 門口",type:"move",how:"walk",note:"4-23 Hakataekichuogai, Hakata Ward, Fukuoka 812-0012",map:"Lawson 博多駅筑紫口"},
+  {t:"10:20",name:"柳川遊船",type:"sight",how:"tour",must:1,note:"午餐吃牡蠣小屋烤海鮮（自費約 ¥2,500）",map:"柳川 川下り"},
+  {t:"14:20",name:"雷山千如寺",type:"sight",how:"tour",must:1,note:"紅葉古寺",map:"雷山千如寺大悲王院"},
+  {t:"15:40",name:"ヤシの木ブランコ（椰子樹盪鞦韆）",type:"sight",how:"tour",map:"ヤシの木ブランコ 糸島"},
+  {t:"16:20",name:"糸島 夫婦岩",type:"sight",how:"tour",map:"桜井二見ヶ浦 夫婦岩"},
+  {t:"17:20",name:"宮地嶽神社",type:"sight",how:"tour",map:"宮地嶽神社"},
+  {t:"18:30",name:"Lawson 博多筑紫口解散",type:"move",how:"tour"},
+  {t:"19:00",name:"天神屋台",type:"food",how:"train",free:1,note:"福岡特色文化，自己決定晚餐",
+   recs:[["小金ちゃん","炒拉麵、關東煮、一口餃子","元祖級老店，炒拉麵發源地"],["屋台バー えびちゃん","現調雞尾酒、威士忌","西式酒吧風屋台，氣氛放鬆"],["天麩羅 たかちゃん","現炸海鮮與蔬菜天婦羅","少見的屋台天婦羅專賣"],["Remy's Nikuyatai","法國麵包沾濃湯、蒜香香腸、蒜香蝦","法國大廚主理"],["イタリアン屋台バル河野","焦糖雞肝蘑菇醬吐司","在地人推薦超好吃"]],
+   opts:[{name:"麵屋 Gaga 天神店",note:"豚骨拉麵，可以點半碗！"},{name:"前田屋",note:"要訂位"},{name:"可麗露 LeClerc",note:"博多車站附近"}]}]},
+
+ {date:"2026-11-26",wd:"四",title:"天神吃吃半日遊（自由參加）",area:"福岡",stops:[
+  {t:"07:30",name:"Morning call，整理行李",type:"misc",note:"早餐不用吃太飽（？）"},
+  {t:"09:00",name:"櫛田神社",type:"sight",how:"walk",map:"櫛田神社 博多"},
+  {t:"10:00",name:"天神地下街／博多運河城 逛街",type:"sight",how:"train",free:1,note:"順路挑幾家吃：",
+   opts:[{name:"The Full Full Hakata",note:"明太子麵包，走路 3 分"},{name:"かろのうろん",note:"福岡最老的烏龍麵店，就在櫛田神社旁。店內禁止拍照、只收現金"},{name:"藍瓶咖啡 福岡天神店",note:"坐車 10 分，可搭配天神地下街"},{name:"海木 豆皮壽司"},{name:"I'm donut? 天神",note:"離藍瓶咖啡走路 4 分"},{name:"麵屋 Gaga 天神店",note:"坐車 13 分，可以點半碗"},{name:"dacō",note:"AMAM DACOTAN 與 I'm donut? 的姐妹店，開心果甜甜圈必點，離麵屋 Gaga 走路 2 分"},{name:"shinshin 博多拉麵",note:"天神或博多車站走路 13 分，不太順路"},{name:"Pain Stock 天神店",note:"明太子麵包，比較不順路"},{name:"努努雞",note:"博多車站的冷炸雞，福岡必買"},{name:"博多牛雜鍋 前田屋 博多店",note:"走路 8 分"},{name:"Dacomecca",note:"明太子麵包，博多車站旁"}]},
+  {t:"13:30",name:"回飯店拿行李 → 機場",type:"move",how:"train",note:"櫛田神社前站搭地鐵綠線（七隈線），轉橘線（空港線）到福岡機場，約 20 分鐘"},
+  {t:"13:50",name:"福岡國際機場",type:"move",how:"train",note:"<b>買明太子伴手禮：</b>三樓管制區外有福太郎、Fukuya、Yamaya 專櫃，種類最齊，但生明太子一定要放托運。出境後的免稅店可以直接手提上機（店家會裝保冷袋），選擇比較少。不含肉的明太子可以合法帶回台灣，回家後盡快冷藏。"},
+  {t:"16:20",name:"AK1511 起飛，18:10 抵達台北",type:"move",how:"fly"}]}
+];
+
+const TODO=[
+ ["出發前預約",["高千穗小火車預約（確認時段）","café TAKACHIHO-BASE 8 人訂位（已訂）","Toyota Rent a Car 預約","前田屋訂位（Day 4 晚餐備選）"]],
+ ["要帶的東西",["日圓現金（遊船雨衣、かろのうろん只收現金）","可感應的信用卡（福岡地鐵）"]],
+ ["回程前",["11/26 13:30 回飯店拿行李","生明太子放托運，或出境後再買"]]
+];
+
+/* ===== 以下是畫面程式 ===== */
+const S="#3E3A39";
+const ILL=[
+ `<svg viewBox="0 0 120 80" aria-hidden="true"><path d="M20 40h56q-2 26-28 26T20 40z" fill="#F2A497" stroke="${S}" stroke-width="3" stroke-linejoin="round"/><circle cx="38" cy="38" r="7" fill="#fff" stroke="${S}" stroke-width="3"/><circle cx="38" cy="38" r="3" fill="#F6D27A"/><path d="M50 36q6-4 12 0" fill="none" stroke="${S}" stroke-width="3" stroke-linecap="round"/><g class="a-bob"><path d="M60 16l26 4M60 22l26 2" stroke="${S}" stroke-width="3" stroke-linecap="round"/></g><path d="M44 30q-4-8 2-14M54 30q-4-8 2-14" fill="none" stroke="${S}" stroke-width="2.5" stroke-linecap="round" class="a-bob"/><path d="M88 66h24l-3-14H91z" fill="#d9d3cb" stroke="${S}" stroke-width="3" stroke-linejoin="round"/><path d="M90 52l10-8 10 8z" fill="${S}"/><path d="M94 44l6-6 6 6z" fill="${S}"/></svg>`,
+ `<svg viewBox="0 0 120 80" aria-hidden="true"><path d="M4 72V18l26 6v48zM116 72V14l-28 8v50z" fill="#B9DAA5" stroke="${S}" stroke-width="3" stroke-linejoin="round"/><path d="M30 30h12v42H30z" fill="#A8D3E6" stroke="${S}" stroke-width="3"/><path d="M34 36v30M38 40v26" stroke="#fff" stroke-width="2" class="a-bob"/><path d="M30 72h58" stroke="${S}" stroke-width="3"/><path d="M42 66q20-6 46 0v6H42z" fill="#A8D3E6" stroke="${S}" stroke-width="3" stroke-linejoin="round"/><g class="a-bob"><path d="M54 62l4-6q4-4 8 0l4 6z" fill="#F6D27A" stroke="${S}" stroke-width="2.5" stroke-linejoin="round"/></g><g class="a-bob" style="animation-delay:-1s"><rect x="62" y="34" width="26" height="12" rx="5" fill="#F6D27A" stroke="${S}" stroke-width="3"/><path d="M68 34l4-6h10l4 6" fill="#fff" stroke="${S}" stroke-width="3" stroke-linejoin="round"/><circle cx="69" cy="47" r="3.5" fill="#fff" stroke="${S}" stroke-width="3"/><circle cx="82" cy="47" r="3.5" fill="#fff" stroke="${S}" stroke-width="3"/></g></svg>`,
+ `<svg viewBox="0 0 120 80" aria-hidden="true"><path d="M14 22q36-8 72 0v7H14z" fill="#F2A497" stroke="${S}" stroke-width="3" stroke-linejoin="round"/><path d="M20 36h60" stroke="${S}" stroke-width="3"/><path d="M28 28v46M72 28v46" stroke="${S}" stroke-width="5" stroke-linecap="round"/><g class="a-sway-b"><circle cx="100" cy="30" r="5" fill="#fff" stroke="${S}" stroke-width="2.5"/><circle cx="108" cy="22" r="4" fill="#F2A497" stroke="${S}" stroke-width="2.5"/><path d="M100 35v38" stroke="${S}" stroke-width="3"/></g><g class="a-bob"><path d="M36 58h28v6q0 10-14 10t-14-10z" fill="#fff" stroke="${S}" stroke-width="3" stroke-linejoin="round"/><path d="M38 58q12-8 24 0" fill="#F6D27A" stroke="${S}" stroke-width="2.5"/></g></svg>`,
+ `<svg viewBox="0 0 120 80" aria-hidden="true"><path d="M0 64q30-6 60 0t60 0v16H0z" fill="#A8D3E6" stroke="${S}" stroke-width="3"/><g class="a-bob"><path d="M14 58h50l-6 9H20z" fill="#F6D27A" stroke="${S}" stroke-width="3" stroke-linejoin="round"/><path d="M58 58l8-26" stroke="${S}" stroke-width="3" stroke-linecap="round"/><path d="M30 58l4-8h10l4 8" fill="#fff" stroke="${S}" stroke-width="2.5" stroke-linejoin="round"/></g><path d="M84 64q2-30 8-46" fill="none" stroke="${S}" stroke-width="4" stroke-linecap="round"/><path d="M92 18q-14-6-22 2M92 18q14-6 22 2M92 18q-6-10-16-8M92 18q8-10 18-6" fill="none" stroke="#B9DAA5" stroke-width="5" stroke-linecap="round"/><path d="M92 18q-14-6-22 2M92 18q14-6 22 2" fill="none" stroke="${S}" stroke-width="1.5"/><g class="a-sway"><path d="M84 30l-8 20M90 30l-2 20" stroke="${S}" stroke-width="2"/><rect x="72" y="48" width="18" height="5" rx="2" fill="#F2A497" stroke="${S}" stroke-width="2.5"/></g><path d="M26 22l4-8 4 8 8-2-6 6 6 6-8-2-4 8-4-8-8 2 6-6-6-6z" fill="#F2A497" stroke="${S}" stroke-width="2.5" stroke-linejoin="round" class="a-sway-b"/></svg>`,
+ `<svg viewBox="0 0 120 80" aria-hidden="true"><g class="a-bob"><path d="M10 34l40-4 20-18h8l-10 18 22 2 6-6h6l-4 10 4 10h-6l-6-6-22 2 10 18h-8L50 42l-40-4z" fill="#fff" stroke="${S}" stroke-width="3" stroke-linejoin="round"/></g><path d="M74 54h28v10q0 10-14 10t-14-10z" fill="#A8D3E6" stroke="${S}" stroke-width="3" stroke-linejoin="round"/><path d="M102 58q8 0 6 6t-6 4" fill="none" stroke="${S}" stroke-width="3"/><path d="M82 48q-3-5 1-9M92 48q-3-5 1-9" fill="none" stroke="${S}" stroke-width="2.5" stroke-linecap="round" class="a-bob"/></svg>`
+];
+const HOW={walk:["步行","p-walk"],train:["電車","p-train"],car:["自駕","p-car"],bus:["巴士","p-bus"],tour:["一日遊專車","p-tour"],fly:["飛機","p-fly"]};
+const KIND={food:"吃",sight:"逛",stay:"住",move:"移動",misc:""};
 const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const mapUrl=(n,a)=>"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(n+" "+a);
+const mapUrl=(q,area)=>/^https?:/.test(q)?q:"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(q+(area?" "+area:""));
 function twToday(){const n=new Date();const t=new Date(n.getTime()+n.getTimezoneOffset()*6e4+8*36e5);return Date.UTC(t.getFullYear(),t.getMonth(),t.getDate())}
 
-/* 倒數 */
 (function(){
-  const start=Date.UTC(2026,10,22), end=Date.UTC(2026,10,26), today=twToday(), d=Math.round((start-today)/864e5);
+  const start=Date.UTC(2026,10,22),end=Date.UTC(2026,10,26),today=twToday(),d=Math.round((start-today)/864e5);
   const c=document.getElementById("count");
-  if(d>0){document.getElementById("countN").textContent=d}
-  else if(today<=end){c.innerHTML=`<span>旅行第</span><b>${Math.round((today-start)/864e5)+1}</b><span>天</span>`}
-  else{c.innerHTML=`<span>旅程完成，下次見</span>`}
+  if(d>0)document.getElementById("countN").textContent=d;
+  else if(today<=end)c.innerHTML=`<span>旅行第</span><b>${Math.round((today-start)/864e5)+1}</b><span>天</span>`;
+  else c.innerHTML=`<span>旅程完成，下次見</span>`;
 })();
 
-/* 每日 */
 const todayI=DAYS.findIndex(d=>Date.UTC(...d.date.split("-").map((v,i)=>i===1?v-1:+v))===twToday());
-let day=todayI>=0?todayI:store.get("kf2-day",0);
+let day=todayI>=0?todayI:Math.min(store.get("kf3-day",0),DAYS.length-1);
 function renderTabs(){
   document.getElementById("days").innerHTML=DAYS.map((d,i)=>`<button role="tab" id="d${i}" aria-selected="${i===day}" data-i="${i}"><b>${d.date.slice(5).replace("-","/")}</b><small>Day ${i+1}・${d.wd}${i===todayI?"・今天":""}</small></button>`).join("");
   document.querySelectorAll("#days button").forEach(b=>b.onclick=()=>{
     if(+b.dataset.i===day)return;
-    day=+b.dataset.i;store.set("kf2-day",day);renderTabs();renderDay(true);
-    const nb=document.getElementById("d"+day);nb.classList.add("boing");
+    day=+b.dataset.i;store.set("kf3-day",day);renderTabs();renderDay(true);
+    document.getElementById("d"+day).classList.add("boing");
   });
+}
+function stopHTML(s,i,area){
+  const h=s.how&&HOW[s.how];
+  const badges=[s.must?'<span class="badge b-must">必去</span>':"",s.booked?'<span class="badge b-book">已訂位</span>':"",s.free?'<span class="badge b-free">自由參加</span>':""].join("");
+  const showMap=s.map||(s.how&&s.how!=="fly"&&!s.opts?.length);
+  const meta=(h||KIND[s.type]||showMap)?`<div class="meta">${h?`<span class="pill ${h[1]}">${h[0]}</span>`:""}${s.cost?`<span class="cost">${esc(s.cost)}</span>`:""}${showMap&&s.type!=="misc"?`<a class="maplink" href="${mapUrl(s.map||s.name.replace(/^.*：/,""),s.map?"":area)}" target="_blank" rel="noopener">地圖 ›</a>`:""}</div>`:"";
+  const opts=s.opts?`<ul class="opts">${s.opts.map(o=>`<li><b>${esc(o.name)}</b>${o.note?`<span>${esc(o.note)}</span>`:""}${s.type==="food"||s.free?` <a href="${mapUrl(o.name.replace(/^備案：/,""),area)}" target="_blank" rel="noopener">地圖 ›</a>`:""}</li>`).join("")}</ul>`:"";
+  const head=s.recsHead||["店家","必吃／必買","備註"];
+  const recs=s.recs?`<details><summary>${s.recsTitle||"美食推薦"}（${s.recs.length}）</summary><div class="tbl"><table><thead><tr>${head.map(x=>`<th>${x}</th>`).join("")}</tr></thead><tbody>${s.recs.map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div></details>`:"";
+  return `<li class="st ${s.type}${s.must?" must":""}" style="animation-delay:${i*45}ms"><time>${s.t}</time><span class="dot" aria-hidden="true"></span>
+   <div class="card"><div class="row"><div class="nm">${esc(s.name)}</div>${badges?`<div class="badges">${badges}</div>`:""}</div>
+   ${meta}${s.note?`<div class="note">${s.note}</div>`:""}${opts}${recs}</div></li>`;
 }
 function renderDay(anim){
   const d=DAYS[day],v=document.getElementById("dayview");
-  v.innerHTML=`<div class="dayhead"><div><div class="d">Day ${day+1} · ${d.date.replaceAll("-","/")}（${d.wd}）</div><h3>${d.title}</h3></div>${ILL[day]}</div>
+  v.innerHTML=`<div class="dayhead"><div><div class="d">Day ${day+1} · ${d.date.replaceAll("-","/")}（${d.wd}）</div><h3>${d.title}</h3></div>${ILL[day]||""}</div>
   ${d.note?`<div class="daynote">${d.note}</div>`:""}
-  <ol class="tl">${d.stops.map((s,i)=>{const [t,n,k,how,must,area,late]=s;const h=HOW[how];
-    return `<li class="st ${k}${must?" must":""}" style="animation-delay:${i*45}ms"><time>${t}</time><span class="dot" aria-hidden="true"></span>
-    <div class="card"><div class="row"><div class="nm">${esc(n)}${late?' <span class="late">（隔天凌晨）</span>':""}</div>${must?'<span class="must-badge">必去</span>':""}</div>
-    <div class="meta"><span class="pill ${h[1]}">${h[0]}</span><span class="kind">${KIND[k]}</span><a class="maplink" href="${mapUrl(n,area||d.area)}" target="_blank" rel="noopener">地圖 ›</a></div></div></li>`}).join("")}</ol>`;
+  <ol class="tl">${d.stops.map((s,i)=>stopHTML(s,i,d.area)).join("")}</ol>`;
   if(anim){v.classList.remove("bounce");void v.offsetWidth;v.classList.add("bounce")}
 }
 
-/* 清單 */
-let listKey="prep";
 function renderList(){
-  const done=store.get("kf2-"+listKey,{}), groups=LISTS[listKey];
-  const total=groups.reduce((a,g)=>a+g[1].length,0), n=Object.values(done).filter(Boolean).length, pct=Math.round(n/total*100);
-  document.querySelectorAll(".tabs2 button").forEach(b=>b.setAttribute("aria-selected",b.dataset.l===listKey));
-  document.getElementById("list").innerHTML=`<div class="prog"><div class="bar"><i style="width:${pct}%"></i></div><span>${n} / ${total}</span></div>
-  ${groups.map((g,gi)=>`<div class="grp"><h3>${g[0]}<small>${g[1].filter((_,j)=>done[gi+"-"+j]).length}/${g[1].length}</small></h3><ul>
-   ${g[1].map((it,j)=>`<li><label><input type="checkbox" id="${listKey}-${gi}-${j}" data-k="${gi}-${j}"${done[gi+"-"+j]?" checked":""}><span>${esc(it)}</span></label></li>`).join("")}</ul></div>`).join("")}
+  const done=store.get("kf3-todo",{});
+  const total=TODO.reduce((a,g)=>a+g[1].length,0),n=TODO.reduce((a,g,gi)=>a+g[1].filter((_,j)=>done[gi+"-"+j]).length,0);
+  document.getElementById("list").innerHTML=`<div class="prog"><div class="bar"><i style="width:${Math.round(n/total*100)}%"></i></div><span>${n} / ${total}</span></div>
+  ${TODO.map((g,gi)=>`<div class="grp"><h3>${g[0]}<small>${g[1].filter((_,j)=>done[gi+"-"+j]).length}/${g[1].length}</small></h3><ul>
+   ${g[1].map((it,j)=>`<li><label><input type="checkbox" id="t${gi}-${j}" data-k="${gi}-${j}"${done[gi+"-"+j]?" checked":""}><span>${esc(it)}</span></label></li>`).join("")}</ul></div>`).join("")}
   <button class="reset" id="reset">全部清除</button>`;
-  document.querySelectorAll("#list input").forEach(c=>c.onchange=()=>{done[c.dataset.k]=c.checked;store.set("kf2-"+listKey,done);renderList();document.getElementById(c.id).focus()});
+  document.querySelectorAll("#list input").forEach(c=>c.onchange=()=>{done[c.dataset.k]=c.checked;store.set("kf3-todo",done);renderList();document.getElementById(c.id).focus()});
   let armed=false;const r=document.getElementById("reset");
-  r.onclick=()=>{if(!armed){armed=true;r.textContent="再按一次確認清除";setTimeout(()=>{armed=false;r.textContent="全部清除"},3000);return}store.set("kf2-"+listKey,{});renderList()};
+  r.onclick=()=>{if(!armed){armed=true;r.textContent="再按一次確認清除";setTimeout(()=>{armed=false;r.textContent="全部清除"},3000);return}store.set("kf3-todo",{});renderList()};
 }
-document.querySelectorAll(".tabs2 button").forEach(b=>b.onclick=()=>{listKey=b.dataset.l;renderList()});
 
-/* 航班欄位 */
-document.querySelectorAll(".fl-foot input").forEach(inp=>{
-  inp.value=store.get("kf2-"+inp.dataset.k,"");
-  const sync=()=>{const t=document.getElementById(inp.dataset.k.replace("-dep","-dep-t"));if(inp.dataset.k.endsWith("-dep")&&t)t.textContent=inp.value?inp.value+" 起飛":"— : —";
-    const mark=inp.closest(".flight").querySelector(".todo-mark");const all=[...inp.closest(".fl-foot").querySelectorAll("input")].every(x=>x.value.trim());mark.hidden=all;};
-  inp.oninput=()=>{store.set("kf2-"+inp.dataset.k,inp.value);sync()};sync();
-});
-
-/* 選單高亮 */
 const links=[...document.querySelectorAll(".nav a")];
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+e.target.id))}),{rootMargin:"-45% 0px -50% 0px"});
 document.querySelectorAll("main section").forEach(s=>io.observe(s));
