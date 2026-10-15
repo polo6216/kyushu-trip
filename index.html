@@ -175,6 +175,7 @@ details[open] summary::after{content:" ▴"}
 .cp b{font-weight:400;font-size:15px;line-height:1.35}
 .cp small{font-size:12.5px;color:var(--ink-soft);line-height:1.4}
 .cp .tag{justify-self:start;font-size:12px;border:2px solid var(--ink);border-radius:999px;padding:0 8px;background:var(--take-l);margin-top:4px}
+.cp img.fit{object-fit:contain;object-position:center;background:#fff;padding:8px}
 .cp.off{opacity:.5}
 .cp.off .tag{background:#eee}
 .cv{position:fixed;inset:0;z-index:50;background:#fff;display:flex;flex-direction:column}
@@ -340,6 +341,7 @@ body.lock{overflow:hidden}
 <section id="coupon">
   <h2><span class="chip" style="background:var(--mizu)"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4z" fill="#fff" stroke="#3E3A39" stroke-width="2" stroke-linejoin="round"/><path d="M14 5v14" stroke="#3E3A39" stroke-width="2" stroke-dasharray="2 2"/></svg></span>優惠券</h2>
   <p class="cp-note">點一張就會全螢幕打開，直接拿給店員掃條碼。左右滑可以換下一張。圖片要連網才載得出來，建議出發前先每張點開一次。</p>
+  <p class="cp-note">提醒：日本 2026/11/1 起免稅改成「退稅制」，結帳時先付含稅價，出境時在機場海關確認後退稅；店家的優惠券折扣照樣可以用。</p>
   <div class="cps" id="cps"></div>
 </section>
 
@@ -521,6 +523,7 @@ document.querySelectorAll("main section").forEach(s=>io.observe(s));
 renderTabs();renderDay(false);renderList();
 
 const CPI="https://kyushu.funpass.app/upload/kyushufunpass-coupon/img/";
+const FJ="https://content.fun-japan.jp/renewal-prod/cms/light_coupon/";
 const COUPONS=[
  {name:"AVIS 租車 7 折",short:"全九州租車 7 折",img:CPI+"coupon_15.jpg",tag:"自駕可用",
   deal:["租車享 7 折"],how:"要先預約：從九州 FunPASS App 的「購物折扣」頁面進入 AVIS 指定網站預約，才有折扣。",where:"全九州適用"},
@@ -546,6 +549,18 @@ const COUPONS=[
  {name:"大賀藥局",short:"每滿 ¥10,000 折 ¥500",img:CPI+"coupon_10.png",pop:CPI+"popup_10_02.jpg",tag:"博多・天神",
   deal:["每滿 ¥10,000（未稅）現折 ¥500","滿 ¥20,000 折 ¥1,000，依此類推"],how:"結帳時出示上方優惠圖。",where:"九州免稅店：博多口店、天神地下街店、西鐵福岡站店、Life Stream、Beauty Lounge OHGA 1st",
   links:[["店鋪查詢","https://www.ohga-ph.com/search/"]]},
+ {name:"松本清",short:"滿 ¥1 萬起 3–7% off",img:FJ+"thumbnail/---_2026-02-24-12-10-18.jpg",fit:1,pop:FJ+"TW---_2026-02-24-12-10-22.jpg",tag:"天神・博多",
+  deal:["店內商品滿 ¥10,000～未滿 ¥30,000：3% off","滿 ¥30,000～未滿 ¥50,000：5% off","滿 ¥50,000 以上：7% off"],how:"結帳前出示上方對應金額那一段的 QR Code。限住在日本以外的旅客，不可和其他優惠併用。高級化妝品專櫃、菸、雜誌、尿布、嬰兒食品不適用。使用期限 2027/3/31。",where:"全日本松本清（部分 outlet 店除外）",
+  links:[["優惠券原頁","https://www.fun-japan.jp/tw/light-coupons/27"]]},
+ {name:"Cocokara Fine",short:"滿 ¥1 萬起 3–7% off",img:FJ+"thumbnail/4---_2026-02-24-12-08-55.jpeg",fit:1,pop:FJ+"-TW---_2026-02-24-12-08-59.jpg",
+  deal:["店內消費滿 ¥10,000～未滿 ¥30,000：3% off","滿 ¥30,000～未滿 ¥50,000：5% off","滿 ¥50,000 以上：7% off"],how:"結帳前出示上方優惠券。和松本清同集團。不可和其他優惠券併用。使用期限 2027/3/31。",where:"全日本 Cocokara Fine",
+  links:[["優惠券原頁","https://www.fun-japan.jp/tw/light-coupons/44"]]},
+ {name:"鶴羽集團（含 Drug Eleven）",short:"滿 ¥1 萬起 3–7% off",img:"https://livejapan.com/public/operation/coupon/assets/image/tsuruhadrug_thumb.jpg",pop:"https://livejapan.com/public/operation/coupon/assets/image/tsuruhacoupon_zh-tw.PNG",tag:"九州到處都有",
+  deal:["消費滿 ¥10,000～未滿 ¥30,000（含稅）：3% off","滿 ¥30,000～未滿 ¥50,000：5% off","滿 ¥50,000 以上：7% off"],how:"依金額出示上方 3%／5%／7% 其中一個 QR Code，同時出示護照，付款後就不能用了。九州常見的 Drug Eleven 也是鶴羽集團旗下，券上寫集團免稅店都適用，但結帳前最好先問一下店員。不可和其他優惠併用。",where:"鶴羽集團全國免稅店（Tsuruha、Drug Eleven 等）",
+  links:[["優惠券原頁","https://livejapan.com/public/operation/coupon/tsuruhadrug/zh-tw.html"]]},
+ {name:"科摩思 COSMOS 天神大丸前店",short:"滿 ¥1 萬起 5–9% off",img:FJ+"thumbnail/L1nT0Ke8h94Ofz4d8DOMV8i56SkP1DLoQV-fLBzXXF126s12bB7aAj8SH9E2MnvIPfeDfGpt0xt4gi-Tq49Y3bIl6weuQl7jvXJGde5kBv1TRR2qCAM6qM-gUJgESpiEQPU9qYAg1hMSjkydLTpCK3DwKLi8OavCsLeQGc---Maria-Matsumoto_2026-09-29-04-35-49.jpg",fit:1,pop:FJ+"14funjapantw26091---_2026-09-29-04-35-53.jpg",tag:"Day 5 天神",
+  deal:["未稅滿 ¥10,000～未滿 ¥30,000：5% off","滿 ¥30,000～未滿 ¥50,000：7% off","滿 ¥50,000 以上：9% off"],how:"結帳時出示護照和上方條碼。只能用一次，限免稅顧客，菸酒不適用，不可和其他折價券併用。使用期限 2027/12/31。",where:"只有 4 間店能用，福岡是「天神大丸前店」（其餘在東京、大阪）",
+  links:[["優惠券原頁","https://www.fun-japan.jp/tw/light-coupons/13"],["天神大丸前店地圖","https://www.google.com/maps/search/?api=1&query=%E3%83%87%E3%82%A3%E3%82%B9%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88%E3%83%89%E3%83%A9%E3%83%83%E3%82%B0%E3%82%B3%E3%82%B9%E3%83%A2%E3%82%B9%20%E5%A4%A9%E7%A5%9E%E5%A4%A7%E4%B8%B8%E5%89%8D%E5%BA%97"]]},
  {name:"CARGO PASS 行李寄送",short:"機場→飯店，折 ¥50–150",img:CPI+"coupon_05.png",pop:CPI+"popup_05_zh_TW.png",
   deal:["小型行李折 ¥50","中型行李折 ¥100","大型行李折 ¥150"],how:"在櫃台出示優惠券畫面。",where:"福岡機場國際線 1F（7 號巴士站對面）、國內線 B1（西日本城市銀行旁）",
   links:[["可配送飯店","https://cargopass.jp/hotel"]]},
@@ -560,7 +575,7 @@ const COUPONS=[
   links:[["WAmazing 網站","https://af-wamazing.catsys.jp/c5e3c193y273353e/cl/?bId=967694bc"]]}
 ];
 function renderCoupons(){
-  document.getElementById("cps").innerHTML=COUPONS.map((c,i)=>`<button class="cp${c.off?" off":""}" data-i="${i}"><img src="${c.img}" alt="" loading="lazy" width="330" height="200"><span class="tx"><b>${esc(c.name)}</b><small>${esc(c.short)}</small>${c.tag?`<span class="tag">${esc(c.tag)}</span>`:""}</span></button>`).join("");
+  document.getElementById("cps").innerHTML=COUPONS.map((c,i)=>`<button class="cp${c.off?" off":""}" data-i="${i}"><img src="${c.img}" alt=""${c.fit?' class="fit"':""} loading="lazy" width="330" height="200"><span class="tx"><b>${esc(c.name)}</b><small>${esc(c.short)}</small>${c.tag?`<span class="tag">${esc(c.tag)}</span>`:""}</span></button>`).join("");
   document.querySelectorAll("#cps .cp").forEach(b=>b.onclick=()=>openCoupon(+b.dataset.i,true));
 }
 let cvI=-1,wake=null;
