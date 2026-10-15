@@ -162,6 +162,47 @@ details[open] summary::after{content:" ▴"}
   *,*::before,*::after{animation:none!important;transition:none!important}
   html{scroll-behavior:auto}
 }
+
+/* 優惠券 */
+.nav ul{gap:2px}
+.nav a{padding:5px 8px}
+.cp-note{font-size:14px;color:var(--ink-soft);margin:-4px 0 14px}
+.cps{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cp{background:#fff;border:var(--line);border-radius:18px;overflow:hidden;padding:0;text-align:left;cursor:pointer;display:flex;flex-direction:column;font-size:inherit;transition:transform .15s}
+.cp:active{transform:scale(.97)}
+.cp img{display:block;width:100%;height:auto;aspect-ratio:33/20;object-fit:cover;object-position:top;border-bottom:var(--line);background:var(--yellow-l)}
+.cp .tx{padding:8px 10px 10px;display:grid;gap:2px;align-content:start}
+.cp b{font-weight:400;font-size:15px;line-height:1.35}
+.cp small{font-size:12.5px;color:var(--ink-soft);line-height:1.4}
+.cp .tag{justify-self:start;font-size:12px;border:2px solid var(--ink);border-radius:999px;padding:0 8px;background:var(--take-l);margin-top:4px}
+.cp.off{opacity:.5}
+.cp.off .tag{background:#eee}
+.cv{position:fixed;inset:0;z-index:50;background:#fff;display:flex;flex-direction:column}
+.cv[hidden]{display:none}
+.cv-bar{display:flex;align-items:center;gap:8px;padding:calc(env(safe-area-inset-top,0px) + 8px) 10px 8px;border-bottom:var(--line);background:var(--paper)}
+.cv-bar button{width:42px;height:42px;border:var(--line);border-radius:12px;background:#fff;font-size:22px;line-height:1;cursor:pointer;flex:0 0 auto;display:grid;place-items:center;padding:0}
+.cv-bar button:disabled{opacity:.3}
+.cv-bar .t{flex:1;min-width:0;line-height:1.25}
+.cv-bar .t b{display:block;font-weight:400;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cv-bar .t span{font-size:12px;color:var(--ink-soft)}
+.cv-hint{font-size:12.5px;background:var(--yellow-l);text-align:center;padding:3px 10px;border-bottom:2px solid var(--ink)}
+.cv-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;background:#fff}
+.cv-body .pic{display:block;width:100%;max-width:760px;margin:0 auto;height:auto}
+.cv-body .pic.thumb{max-width:520px;padding:16px 16px 0}
+.cv-info{max-width:620px;margin:0 auto;padding:16px 16px calc(env(safe-area-inset-bottom,0px) + 28px);font-size:15px}
+.cv-info .off{background:#eee;border:2px solid var(--ink);border-radius:12px;padding:6px 12px;margin-bottom:12px}
+.cv-info .big{font-size:19px;line-height:1.5;margin:0 0 14px}
+.cv-info .big li{margin-bottom:4px}
+.cv-info ul.big{padding-left:22px}
+.cv-info dl{margin:0;display:grid;gap:10px}
+.cv-info dt{font-size:12px;color:var(--ink-soft)}
+.cv-info dd{margin:0}
+.cv-info .code{font-size:30px;letter-spacing:.1em;border:var(--line);border-radius:14px;padding:4px 16px;display:inline-block;background:var(--yellow);user-select:all}
+.cv-info .acts{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:14px}
+.cv-info .acts a{font-size:14px;text-decoration:none;border:2px solid var(--ink);border-radius:999px;padding:4px 14px;background:var(--paper)}
+.cv-info .acts a.main{background:var(--coral);font-size:16px;padding:8px 18px}
+.cv-info .src{font-size:12px;color:var(--ink-soft);margin-top:18px}
+body.lock{overflow:hidden}
 </style>
 
 <nav class="nav" aria-label="主選單">
@@ -171,6 +212,7 @@ details[open] summary::after{content:" ▴"}
     <li><a href="#plan">行程</a></li>
     <li><a href="#todo">清單</a></li>
     <li><a href="#stay">住宿</a></li>
+    <li><a href="#coupon">優惠</a></li>
   </ul>
 </nav>
 
@@ -295,8 +337,25 @@ details[open] summary::after{content:" ▴"}
   </div>
 </section>
 
+<section id="coupon">
+  <h2><span class="chip" style="background:var(--mizu)"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4z" fill="#fff" stroke="#3E3A39" stroke-width="2" stroke-linejoin="round"/><path d="M14 5v14" stroke="#3E3A39" stroke-width="2" stroke-dasharray="2 2"/></svg></span>優惠券</h2>
+  <p class="cp-note">點一張就會全螢幕打開，直接拿給店員掃條碼。左右滑可以換下一張。圖片要連網才載得出來，建議出發前先每張點開一次。</p>
+  <div class="cps" id="cps"></div>
+</section>
+
 <p class="foot">資料來源：Notion「2026.11.22～11.26 熊本+福岡 五天四夜８人行」<br>打勾狀態只存在這台裝置的瀏覽器</p>
 </main>
+
+<div class="cv" id="cv" hidden role="dialog" aria-modal="true" aria-labelledby="cvT">
+  <div class="cv-bar">
+    <button id="cvX" aria-label="關閉">✕</button>
+    <div class="t"><b id="cvT"></b><span id="cvN"></span></div>
+    <button id="cvP" aria-label="上一張">‹</button>
+    <button id="cvNx" aria-label="下一張">›</button>
+  </div>
+  <div class="cv-hint">請把螢幕亮度調高再給店員掃描</div>
+  <div class="cv-body" id="cvB"></div>
+</div>
 
 <script>
 /* ===== 行程資料（要改行程只改這一段） =====
@@ -460,6 +519,97 @@ const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.f
 document.querySelectorAll("main section").forEach(s=>io.observe(s));
 
 renderTabs();renderDay(false);renderList();
+
+const CPI="https://kyushu.funpass.app/upload/kyushufunpass-coupon/img/";
+const COUPONS=[
+ {name:"AVIS 租車 7 折",short:"全九州租車 7 折",img:CPI+"coupon_15.jpg",tag:"自駕可用",
+  deal:["租車享 7 折"],how:"要先預約：從九州 FunPASS App 的「購物折扣」頁面進入 AVIS 指定網站預約，才有折扣。",where:"全九州適用"},
+ {name:"Bic Camera",short:"最高 17% off（免稅＋7%）",img:CPI+"coupon_01.png",pop:"https://cdn.fontrip.com/fontour/file/show/w6G4d/1241x1754.jpg",
+  deal:["家電滿 ¥5,500（含稅）：17% off（10% 免稅＋7%）","藥妝、零食等消耗品滿 ¥5,500（含稅）：15% off（10% 免稅＋5%）"],how:"結帳時出示上方優惠券條碼。免稅記得帶護照。",where:"全日本免稅店鋪",
+  links:[["店鋪查詢","https://www.biccamera.com.t.lj.hp.transer.com/bc/i/shop/shoplist/index.jsp"]]},
+ {name:"Kojima × Bic Camera",short:"最高 17% off（免稅＋7%）",img:CPI+"coupon_02.png",pop:"https://cdn.fontrip.com/fontour/file/show/w6G4d/1241x1754.jpg",
+  deal:["家電滿 ¥5,500（含稅）：17% off（10% 免稅＋7%）","藥妝、零食等消耗品滿 ¥5,500（含稅）：15% off（10% 免稅＋5%）"],how:"結帳時出示上方優惠券條碼。免稅記得帶護照。",where:"全日本免稅店鋪",
+  links:[["店鋪查詢","https://www.biccamera.com.t.lj.hp.transer.com/bc/i/shop/shoplist/index.jsp"]]},
+ {name:"唐吉訶德",short:"最高 17% off（免稅＋7%）",img:CPI+"coupon_03.png",
+  deal:["稅前滿 ¥10,000：85 折（10% 免稅＋5%）","稅前滿 ¥30,000：83 折（10% 免稅＋7%）"],how:"結帳時打開下面的「唐吉訶德優惠券」連結，把那個頁面拿給店員看。",where:"全日本",
+  main:["打開唐吉訶德優惠券","https://japanportal.donki-global.com/coupon/?ptcd=0183000101"],
+  links:[["優惠詳情","https://s.fits.tw/s/lWgBEj"],["店鋪查詢","https://www.donki-global.com/zhtw/store/shop_list.php?pid=5"]]},
+ {name:"Alpen 運動用品",short:"免稅＋5% off",img:CPI+"coupon_08.png",pop:CPI+"popup_08_02.png",tag:"博多運河城",
+  deal:["滿 ¥5,500（含稅）：免稅＋5% off"],how:"結帳時直接出示上方折扣優惠圖。",where:"九州推薦：博多運河城店、太宰府交流道店、福岡香椎店、福岡太空世界站前店、熊本 New-S 店、南熊本店、大分店",
+  links:[["店鋪查詢","https://store.alpen-group.jp/store_search/"]]},
+ {name:"Alpen 全店 5% off（沖繩版條碼）",short:"免稅＋5% off・全店可用",img:"coupons/alpen-okinawa.jpg",pop:"coupons/alpen-okinawa.jpg",tag:"博多運河城",
+  deal:["滿 ¥5,500（含稅）：免稅＋5% off","SPORTS DEPO、Alpen Outdoors、GOLF5、Alpen TOKYO／NAGOYA／FUKUOKA 及全國免稅店都能用"],how:"結帳時出示上方優惠券，請店員掃條碼（2610200006658）。不可和其他折扣併用（例如上一張 Alpen 券），限訪日旅客，免稅要帶護照。部分商品不適用。使用期限 2026/12/31。",where:"全國 Alpen 集團免稅店鋪",
+  links:[["適用店鋪清單","https://store.alpen-group.jp/campaign/inbound/list.pdf"]]},
+ {name:"新生堂藥局",short:"免稅＋5% off",img:CPI+"coupon_09.png",pop:CPI+"popup_09_zh_TW.png",
+  deal:["滿 ¥5,500（含稅）：免稅＋5% off"],how:"結帳時直接出示上方折扣優惠圖（條碼在圖中間）。圖上寫使用期限 2026/12/31。",where:"九州推薦：福岡天神南店、福岡ももち浜店、熊本大津店、熊本光の森店",
+  links:[["店鋪查詢","https://map.sinseido-co.jp/"]]},
+ {name:"大賀藥局",short:"每滿 ¥10,000 折 ¥500",img:CPI+"coupon_10.png",pop:CPI+"popup_10_02.jpg",tag:"博多・天神",
+  deal:["每滿 ¥10,000（未稅）現折 ¥500","滿 ¥20,000 折 ¥1,000，依此類推"],how:"結帳時出示上方優惠圖。",where:"九州免稅店：博多口店、天神地下街店、西鐵福岡站店、Life Stream、Beauty Lounge OHGA 1st",
+  links:[["店鋪查詢","https://www.ohga-ph.com/search/"]]},
+ {name:"CARGO PASS 行李寄送",short:"機場→飯店，折 ¥50–150",img:CPI+"coupon_05.png",pop:CPI+"popup_05_zh_TW.png",
+  deal:["小型行李折 ¥50","中型行李折 ¥100","大型行李折 ¥150"],how:"在櫃台出示優惠券畫面。",where:"福岡機場國際線 1F（7 號巴士站對面）、國內線 B1（西日本城市銀行旁）",
+  links:[["可配送飯店","https://cargopass.jp/hotel"]]},
+ {name:"日高本店 河豚伴手禮",short:"滿 ¥1,000 打 95 折",img:CPI+"coupon_07.png",pop:CPI+"popup_07.png",tag:"門司港",
+  deal:["消費 ¥1,000 以上：95 折"],how:"結帳時出示上方優惠圖。",where:"北九州市門司區港町 5-1 海峽廣場西館 1F"},
+ {name:"古賀新和服館",short:"和服體驗折 ¥500",img:CPI+"coupon_14.jpg",tag:"Day 4 柳川",
+  deal:["憑九州 FunPASS 預約折 ¥500"],how:"預約時備註「九州 FunPASS」，到現場出示 FunPASS App 裡的折扣碼畫面（這張要用 App 出示，不是這個頁面）。",where:"太宰府店：太宰府市宰府 1-14-25／柳川店：柳川市旭町 24-5"},
+ {name:"三麗鷗和諧樂園",short:"門票折 ¥300",img:CPI+"coupon_11.jpg",pop:CPI+"popup_11_zh_TW.png",
+  deal:["門票現折 ¥300"],how:"現場購票時出示上方 QR Code。",where:"大分縣速見郡日出町大字藤原 5933"},
+ {name:"WAmazing 線上購物",short:"免稅＋3% off（已過期）",img:CPI+"coupon_06_zh_TW.png",pop:CPI+"popup_06_zh_TW_05.png",tag:"已過期 9/30",off:1,
+  deal:["線上購物滿 ¥20,000：免稅 10%＋3%"],code:"PASS03",how:"在 WAmazing 網站結帳時輸入優惠代碼。",where:"WAmazing 線上購物",
+  links:[["WAmazing 網站","https://af-wamazing.catsys.jp/c5e3c193y273353e/cl/?bId=967694bc"]]}
+];
+function renderCoupons(){
+  document.getElementById("cps").innerHTML=COUPONS.map((c,i)=>`<button class="cp${c.off?" off":""}" data-i="${i}"><img src="${c.img}" alt="" loading="lazy" width="330" height="200"><span class="tx"><b>${esc(c.name)}</b><small>${esc(c.short)}</small>${c.tag?`<span class="tag">${esc(c.tag)}</span>`:""}</span></button>`).join("");
+  document.querySelectorAll("#cps .cp").forEach(b=>b.onclick=()=>openCoupon(+b.dataset.i,true));
+}
+let cvI=-1,wake=null;
+const cv=document.getElementById("cv"),cvB=document.getElementById("cvB");
+async function keepAwake(){try{if("wakeLock" in navigator&&!wake){wake=await navigator.wakeLock.request("screen");wake.addEventListener("release",()=>{wake=null})}}catch(e){}}
+function showCoupon(i){
+  cvI=i;const c=COUPONS[i];
+  document.getElementById("cvT").textContent=c.name;
+  document.getElementById("cvN").textContent=`${i+1} / ${COUPONS.length}　${c.short}`;
+  document.getElementById("cvP").disabled=i===0;
+  document.getElementById("cvNx").disabled=i===COUPONS.length-1;
+  const links=[c.main?`<a class="main" href="${c.main[1]}" target="_blank" rel="noopener">${esc(c.main[0])} ›</a>`:"",...(c.links||[]).map(l=>`<a href="${l[1]}" target="_blank" rel="noopener">${esc(l[0])} ›</a>`)].join("");
+  cvB.innerHTML=`<img class="pic${c.pop?"":" thumb"}" src="${c.pop||c.img}" alt="${esc(c.name)} 優惠券">
+  <div class="cv-info">${c.off?`<div class="off">這張優惠券 2026/9/30 已到期，旅行期間應該不能用了。</div>`:""}
+   <ul class="big">${c.deal.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>
+   <dl>${c.code?`<div><dt>優惠代碼</dt><dd><span class="code">${esc(c.code)}</span></dd></div>`:""}
+    <div><dt>怎麼用</dt><dd>${esc(c.how)}</dd></div>
+    <div><dt>適用店鋪</dt><dd>${esc(c.where)}</dd></div></dl>
+   ${links?`<div class="acts">${links}</div>`:""}
+   <div class="src">來源：九州 FunPASS 免費優惠券。實際以店家現場規定為準。</div></div>`;
+  cvB.scrollTop=0;
+}
+function openCoupon(i,push){
+  showCoupon(i);
+  if(cv.hidden){cv.hidden=false;document.body.classList.add("lock");keepAwake();document.getElementById("cvX").focus()}
+  const h="#coupon-"+(i+1);
+  if(push&&location.hash!==h)history.pushState({cp:i},"",h);else history.replaceState({cp:i},"",h);
+}
+function closeCoupon(){
+  if(cv.hidden)return;
+  cv.hidden=true;document.body.classList.remove("lock");
+  if(wake){wake.release().catch(()=>{});wake=null}
+  const b=document.querySelector(`#cps .cp[data-i="${cvI}"]`);cvI=-1;
+  if(b)b.focus({preventScroll:false});
+}
+document.getElementById("cvX").onclick=()=>{if(history.state&&history.state.cp!=null)history.back();else{closeCoupon();history.replaceState(null,"","#coupon")}};
+document.getElementById("cvP").onclick=()=>{if(cvI>0)openCoupon(cvI-1,false)};
+document.getElementById("cvNx").onclick=()=>{if(cvI<COUPONS.length-1)openCoupon(cvI+1,false)};
+window.addEventListener("popstate",()=>{const m=location.hash.match(/^#coupon-(\d+)$/);if(m&&COUPONS[m[1]-1])openCoupon(m[1]-1,false);else closeCoupon()});
+document.addEventListener("keydown",e=>{if(cv.hidden)return;if(e.key==="Escape")document.getElementById("cvX").click();else if(e.key==="ArrowLeft")document.getElementById("cvP").click();else if(e.key==="ArrowRight")document.getElementById("cvNx").click()});
+document.addEventListener("visibilitychange",()=>{if(!cv.hidden&&document.visibilityState==="visible")keepAwake()});
+let tx0=null,ty0=0;
+cvB.addEventListener("touchstart",e=>{if(e.touches.length!==1){tx0=null;return}tx0=e.touches[0].clientX;ty0=e.touches[0].clientY},{passive:true});
+cvB.addEventListener("touchend",e=>{if(tx0==null)return;const t=e.changedTouches[0],dx=t.clientX-tx0,dy=t.clientY-ty0;tx0=null;
+  if(Math.abs(dx)>70&&Math.abs(dy)<50&&(!window.visualViewport||visualViewport.scale<=1.01)){document.getElementById(dx<0?"cvNx":"cvP").click()}},{passive:true});
+/* 先把每張大圖抓進瀏覽器快取 */
+new IntersectionObserver((es,o)=>{if(es.some(e=>e.isIntersecting)){o.disconnect();COUPONS.forEach(c=>{if(c.pop){const im=new Image();im.src=c.pop}})}}).observe(document.getElementById("coupon"));
+renderCoupons();
+{const m=location.hash.match(/^#coupon-(\d+)$/);if(m&&COUPONS[m[1]-1]){history.replaceState(null,"","#coupon");openCoupon(m[1]-1,true)}}
 </script>
 
 </body></html>
