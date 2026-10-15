@@ -204,6 +204,28 @@ details[open] summary::after{content:" ▴"}
 .cv-info .acts a.main{background:var(--coral);font-size:16px;padding:8px 18px}
 .cv-info .src{font-size:12px;color:var(--ink-soft);margin-top:18px}
 body.lock{overflow:hidden}
+/* 退稅 */
+.nav ul{overflow-x:auto;scrollbar-width:none}
+.nav a{padding:5px 7px}
+.rf-lead{font-size:15px;margin:-4px 0 14px}
+.rf-steps{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.rf-steps li{background:#fff;border:var(--line);border-radius:18px;padding:12px 14px 12px 58px;position:relative}
+.rf-steps li::before{content:attr(data-n);position:absolute;left:12px;top:12px;width:34px;height:34px;border:var(--line);border-radius:50%;display:grid;place-items:center;background:var(--mizu-l);font-size:17px}
+.rf-steps li:nth-child(2)::before{background:var(--yellow-l)}
+.rf-steps li:nth-child(3)::before{background:var(--take-l)}
+.rf-steps h3{font-weight:400;font-size:17px;margin:4px 0 4px}
+.rf-steps h3 small{font-size:12.5px;color:var(--ink-soft);margin-left:6px}
+.rf-steps p{margin:0;font-size:14.5px}
+.rf-steps p+p{margin-top:6px}
+.rf-gr{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;font-size:13.5px}
+.rf-gr span{border:2px solid var(--ink);border-radius:12px;padding:2px 10px}
+.rf-gr .g{background:var(--take)} .rf-gr .r{background:var(--coral)}
+.rf-warn{margin-top:14px;background:var(--coral-l);border:var(--line);border-radius:18px;padding:12px 14px}
+.rf-warn h3,.rf-ok h3{font-weight:400;font-size:16px;margin:0 0 6px}
+.rf-warn ul,.rf-ok ul{margin:0;padding-left:20px;display:grid;gap:6px;font-size:14.5px}
+.rf-warn b{font-weight:400;background:linear-gradient(transparent 55%,var(--yellow) 55%)}
+.rf-ok{margin-top:14px;background:#fff;border:var(--line);border-radius:18px;padding:12px 14px}
+.rf-src{font-size:12px;color:var(--ink-soft);margin-top:10px}
 </style>
 
 <nav class="nav" aria-label="主選單">
@@ -214,6 +236,7 @@ body.lock{overflow:hidden}
     <li><a href="#todo">清單</a></li>
     <li><a href="#stay">住宿</a></li>
     <li><a href="#coupon">優惠</a></li>
+    <li><a href="#refund">退稅</a></li>
   </ul>
 </nav>
 
@@ -341,8 +364,44 @@ body.lock{overflow:hidden}
 <section id="coupon">
   <h2><span class="chip" style="background:var(--mizu)"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4z" fill="#fff" stroke="#3E3A39" stroke-width="2" stroke-linejoin="round"/><path d="M14 5v14" stroke="#3E3A39" stroke-width="2" stroke-dasharray="2 2"/></svg></span>優惠券</h2>
   <p class="cp-note">點一張就會全螢幕打開，直接拿給店員掃條碼。左右滑可以換下一張。圖片要連網才載得出來，建議出發前先每張點開一次。</p>
-  <p class="cp-note">提醒：日本 2026/11/1 起免稅改成「退稅制」，結帳時先付含稅價，出境時在機場海關確認後退稅；店家的優惠券折扣照樣可以用。</p>
+  <p class="cp-note">提醒：11/1 起免稅改成「先付含稅、出境再退稅」，券上寫的「免稅 10%」現在是之後才退回來。怎麼退請看下面的 <a href="#refund">退稅新制</a>。</p>
   <div class="cps" id="cps"></div>
+</section>
+
+<section id="refund">
+  <h2><span class="chip" style="background:var(--take)"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="3" fill="#fff" stroke="#3E3A39" stroke-width="2"/><path d="M3 10h18" stroke="#3E3A39" stroke-width="2"/><path d="M15 15h3" stroke="#3E3A39" stroke-width="2" stroke-linecap="round"/><path d="M8 3l-3 3 3 3" fill="none" stroke="#3E3A39" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>退稅新制（11/1 起）</h2>
+  <p class="rf-lead">我們這趟全程適用新制度：<b style="font-weight:400">在店裡先付含稅價</b>，出境時在機場讓海關確認東西有帶走，之後才把 10% 消費稅退給你。</p>
+  <ol class="rf-steps">
+    <li data-n="1"><h3>在店裡結帳<small>每家店都一樣</small></h3>
+      <p>同一家店、同一天買滿<b style="font-weight:400">未稅 ¥5,000（含稅 ¥5,500）</b>才能退稅，不同店的收據不能合併。</p>
+      <p>結帳時出示<b style="font-weight:400">護照正本</b>，說要辦免稅（Tax refund），付含稅價。照店家說明登記退款方式（例如信用卡），收據和店家給的 QR Code 要收好。</p></li>
+    <li data-n="2"><h3>出境當天・福岡機場國際線<small>11/26 回程</small></h3>
+      <p><b style="font-weight:400">託運行李之前</b>，先到出發大廳的免稅手續機台刷護照，所有免稅品都要帶在身上。福岡機場也可以連出發大廳的專用 Wi-Fi，用 Visit Japan Web 線上辦。</p>
+      <div class="rf-gr"><span class="g">GREEN：完成，可以去託運</span><span class="r">RED：把免稅品拿到海關檢查處給海關看</span></div></li>
+    <li data-n="3"><h3>等退款<small>回台灣後</small></h3>
+      <p>海關確認後，由店家或店家委託的退款公司退到你登記的方式。多久入帳、有沒有手續費，每家店不一樣，<b style="font-weight:400">收據要留到錢真的退回來</b>。</p></li>
+  </ol>
+  <div class="rf-warn">
+    <h3>最容易踩雷的地方</h3>
+    <ul>
+      <li><b>一定要先辦海關確認再託運行李。</b>行李一託運就不能再辦。要放托運的免稅品（例如 Day 5 的生明太子、大罐藥妝）先拿在手上，刷完護照再去託運。</li>
+      <li><b>以一張收據為單位：</b>同一張收據只要有一件東西被用掉、送人或弄丟，整張收據都不能退。想在日本先吃、先用的東西，請店員另外結一張，或乾脆不要辦免稅。</li>
+      <li><b>藥妝、零食、食品出境前不能開封、使用或吃掉</b>，就算現在不用再封袋也一樣。</li>
+      <li><b>誰買的誰帶：</b>購買紀錄綁在結帳那個人的護照上，8 個人各自顧好自己的東西和收據，不能幫別人帶。</li>
+      <li><b>回程要提早到機場：</b>亞航 AK1511 16:20 起飛，行程寫 13:50 到機場；免稅品多的人建議再早 30 分鐘以上。因為退稅手續趕不上飛機，航空公司和海關都不會負責。</li>
+    </ul>
+  </div>
+  <div class="rf-ok">
+    <h3>其他小提醒</h3>
+    <ul>
+      <li>出發前先在 Visit Japan Web 登錄，入境和退稅都比較順。</li>
+      <li>店家優惠券的折扣照樣可以用，只是「免稅 10%」那部分改成之後才退。</li>
+      <li>不是每家店都改好新制度，結帳前先問一下能不能退稅。部分百貨、商場會收退款手續費。</li>
+      <li>東西要在購買後 90 天內帶出境（我們這趟沒問題）。</li>
+      <li>機場過了安檢後的免稅店不受影響，還是當場免稅。</li>
+    </ul>
+    <p class="rf-src">資料來源：<a href="https://www.mlit.go.jp/kankocho/tax-free/page01_000001_00021.html" target="_blank" rel="noopener">日本觀光廳：リファンド方式とは</a>、<a href="https://matcha-jp.com/jp/27460" target="_blank" rel="noopener">MATCHA</a>、<a href="https://www.fun-japan.jp/en/articles/14694" target="_blank" rel="noopener">FUN! JAPAN</a></p>
+  </div>
 </section>
 
 <p class="foot">資料來源：Notion「2026.11.22～11.26 熊本+福岡 五天四夜８人行」<br>打勾狀態只存在這台裝置的瀏覽器</p>
