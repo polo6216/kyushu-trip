@@ -587,7 +587,11 @@ function applyLoc(lat,lng,scroll){
   const nm=here?DAYS[target].stops[here.i].name:"";
   msg.textContent=(todayI>=0?"今天":"依位置")+`顯示 Day ${target+1}`+(here?`・最近：${nm}（${fmtKm(here.km)}）`:"");
   if(target!==day){day=target;store.set("kf3-day",day);renderTabs();renderDay(true)}else renderDay(false);
-  if(here&&scroll)setTimeout(()=>document.getElementById("st"+here.i)?.scrollIntoView({behavior:"smooth",block:"center"}),350);
+  if(scroll)setTimeout(()=>{
+    if(scroll==="auto"&&((location.hash&&location.hash!=="#plan")||scrollY>300))return; /* 使用者已經自己點去別區就不打斷 */
+    const el=here?document.getElementById("st"+here.i):document.getElementById("plan");
+    el?.scrollIntoView({behavior:"smooth",block:here?"center":"start"});
+  },350);
 }
 function locate(scroll){
   const b=document.getElementById("locbtn"),msg=document.getElementById("locmsg");
@@ -598,8 +602,8 @@ function locate(scroll){
     {enableHighAccuracy:true,timeout:15000,maximumAge:120000});
 }
 document.getElementById("locbtn").onclick=()=>locate(true);
-/* 已允許過定位就自動更新（不會跳出詢問視窗） */
-try{navigator.permissions?.query({name:"geolocation"}).then(r=>{if(r.state==="granted")locate(false)}).catch(()=>{})}catch(e){}
+/* 進入網頁就自動定位，在行程範圍內會直接捲到當日行程（網址指定其他區塊，例如優惠券連結，就不自動捲動） */
+locate(!location.hash||location.hash==="#plan"?"auto":false);
 
 function renderList(){
   const done=store.get("kf3-todo",{});
