@@ -533,17 +533,22 @@ const KIND={food:"吃",sight:"逛",stay:"住",move:"移動",misc:""};
 const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const mapUrl=(q,area)=>/^https?:/.test(q)?q:"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(q+(area?" "+area:""));
-function twToday(){const n=new Date();const t=new Date(n.getTime()+n.getTimezoneOffset()*6e4+8*36e5);return Date.UTC(t.getFullYear(),t.getMonth(),t.getDate())}
-
-(function(){
-  const start=Date.UTC(2026,10,22),end=Date.UTC(2026,10,26),today=twToday(),d=Math.round((start-today)/864e5);
+/* ===== 時間：一律用日本時間（UTC+9）判斷「今天」，過午夜自動換到下一天 =====
+   測試用：網址加 ?now=2026-11-23T08:00 可以假裝現在是那個日本時間 */
+const NOW_OFS=(()=>{try{const q=new URLSearchParams(location.search).get("now");if(!q)return 0;const m=q.match(/^(\d{4})-(\d\d)-(\d\d)(?:T(\d\d):(\d\d))?/);if(!m)return 0;return Date.UTC(+m[1],m[2]-1,+m[3],(+m[4]||0)-9,+m[5]||0)-Date.now()}catch(e){return 0}})();
+function jpToday(){const t=new Date(Date.now()+NOW_OFS+9*36e5);return Date.UTC(t.getUTCFullYear(),t.getUTCMonth(),t.getUTCDate())}
+const dayKey=d=>Date.UTC(...d.date.split("-").map((v,i)=>i===1?v-1:+v));
+function calcTodayI(){const t=jpToday();return DAYS.findIndex(d=>dayKey(d)===t)}
+function renderCount(){
+  const start=dayKey(DAYS[0]),end=dayKey(DAYS[DAYS.length-1]),today=jpToday(),d=Math.round((start-today)/864e5);
   const c=document.getElementById("count");
-  if(d>0)document.getElementById("countN").textContent=d;
+  if(d>0)c.innerHTML=`<span>距離出發還有</span><b id="countN">${d}</b><span>天</span>`;
   else if(today<=end)c.innerHTML=`<span>旅行第</span><b>${Math.round((today-start)/864e5)+1}</b><span>天</span>`;
   else c.innerHTML=`<span>旅程完成，下次見</span>`;
-})();
+}
+renderCount();
 
-const todayI=DAYS.findIndex(d=>Date.UTC(...d.date.split("-").map((v,i)=>i===1?v-1:+v))===twToday());
+let todayI=calcTodayI();
 let day=todayI>=0?todayI:Math.min(store.get("kf3-day",0),DAYS.length-1);
 function renderTabs(){
   document.getElementById("days").innerHTML=DAYS.map((d,i)=>`<button role="tab" id="d${i}" aria-selected="${i===day}" data-i="${i}"><b>${d.date.slice(5).replace("-","/")}</b><small>Day ${i+1}・${d.wd}${i===todayI?"・今天":""}</small></button>`).join("");
@@ -575,11 +580,12 @@ function renderDay(anim){
 }
 
 /* ===== 定位：依目前位置顯示當日行程 ===== */
-let here=null;
+let here=null,lastLoc=null;
 const fmtKm=k=>k<1?Math.round(k*1000)+" m":(k<10?k.toFixed(1):Math.round(k))+" km";
 function distKm(a,b,c,d){const R=6371,r=Math.PI/180,x=Math.sin((c-a)*r/2),y=Math.sin((d-b)*r/2);return 2*R*Math.asin(Math.sqrt(x*x+Math.cos(a*r)*Math.cos(c*r)*y*y))}
 function nearest(lat,lng,only){let best=null;DAYS.forEach((d,di)=>{if(only!=null&&di!==only)return;d.stops.forEach((s,i)=>{if(!s.ll)return;const km=distKm(lat,lng,s.ll[0],s.ll[1]);if(!best||km<best.km)best={day:di,i,km}})});return best}
 function applyLoc(lat,lng,scroll){
+  lastLoc=[lat,lng];
   const msg=document.getElementById("locmsg"),all=nearest(lat,lng);
   if(!all||all.km>80){here=null;msg.textContent=`目前不在行程範圍內（離${DAYS[all.day].area}約 ${fmtKm(all.km)}）`;renderDay(false);return}
   const target=todayI>=0?todayI:all.day,n=nearest(lat,lng,target);
@@ -604,6 +610,19 @@ function locate(scroll){
 document.getElementById("locbtn").onclick=()=>locate(true);
 /* 進入網頁就自動定位，在行程範圍內會直接捲到當日行程（網址指定其他區塊，例如優惠券連結，就不自動捲動） */
 locate(!location.hash||location.hash==="#plan"?"auto":false);
+
+/* 每分鐘、以及手機從背景切回來時檢查日期；日本時間過了午夜就自動切到新的一天 */
+function checkDay(){
+  const t=calcTodayI();if(t===todayI)return;
+  todayI=t;renderCount();
+  if(t>=0){
+    day=t;store.set("kf3-day",day);
+    if(lastLoc)applyLoc(lastLoc[0],lastLoc[1],false);else{renderTabs();renderDay(true)}
+    renderTabs();
+  }else renderTabs();
+}
+setInterval(checkDay,60000);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden){checkDay();if(todayI>=0)locate(false)}});
 
 function renderList(){
   const done=store.get("kf3-todo",{});
