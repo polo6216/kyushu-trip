@@ -67,6 +67,15 @@ h2 .chip svg{width:18px;height:18px}
 .dayhead .d{font-size:13px;color:var(--ink-soft)}
 .dayhead h3{font-weight:400;font-size:20px;margin:2px 0 0;line-height:1.35;text-wrap:balance}
 .dayhead svg{width:120px;height:80px}
+.locbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 6px}
+.locbtn{font:inherit;font-size:14px;border:var(--line);background:var(--mizu);border-radius:999px;padding:3px 12px;cursor:pointer;color:var(--ink)}
+.locbtn:active{transform:translateY(2px)}
+.locbtn[disabled]{opacity:.6;cursor:wait}
+.locmsg{font-size:13px;color:var(--ink-soft);min-width:0}
+.st.here .card{box-shadow:0 0 0 3px var(--mizu),0 4px 0 3px var(--ink)}
+.st.here .dot{background:var(--mizu);animation:herepulse 1.4s ease-in-out infinite}
+@keyframes herepulse{0%,100%{box-shadow:0 0 0 0 var(--mizu)}50%{box-shadow:0 0 0 6px transparent}}
+.b-here{background:var(--mizu)}
 .daynote{margin-top:10px;font-size:14px;background:var(--yellow-l);border:2px solid var(--ink);border-radius:14px;padding:8px 12px}
 
 .tl{list-style:none;margin:18px 0 0;padding:0;position:relative}
@@ -317,6 +326,7 @@ body.lock{overflow:hidden}
 
 <section id="plan">
   <h2><span class="chip" style="background:var(--yellow)"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3" fill="#fff" stroke="#3E3A39" stroke-width="2"/><path d="M3 10h18M8 3v4M16 3v4" stroke="#3E3A39" stroke-width="2" stroke-linecap="round"/></svg></span>每日行程</h2>
+  <div class="locbar"><button type="button" class="locbtn" id="locbtn">📍 用我的位置找行程</button><span class="locmsg" id="locmsg" aria-live="polite"></span></div>
   <div class="days" id="days" role="tablist" aria-label="選擇日期"></div>
   <div id="dayview"></div>
   <div class="legend">交通：<span class="pill p-walk">步行</span><span class="pill p-train">電車</span><span class="pill p-car">自駕</span><span class="pill p-bus">巴士</span><span class="pill p-tour">一日遊專車</span><span class="pill p-fly">飛機</span></div>
@@ -425,81 +435,81 @@ body.lock{overflow:hidden}
    must 必去、free 自由參加、booked 已訂位、opts 選項、recs 美食推薦表、map 自訂地圖連結 */
 const DAYS=[
  {date:"2026-11-22",wd:"日",title:"熊本市區一日遊",area:"熊本",stops:[
-  {t:"10:35",name:"抵達熊本機場",type:"move",how:"fly"},
-  {t:"11:00",name:"機場 → 熊本市區",type:"move",how:"bus",opts:[
+  {t:"10:35",name:"抵達熊本機場",ll:[32.8373,130.855],type:"move",how:"fly"},
+  {t:"11:00",name:"機場 → 熊本市區",ll:[32.8373,130.855],type:"move",how:"bus",opts:[
     {name:"方案 A：利木津巴士",note:"車資 ¥1,200。停「通町筋」（近上通／下通）、「櫻町巴士總站」、「JR 熊本車站」"},
     {name:"方案 B：免費空港 Liner ＋ JR",note:"6 號站牌搭免費接駁車到 JR 肥後大津站（約 15 分）→ JR 豐肥本線到熊本車站（約 35 分，¥480）"}]},
-  {t:"12:00",name:"Check in：One Station Hotel Kumamoto",type:"stay",how:"walk",map:"One Station Hotel Kumamoto"},
-  {t:"12:30",name:"午餐（二選一）",type:"food",how:"walk",note:"兩家都要抽號碼牌",opts:[
+  {t:"12:00",name:"Check in：One Station Hotel Kumamoto",ll:[32.7902,130.6893],type:"stay",how:"walk",map:"One Station Hotel Kumamoto"},
+  {t:"12:30",name:"午餐（二選一）",ll:[32.7896,130.6886],type:"food",how:"walk",note:"兩家都要抽號碼牌",opts:[
     {name:"勝烈亭 AMU PLAZA 熊本店",note:"步行 5 分。鹿兒島六白黑豚，米其林推薦、Tabelog 熊本炸豬排冠軍。聽說炸蝦比豬排好吃，必吃炸蝦！"},
     {name:"廻る寿司めっけもん",note:"步行 6 分。11:00–14:30／17:00–21:00。市場直送，迴轉壽司價格吃到無菜單等級"}]},
-  {t:"14:00",name:"櫻之馬場 城彩苑",type:"sight",how:"walk",must:1,note:"熊本城下的江戶風情街，自由活動 2 小時。<b>櫻之小路</b>吃美食買伴手禮，<b>湧湧座</b>是歷史文化展示館",
+  {t:"14:00",name:"櫻之馬場 城彩苑",ll:[32.8034,130.704],type:"sight",how:"walk",must:1,note:"熊本城下的江戶風情街，自由活動 2 小時。<b>櫻之小路</b>吃美食買伴手禮，<b>湧湧座</b>是歷史文化展示館",
    recs:[["菅乃屋","馬肉可樂餅、馬肉咖哩麵包","適合不敢吃生馬肉的人入門"],["阿蘇庭 山見茶屋","馬肉熔岩燒、赤牛丼","適合想坐下來吃正餐"],["天草海食 Maruken","海膽可樂餅（奶油口味）","奶油口味濃郁滑順"],["高田蒲鉾","沙拉竹輪","熊本在地吃法，現炸最好吃"],["MONARIO","熊本熊人形燒","造型可愛，拍照打卡"],["香梅庵","陣太鼓霜淇淋","紅豆麻糬＋冰淇淋"],["五木屋本舗","炸豆腐、豆乳甜甜圈","現炸豆腐外酥內嫩"],["お茶の泉園","抹茶霜淇淋","可選不同濃度（如 5%）"]]},
-  {t:"17:00",name:"上通・下通商店街",type:"sight",how:"walk",note:"熊本最熱鬧的地方，百貨、藥妝、甜品店一整排。下通的 COCOSA 五樓整層是無印良品。<b>不要買太多～是免稅不是免費！</b>"},
-  {t:"18:00",name:"晚餐：黑亭拉麵",type:"food",how:"walk",must:1,note:"下通店或熊本車站本店。熊本拉麵的靈魂是焦蒜黑麻油＋炸蒜片",map:"黒亭 熊本"},
-  {t:"19:00",name:"自由活動：AMU PLAZA／肥後よかモン市場",type:"sight",how:"walk",free:1,note:"肥後よかモン市場在 JR 熊本站閘口外，有伴手禮和美食街。11 月底剛好是熊本草莓季開頭：<b>夕紅</b>、<b>淡雪</b>，還有蜜柑、太秋甜柿"}]},
+  {t:"17:00",name:"上通・下通商店街",ll:[32.802,130.711],type:"sight",how:"walk",note:"熊本最熱鬧的地方，百貨、藥妝、甜品店一整排。下通的 COCOSA 五樓整層是無印良品。<b>不要買太多～是免稅不是免費！</b>"},
+  {t:"18:00",name:"晚餐：黑亭拉麵",ll:[32.7935,130.693],type:"food",how:"walk",must:1,note:"下通店或熊本車站本店。熊本拉麵的靈魂是焦蒜黑麻油＋炸蒜片",map:"黒亭 熊本"},
+  {t:"19:00",name:"自由活動：AMU PLAZA／肥後よかモン市場",ll:[32.7898,130.6889],type:"sight",how:"walk",free:1,note:"肥後よかモン市場在 JR 熊本站閘口外，有伴手禮和美食街。11 月底剛好是熊本草莓季開頭：<b>夕紅</b>、<b>淡雪</b>，還有蜜柑、太秋甜柿"}]},
 
  {date:"2026-11-23",wd:"一",title:"高千穗一日遊（自駕）",area:"高千穂",
   note:"11/23 是日本國定假日（勤勞感謝之日），景點可能人比較多。",stops:[
   {t:"07:00",name:"Morning call",type:"misc"},
-  {t:"08:00",name:"飯店早餐＋阿蘇牛乳，要吃飽！",type:"food"},
-  {t:"09:00",name:"Toyota Rent a Car 取車",type:"move",how:"walk",note:"能提早到就提早到",cost:"NT$740／人",map:"トヨタレンタカー 熊本駅前"},
-  {t:"10:35",name:"休息站：道之站 通潤橋",type:"sight",how:"car",map:"道の駅 通潤橋"},
-  {t:"11:30",name:"高千穗峽遊船",type:"sight",how:"car",must:1,note:"划船限 30 分鐘。雨衣 ¥200（只有 L 號、只收現金），救生衣氣瓶自動充氣後要付 ¥3,000。之後走<b>峽谷步道</b>：槍飛橋、高千穗三橋，從展望台拍「瀑布＋小舟＋峽谷」",
+  {t:"08:00",name:"飯店早餐＋阿蘇牛乳，要吃飽！",ll:[32.7902,130.6893],type:"food"},
+  {t:"09:00",name:"Toyota Rent a Car 取車",ll:[32.7905,130.69],type:"move",how:"walk",note:"能提早到就提早到",cost:"NT$740／人",map:"トヨタレンタカー 熊本駅前"},
+  {t:"10:35",name:"休息站：道之站 通潤橋",ll:[32.68,130.999],type:"sight",how:"car",map:"道の駅 通潤橋"},
+  {t:"11:30",name:"高千穗峽遊船",ll:[32.702,131.301],type:"sight",how:"car",must:1,note:"划船限 30 分鐘。雨衣 ¥200（只有 L 號、只收現金），救生衣氣瓶自動充氣後要付 ¥3,000。之後走<b>峽谷步道</b>：槍飛橋、高千穗三橋，從展望台拍「瀑布＋小舟＋峽谷」",
    recsTitle:"停車場一覽",recsHead:["停車場","費用","到船場"],
    recs:[["御塩井停車場","¥1,000","最近"],["第 2 あららぎ停車場","¥1,000","步行約 15 分"],["第 3 大橋停車場","¥800","步行約 20 分"],["第 4 押方停車場","¥500","步行約 25 分"],["第 5 田口野停車場","免費","步行約 30 分"]]},
-  {t:"13:00",name:"高千穗小火車",type:"sight",how:"car",note:"要先預約，<b>看預約是幾點！</b>從高千穗走路 20 分或開車 5 分",map:"高千穂あまてらす鉄道"},
-  {t:"13:10",name:"午餐：café TAKACHIHO-BASE",type:"food",how:"car",must:1,booked:1,note:"已訂位 8 人，有停車場。超好吃的南蠻炸雞（不吃牛首選），也有宮崎牛",map:"https://maps.app.goo.gl/LmNWcAHL9gjXtb5o6",
+  {t:"13:00",name:"高千穗小火車",ll:[32.712,131.308],type:"sight",how:"car",note:"要先預約，<b>看預約是幾點！</b>從高千穗走路 20 分或開車 5 分",map:"高千穂あまてらす鉄道"},
+  {t:"13:10",name:"午餐：café TAKACHIHO-BASE",ll:[32.711,131.306],type:"food",how:"car",must:1,booked:1,note:"已訂位 8 人，有停車場。超好吃的南蠻炸雞（不吃牛首選），也有宮崎牛",map:"https://maps.app.goo.gl/LmNWcAHL9gjXtb5o6",
    opts:[{name:"備案：燒肉 初榮",note:"平價又好吃的宮崎牛。只能電話預約。12:00–13:00，走路 2 分"},
          {name:"備案：高千穗牛餐廳 和",note:"在高千穗 Gamadase 市場內，JA 直營，可選鐵板燒／牛排／烤肉。11:00–14:30，電話預約，走路 6 分"}]},
-  {t:"14:30",name:"高千穗小火車（搭乘約 30 分）",type:"sight",how:"car",note:"實際時間看預約"},
-  {t:"15:30",name:"高千穗神社",type:"sight",how:"car",note:"祈求開車平安，參拜完回程"},
+  {t:"14:30",name:"高千穗小火車（搭乘約 30 分）",ll:[32.712,131.308],type:"sight",how:"car",note:"實際時間看預約"},
+  {t:"15:30",name:"高千穗神社",ll:[32.7055,131.3009],type:"sight",how:"car",note:"祈求開車平安，參拜完回程"},
   {t:"16:30",name:"最晚回程時間",type:"move",how:"car"},
   {t:"18:00",name:"晚餐自由選",type:"food",free:1,note:"黑亭拉麵／勝烈亭／迴轉壽司／肥後よかモン市場馬肉料理…"}]},
 
  {date:"2026-11-24",wd:"二",title:"福岡市區一日遊",area:"福岡",
   note:"福岡搭地鐵直接刷信用卡，同一張卡／同一個裝置一天上限 ¥640。",stops:[
   {t:"07:30",name:"Morning call",type:"misc"},
-  {t:"08:00",name:"飯店早餐＋阿蘇牛乳，再見囉熊本！",type:"food"},
+  {t:"08:00",name:"飯店早餐＋阿蘇牛乳，再見囉熊本！",ll:[32.7902,130.6893],type:"food"},
   {t:"09:00",name:"搭 JR 前往福岡市區",type:"move",how:"train"},
-  {t:"10:00",name:"Check in／寄放行李：西鐵飯店 Croom 博多 祇園櫛田神社前",type:"stay",how:"walk",map:"https://www.trip.com/w/0bUNcMoNEV2"},
-  {t:"10:30",name:"Fuk Coffee 必吃布丁",type:"food",how:"walk",must:1,note:"走路 1 分鐘，每天 8:00–22:00"},
+  {t:"10:00",name:"Check in／寄放行李：西鐵飯店 Croom 博多 祇園櫛田神社前",ll:[33.5925,130.411],type:"stay",how:"walk",map:"https://www.trip.com/w/0bUNcMoNEV2"},
+  {t:"10:30",name:"Fuk Coffee 必吃布丁",ll:[33.5926,130.4116],type:"food",how:"walk",must:1,note:"走路 1 分鐘，每天 8:00–22:00"},
   {t:"10:30",name:"前往太宰府",type:"move",how:"train",opts:[
     {name:"從西鐵福岡（天神）站",note:"西鐵天神大牟田線（特急／急行）到「西鐵二日市」（約 15–20 分）→ 轉西鐵太宰府線到終點「西鐵太宰府」（約 5 分）"},
     {name:"從博多站",note:"先搭地下鐵空港線到「天神」（約 6 分），走到西鐵福岡（天神）站，再照上面路線"}]},
-  {t:"10:50",name:"太宰府天滿宮",type:"sight",how:"walk",must:1,note:"停留約 2 小時",
+  {t:"10:50",name:"太宰府天滿宮",ll:[33.5215,130.5348],type:"sight",how:"walk",must:1,note:"停留約 2 小時",
    recs:[["かさの家／やす武／松屋／寺田屋","梅枝餅","店內有日式茶室，梅枝餅配熱抹茶"],["福太郎","明太子烤飯糰","紫蘇葉＋明太子"],["天山","甘王草莓大福最中","不要買餅乾的"],["Fukuya","明太子泡飯","招牌三吃：原味＋炙燒＋芝麻油漬蔥花"],["香菓 かぐのこのみ","金絲栗子蒙布朗／季節限定甘王草莓","現擠，五分鐘內要吃完；熱門季節可能提前賣完"],["山屋 Yamaya","明太子麵包",""],["一蘭拉麵 太宰府參道店","拉麵","全日本唯一五角形的碗，碗底有「合格」字樣"],["星巴克 太宰府表參道店","拍照","隈研吾設計，約 2,000 根木條交織"]]},
   {t:"14:00",name:"離開太宰府",type:"move",how:"train"},
-  {t:"15:00",name:"回到住宿",type:"stay",how:"train",note:"看大家要不要逛街"},
+  {t:"15:00",name:"回到住宿",ll:[33.5925,130.411],type:"stay",how:"train",note:"看大家要不要逛街"},
   {t:"15:30",name:"自由活動（三選）",type:"sight",free:1,opts:[
     {name:"博多運河城"},{name:"天神地下街"},
     {name:"大濠公園 日本庭園",note:"門票 ¥250。11 月下旬～12 月初是賞楓精華，紅葉倒映池面，茶室有抹茶和當季和菓子"}]},
-  {t:"17:30",name:"晚餐集合：博多水炊鍋專門 橙",type:"food",must:1,note:"米其林必比登推薦，福岡必吃水炊鍋！",cost:"約 NT$1,000",map:"博多水炊き専門 橙"},
-  {t:"19:30",name:"teamLab",type:"sight",free:1,note:"吃完回飯店後自由活動"},
-  {t:"20:00",name:"一蘭本社總本店：一蘭和樂團演舞",type:"sight",free:1,note:"約 15 分鐘，開始時間會隨日落變動，天候不佳可能取消",
+  {t:"17:30",name:"晚餐集合：博多水炊鍋專門 橙",ll:[33.5935,130.4085],type:"food",must:1,note:"米其林必比登推薦，福岡必吃水炊鍋！",cost:"約 NT$1,000",map:"博多水炊き専門 橙"},
+  {t:"19:30",name:"teamLab",ll:[33.5955,130.362],type:"sight",free:1,note:"吃完回飯店後自由活動"},
+  {t:"20:00",name:"一蘭本社總本店：一蘭和樂團演舞",ll:[33.5915,130.406],type:"sight",free:1,note:"約 15 分鐘，開始時間會隨日落變動，天候不佳可能取消",
    opts:[{name:"博多運河城 Canal City Hakata",note:"飯店走路 3 分。光影水舞秀 Canal Aqua Panorama 18:00–22:00，約每半小時到一小時一場"}]}]},
 
  {date:"2026-11-25",wd:"三",title:"紅葉古寺＋柳川遊船＋牡蠣小屋",area:"福岡",
   note:"KKday 一日遊，NT$13,264 ÷ 8 = 每人 NT$1,658。",stops:[
   {t:"07:00",name:"Morning call，吃早餐！",type:"misc"},
-  {t:"08:20",name:"集合：博多站筑紫口 Lawson 門口",type:"move",how:"walk",note:"4-23 Hakataekichuogai, Hakata Ward, Fukuoka 812-0012",map:"Lawson 博多駅筑紫口"},
-  {t:"10:20",name:"柳川遊船",type:"sight",how:"tour",must:1,note:"午餐吃牡蠣小屋烤海鮮（自費約 ¥2,500）",map:"柳川 川下り"},
-  {t:"14:20",name:"雷山千如寺",type:"sight",how:"tour",must:1,note:"紅葉古寺",map:"雷山千如寺大悲王院"},
-  {t:"15:40",name:"ヤシの木ブランコ（椰子樹盪鞦韆）",type:"sight",how:"tour",map:"ヤシの木ブランコ 糸島"},
-  {t:"16:20",name:"糸島 夫婦岩",type:"sight",how:"tour",map:"桜井二見ヶ浦 夫婦岩"},
-  {t:"17:20",name:"宮地嶽神社",type:"sight",how:"tour",map:"宮地嶽神社"},
-  {t:"18:30",name:"Lawson 博多筑紫口解散",type:"move",how:"tour"},
-  {t:"19:00",name:"天神屋台",type:"food",how:"train",free:1,note:"福岡特色文化，自己決定晚餐",
+  {t:"08:20",name:"集合：博多站筑紫口 Lawson 門口",ll:[33.59,130.4222],type:"move",how:"walk",note:"4-23 Hakataekichuogai, Hakata Ward, Fukuoka 812-0012",map:"Lawson 博多駅筑紫口"},
+  {t:"10:20",name:"柳川遊船",ll:[33.163,130.406],type:"sight",how:"tour",must:1,note:"午餐吃牡蠣小屋烤海鮮（自費約 ¥2,500）",map:"柳川 川下り"},
+  {t:"14:20",name:"雷山千如寺",ll:[33.4935,130.2293],type:"sight",how:"tour",must:1,note:"紅葉古寺",map:"雷山千如寺大悲王院"},
+  {t:"15:40",name:"ヤシの木ブランコ（椰子樹盪鞦韆）",ll:[33.64,130.178],type:"sight",how:"tour",map:"ヤシの木ブランコ 糸島"},
+  {t:"16:20",name:"糸島 夫婦岩",ll:[33.643,130.195],type:"sight",how:"tour",map:"桜井二見ヶ浦 夫婦岩"},
+  {t:"17:20",name:"宮地嶽神社",ll:[33.779,130.489],type:"sight",how:"tour",map:"宮地嶽神社"},
+  {t:"18:30",name:"Lawson 博多筑紫口解散",ll:[33.59,130.4222],type:"move",how:"tour"},
+  {t:"19:00",name:"天神屋台",ll:[33.59,130.399],type:"food",how:"train",free:1,note:"福岡特色文化，自己決定晚餐",
    recs:[["小金ちゃん","炒拉麵、關東煮、一口餃子","元祖級老店，炒拉麵發源地"],["屋台バー えびちゃん","現調雞尾酒、威士忌","西式酒吧風屋台，氣氛放鬆"],["天麩羅 たかちゃん","現炸海鮮與蔬菜天婦羅","少見的屋台天婦羅專賣"],["Remy's Nikuyatai","法國麵包沾濃湯、蒜香香腸、蒜香蝦","法國大廚主理"],["イタリアン屋台バル河野","焦糖雞肝蘑菇醬吐司","在地人推薦超好吃"]],
    opts:[{name:"麵屋 Gaga 天神店",note:"豚骨拉麵，可以點半碗！"},{name:"前田屋",note:"要訂位"},{name:"可麗露 LeClerc",note:"博多車站附近"}]}]},
 
  {date:"2026-11-26",wd:"四",title:"天神吃吃半日遊（自由參加）",area:"福岡",stops:[
   {t:"07:30",name:"Morning call，整理行李",type:"misc",note:"早餐不用吃太飽（？）"},
-  {t:"09:00",name:"櫛田神社",type:"sight",how:"walk",map:"櫛田神社 博多"},
-  {t:"10:00",name:"天神地下街／博多運河城 逛街",type:"sight",how:"train",free:1,note:"順路挑幾家吃：",
+  {t:"09:00",name:"櫛田神社",ll:[33.593,130.4106],type:"sight",how:"walk",map:"櫛田神社 博多"},
+  {t:"10:00",name:"天神地下街／博多運河城 逛街",ll:[33.5905,130.3995],type:"sight",how:"train",free:1,note:"順路挑幾家吃：",
    opts:[{name:"The Full Full Hakata",note:"明太子麵包，走路 3 分"},{name:"かろのうろん",note:"福岡最老的烏龍麵店，就在櫛田神社旁。店內禁止拍照、只收現金"},{name:"藍瓶咖啡 福岡天神店",note:"坐車 10 分，可搭配天神地下街"},{name:"海木 豆皮壽司"},{name:"I'm donut? 天神",note:"離藍瓶咖啡走路 4 分"},{name:"麵屋 Gaga 天神店",note:"坐車 13 分，可以點半碗"},{name:"dacō",note:"AMAM DACOTAN 與 I'm donut? 的姐妹店，開心果甜甜圈必點，離麵屋 Gaga 走路 2 分"},{name:"shinshin 博多拉麵",note:"天神或博多車站走路 13 分，不太順路"},{name:"Pain Stock 天神店",note:"明太子麵包，比較不順路"},{name:"努努雞",note:"博多車站的冷炸雞，福岡必買"},{name:"博多牛雜鍋 前田屋 博多店",note:"走路 8 分"},{name:"Dacomecca",note:"明太子麵包，博多車站旁"}]},
-  {t:"13:30",name:"回飯店拿行李 → 機場",type:"move",how:"train",note:"櫛田神社前站搭地鐵綠線（七隈線），轉橘線（空港線）到福岡機場，約 20 分鐘"},
-  {t:"13:50",name:"福岡國際機場",type:"move",how:"train",note:"<b>買明太子伴手禮：</b>三樓管制區外有福太郎、Fukuya、Yamaya 專櫃，種類最齊，但生明太子一定要放托運。出境後的免稅店可以直接手提上機（店家會裝保冷袋），選擇比較少。不含肉的明太子可以合法帶回台灣，回家後盡快冷藏。"},
+  {t:"13:30",name:"回飯店拿行李 → 機場",ll:[33.5925,130.411],type:"move",how:"train",note:"櫛田神社前站搭地鐵綠線（七隈線），轉橘線（空港線）到福岡機場，約 20 分鐘"},
+  {t:"13:50",name:"福岡國際機場",ll:[33.597,130.451],type:"move",how:"train",note:"<b>買明太子伴手禮：</b>三樓管制區外有福太郎、Fukuya、Yamaya 專櫃，種類最齊，但生明太子一定要放托運。出境後的免稅店可以直接手提上機（店家會裝保冷袋），選擇比較少。不含肉的明太子可以合法帶回台灣，回家後盡快冷藏。"},
   {t:"16:20",name:"AK1511 起飛，18:10 抵達台北",type:"move",how:"fly"}]}
 ];
 
@@ -545,13 +555,14 @@ function renderTabs(){
 }
 function stopHTML(s,i,area){
   const h=s.how&&HOW[s.how];
-  const badges=[s.must?'<span class="badge b-must">必去</span>':"",s.booked?'<span class="badge b-book">已訂位</span>':"",s.free?'<span class="badge b-free">自由參加</span>':""].join("");
+  const isHere=here&&here.day===day&&here.i===i;
+  const badges=[isHere?`<span class="badge b-here">📍 你在附近 ${fmtKm(here.km)}</span>`:"",s.must?'<span class="badge b-must">必去</span>':"",s.booked?'<span class="badge b-book">已訂位</span>':"",s.free?'<span class="badge b-free">自由參加</span>':""].join("");
   const showMap=s.map||(s.how&&s.how!=="fly"&&!s.opts?.length);
   const meta=(h||KIND[s.type]||showMap)?`<div class="meta">${h?`<span class="pill ${h[1]}">${h[0]}</span>`:""}${s.cost?`<span class="cost">${esc(s.cost)}</span>`:""}${showMap&&s.type!=="misc"?`<a class="maplink" href="${mapUrl(s.map||s.name.replace(/^.*：/,""),s.map?"":area)}" target="_blank" rel="noopener">地圖 ›</a>`:""}</div>`:"";
   const opts=s.opts?`<ul class="opts">${s.opts.map(o=>`<li><b>${esc(o.name)}</b>${o.note?`<span>${esc(o.note)}</span>`:""}${s.type==="food"||s.free?` <a href="${mapUrl(o.name.replace(/^備案：/,""),area)}" target="_blank" rel="noopener">地圖 ›</a>`:""}</li>`).join("")}</ul>`:"";
   const head=s.recsHead||["店家","必吃／必買","備註"];
   const recs=s.recs?`<details><summary>${s.recsTitle||"美食推薦"}（${s.recs.length}）</summary><div class="tbl"><table><thead><tr>${head.map(x=>`<th>${x}</th>`).join("")}</tr></thead><tbody>${s.recs.map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div></details>`:"";
-  return `<li class="st ${s.type}${s.must?" must":""}" style="animation-delay:${i*45}ms"><time>${s.t}</time><span class="dot" aria-hidden="true"></span>
+  return `<li class="st ${s.type}${s.must?" must":""}${isHere?" here":""}" id="st${i}" style="animation-delay:${i*45}ms"><time>${s.t}</time><span class="dot" aria-hidden="true"></span>
    <div class="card"><div class="row"><div class="nm">${esc(s.name)}</div>${badges?`<div class="badges">${badges}</div>`:""}</div>
    ${meta}${s.note?`<div class="note">${s.note}</div>`:""}${opts}${recs}</div></li>`;
 }
@@ -562,6 +573,33 @@ function renderDay(anim){
   <ol class="tl">${d.stops.map((s,i)=>stopHTML(s,i,d.area)).join("")}</ol>`;
   if(anim){v.classList.remove("bounce");void v.offsetWidth;v.classList.add("bounce")}
 }
+
+/* ===== 定位：依目前位置顯示當日行程 ===== */
+let here=null;
+const fmtKm=k=>k<1?Math.round(k*1000)+" m":(k<10?k.toFixed(1):Math.round(k))+" km";
+function distKm(a,b,c,d){const R=6371,r=Math.PI/180,x=Math.sin((c-a)*r/2),y=Math.sin((d-b)*r/2);return 2*R*Math.asin(Math.sqrt(x*x+Math.cos(a*r)*Math.cos(c*r)*y*y))}
+function nearest(lat,lng,only){let best=null;DAYS.forEach((d,di)=>{if(only!=null&&di!==only)return;d.stops.forEach((s,i)=>{if(!s.ll)return;const km=distKm(lat,lng,s.ll[0],s.ll[1]);if(!best||km<best.km)best={day:di,i,km}})});return best}
+function applyLoc(lat,lng,scroll){
+  const msg=document.getElementById("locmsg"),all=nearest(lat,lng);
+  if(!all||all.km>80){here=null;msg.textContent=`目前不在行程範圍內（離${DAYS[all.day].area}約 ${fmtKm(all.km)}）`;renderDay(false);return}
+  const target=todayI>=0?todayI:all.day,n=nearest(lat,lng,target);
+  here=n&&n.km<=30?n:null;
+  const nm=here?DAYS[target].stops[here.i].name:"";
+  msg.textContent=(todayI>=0?"今天":"依位置")+`顯示 Day ${target+1}`+(here?`・最近：${nm}（${fmtKm(here.km)}）`:"");
+  if(target!==day){day=target;store.set("kf3-day",day);renderTabs();renderDay(true)}else renderDay(false);
+  if(here&&scroll)setTimeout(()=>document.getElementById("st"+here.i)?.scrollIntoView({behavior:"smooth",block:"center"}),350);
+}
+function locate(scroll){
+  const b=document.getElementById("locbtn"),msg=document.getElementById("locmsg");
+  if(!("geolocation" in navigator)){msg.textContent="這個瀏覽器不支援定位";return}
+  b.disabled=true;msg.textContent="定位中…";
+  navigator.geolocation.getCurrentPosition(p=>{b.disabled=false;applyLoc(p.coords.latitude,p.coords.longitude,scroll)},
+    e=>{b.disabled=false;msg.textContent=e.code===1?"沒有定位權限，請到瀏覽器設定允許此網站使用位置":"定位失敗，請稍後再試"},
+    {enableHighAccuracy:true,timeout:15000,maximumAge:120000});
+}
+document.getElementById("locbtn").onclick=()=>locate(true);
+/* 已允許過定位就自動更新（不會跳出詢問視窗） */
+try{navigator.permissions?.query({name:"geolocation"}).then(r=>{if(r.state==="granted")locate(false)}).catch(()=>{})}catch(e){}
 
 function renderList(){
   const done=store.get("kf3-todo",{});
