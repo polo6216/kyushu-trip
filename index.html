@@ -226,6 +226,12 @@ body.lock{overflow:hidden}
 .rf-steps h3 small{font-size:12.5px;color:var(--ink-soft);margin-left:6px}
 .rf-steps p{margin:0;font-size:14.5px}
 .rf-steps p+p{margin-top:6px}
+.wifi{margin-top:10px;background:#fff;border:var(--line);border-radius:14px;padding:8px 10px;display:grid;gap:6px;font-size:14px}
+.wifi .t{font-size:13px;color:var(--ink-soft)}
+.wifi .r{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:2px 8px}
+.wifi .lb{grid-column:1/-1;font-size:12px;color:var(--ink-soft)}
+.wifi code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11.5px;letter-spacing:-.2px;background:var(--yellow-l);border:2px solid var(--ink);border-radius:8px;padding:2px 5px;overflow-wrap:anywhere;justify-self:start}
+.wifi button{font:inherit;font-size:12px;border:2px solid var(--ink);border-radius:999px;background:var(--mizu);padding:0 10px;cursor:pointer;color:var(--ink)}
 .rf-gr{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;font-size:13.5px}
 .rf-gr span{border:2px solid var(--ink);border-radius:12px;padding:2px 10px}
 .rf-gr .g{background:var(--take)} .rf-gr .r{background:var(--coral)}
@@ -386,7 +392,10 @@ body.lock{overflow:hidden}
       <p>同一家店、同一天買滿<b style="font-weight:400">未稅 ¥5,000（含稅 ¥5,500）</b>才能退稅，不同店的收據不能合併。</p>
       <p>結帳時出示<b style="font-weight:400">護照正本</b>，說要辦免稅（Tax refund），付含稅價。照店家說明登記退款方式（例如信用卡），收據和店家給的 QR Code 要收好。</p></li>
     <li data-n="2"><h3>出境當天・福岡機場國際線<small>11/26 回程</small></h3>
-      <p><b style="font-weight:400">託運行李之前</b>，先到出發大廳的免稅手續機台刷護照，所有免稅品都要帶在身上。福岡機場也可以連出發大廳的專用 Wi-Fi，用 Visit Japan Web 線上辦。</p>
+      <p><b style="font-weight:400">託運行李之前</b>，先到出發大廳的免稅手續機台刷護照，所有免稅品都要帶在身上。福岡機場也可以連出發大廳的退稅專用 Wi-Fi，用 Visit Japan Web 線上辦。</p>
+      <div class="wifi"><div class="t">📶 海關退稅專用 Wi-Fi（福岡機場出發大廳）</div>
+        <div class="r"><span class="lb">網路名稱</span><code>Customs_WiFi_For_TaxRefund</code><button type="button" data-copy="Customs_WiFi_For_TaxRefund">複製</button></div>
+        <div class="r"><span class="lb">密碼</span><code>jcustoms</code><button type="button" data-copy="jcustoms">複製</button></div></div>
       <div class="rf-gr"><span class="g">GREEN：完成，可以去託運</span><span class="r">RED：把免稅品拿到海關檢查處給海關看</span></div></li>
     <li data-n="3"><h3>等退款<small>回台灣後</small></h3>
       <p>海關確認後，由店家或店家委託的退款公司退到你登記的方式。多久入帳、有沒有手續費，每家店不一樣，<b style="font-weight:400">收據要留到錢真的退回來</b>。</p></li>
@@ -511,7 +520,7 @@ const DAYS=[
    opts:[{name:"The Full Full Hakata",note:"明太子麵包，走路 3 分"},{name:"かろのうろん",note:"福岡最老的烏龍麵店，就在櫛田神社旁。店內禁止拍照、只收現金"},{name:"藍瓶咖啡 福岡天神店",note:"坐車 10 分，可搭配天神地下街"},{name:"海木 豆皮壽司"},{name:"I'm donut? 天神",note:"離藍瓶咖啡走路 4 分"},{name:"麵屋 Gaga 天神店",note:"坐車 13 分，可以點半碗"},{name:"dacō",note:"AMAM DACOTAN 與 I'm donut? 的姐妹店，開心果甜甜圈必點，離麵屋 Gaga 走路 2 分"},{name:"shinshin 博多拉麵",note:"天神或博多車站走路 13 分，不太順路"},{name:"Pain Stock 天神店",note:"明太子麵包，比較不順路"},{name:"努努雞",note:"博多車站的冷炸雞，福岡必買"},{name:"博多牛雜鍋 前田屋 博多店",note:"走路 8 分"},{name:"Dacomecca",note:"明太子麵包，博多車站旁"}]},
   {t:"13:30",name:"從天神／博多直接去機場（不用回飯店）",type:"move",how:"train",note:"地鐵空港線到「福岡空港」站（天神約 11 分、博多約 5 分），在國內線航廈出站，再搭<b>免費接駁巴士到國際線航廈</b>（約 10–15 分）"},
   {t:"14:00",name:"國際線到達大廳：カゴパス櫃台領行李",ll:[33.5970,130.4510],type:"move",how:"walk",must:1,note:"<b>14:00 一開放就去。</b>8 個人一起領可能要排隊。櫃台營業到 19:30",map:"福岡空港 国際線ターミナル"},
-  {t:"14:20",name:"退稅：先刷護照做海關確認，再去託運",ll:[33.5970,130.4510],type:"move",must:1,note:"<b>順序不能錯：</b>拿到行李 → 出發大廳免稅手續機台刷護照（免稅品都要帶在身上）→ GREEN 就去託運，RED 要把東西拿給海關看 → AirAsia 報到。報到大約在起飛前 60 分鐘、<b>15:20 左右截止</b>，以確認信為準。<br><b>買明太子：</b>時間比較趕，建議在出境後的免稅店買，店家會裝保冷袋，可以直接手提上機。不含肉的明太子可以合法帶回台灣，回家後盡快冷藏"},
+  {t:"14:20",name:"退稅：先刷護照做海關確認，再去託運",ll:[33.5970,130.4510],type:"move",must:1,note:"<b>順序不能錯：</b>拿到行李 → 出發大廳免稅手續機台刷護照（免稅品都要帶在身上）→ GREEN 就去託運，RED 要把東西拿給海關看 → AirAsia 報到。<br><b>退稅 Wi-Fi：</b>Customs_WiFi_For_TaxRefund／密碼 jcustoms（也可以連這個用 Visit Japan Web 辦）。報到大約在起飛前 60 分鐘、<b>15:20 左右截止</b>，以確認信為準。<br><b>買明太子：</b>時間比較趕，建議在出境後的免稅店買，店家會裝保冷袋，可以直接手提上機。不含肉的明太子可以合法帶回台灣，回家後盡快冷藏"},
   {t:"16:20",name:"AK1511 起飛，18:10 抵達台北",type:"move",how:"fly"}]}
 ];
 
@@ -747,6 +756,7 @@ cvB.addEventListener("touchend",e=>{if(tx0==null)return;const t=e.changedTouches
 new IntersectionObserver((es,o)=>{if(es.some(e=>e.isIntersecting)){o.disconnect();COUPONS.forEach(c=>{if(c.pop){const im=new Image();im.src=c.pop}})}}).observe(document.getElementById("coupon"));
 renderCoupons();
 {const m=location.hash.match(/^#coupon-(\d+)$/);if(m&&COUPONS[m[1]-1]){history.replaceState(null,"","#coupon");openCoupon(m[1]-1,true)}}
+document.querySelectorAll("[data-copy]").forEach(b=>b.onclick=async()=>{try{await navigator.clipboard.writeText(b.dataset.copy);b.textContent="已複製"}catch(e){b.textContent="請長按複製"}setTimeout(()=>b.textContent="複製",1500)});
 </script>
 
 </body></html>
