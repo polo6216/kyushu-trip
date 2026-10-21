@@ -241,6 +241,41 @@ body.lock{overflow:hidden}
 .rf-warn b{font-weight:400;background:linear-gradient(transparent 55%,var(--yellow) 55%)}
 .rf-ok{margin-top:14px;background:#fff;border:var(--line);border-radius:18px;padding:12px 14px}
 .rf-src{font-size:12px;color:var(--ink-soft);margin-top:10px}
+/* 口譯 */
+.tk-lead{font-size:15px;margin:-4px 0 14px}
+.tk-set{background:#fff;border:var(--line);border-radius:var(--r);padding:12px 14px;display:grid;gap:10px}
+.tk-set label{display:grid;gap:4px;font-size:14px}
+.tk-set select,.tk-set input{font:inherit;font-size:15px;border:2px solid var(--ink);border-radius:12px;padding:6px 10px;background:var(--paper);color:var(--ink);width:100%;min-width:0}
+.tk-set .hint{font-size:12.5px;color:var(--ink-soft)}
+.tk-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.tk-btn{font:inherit;font-size:15px;border:var(--line);border-radius:999px;padding:6px 16px;background:var(--paper);cursor:pointer}
+.tk-btn.main{background:var(--coral);font-size:17px;padding:10px 22px}
+.tk-btn[disabled]{opacity:.5;cursor:not-allowed}
+.tk-msg{font-size:13px;color:var(--ink-soft)}
+.tk-notes{margin:14px 0 0;padding-left:20px;font-size:14px;display:grid;gap:4px;color:var(--ink-soft)}
+.tk{position:fixed;inset:0;z-index:60;background:var(--paper);display:grid;grid-template-rows:1fr auto 1fr;padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
+.tk[hidden]{display:none}
+.tk-half{display:flex;flex-direction:column;gap:10px;padding:14px 16px;min-height:0;overflow:hidden}
+.tk-half.jp{background:var(--mizu-l)}
+.tk-half.zh{background:var(--yellow-l)}
+.tk.face .tk-half.jp{transform:rotate(180deg)}
+.tk-who{font-size:13px;color:var(--ink-soft)}
+.tk-big{flex:1;min-height:0;overflow-y:auto;font-size:26px;line-height:1.45;overflow-wrap:anywhere}
+.tk-big .live{color:var(--ink-soft)}
+.tk-big small{display:block;font-size:14px;color:var(--ink-soft);margin-top:6px}
+.tk-mic{font:inherit;font-size:19px;border:var(--line);border-radius:999px;padding:12px 18px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 0 var(--ink)}
+.tk-half.jp .tk-mic{background:var(--mizu)}
+.tk-half.zh .tk-mic{background:var(--yellow)}
+.tk-mic:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.tk-mic.on{background:var(--coral)!important;animation:tkpulse 1.2s ease-in-out infinite}
+@keyframes tkpulse{50%{box-shadow:0 4px 0 var(--ink),0 0 0 8px rgba(242,164,151,.35)}}
+.tk-type{display:flex;gap:6px}
+.tk-type input{flex:1;min-width:0;font:inherit;font-size:16px;border:2px solid var(--ink);border-radius:12px;padding:6px 10px;background:#fff}
+.tk-type button{font:inherit;font-size:14px;border:2px solid var(--ink);border-radius:12px;background:#fff;padding:0 12px;cursor:pointer}
+.tk-bar{display:flex;gap:6px;align-items:center;justify-content:space-between;border-block:var(--line);background:#fff;padding:6px 10px;font-size:13px}
+.tk-bar button{font:inherit;font-size:13px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);padding:2px 10px;cursor:pointer;white-space:nowrap}
+.tk-bar button[aria-pressed="true"]{background:var(--take)}
+.tk-bar .st{flex:1;text-align:center;color:var(--ink-soft);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 </style>
 
 <nav class="nav" aria-label="主選單">
@@ -252,6 +287,7 @@ body.lock{overflow:hidden}
     <li><a href="#stay">住宿</a></li>
     <li><a href="#coupon">優惠</a></li>
     <li><a href="#refund">退稅</a></li>
+    <li><a href="#talk">口譯</a></li>
   </ul>
 </nav>
 
@@ -423,8 +459,50 @@ body.lock{overflow:hidden}
   </div>
 </section>
 
+<section id="talk">
+  <h2><span class="chip" style="background:var(--coral)"><svg viewBox="0 0 24 24"><path d="M4 5h11a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H9l-4 3v-3H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" fill="#fff" stroke="#3E3A39" stroke-width="2" stroke-linejoin="round"/><path d="M19 9h1a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-1v3l-4-3h-3" fill="none" stroke="#3E3A39" stroke-width="2" stroke-linejoin="round"/></svg></span>中日口譯</h2>
+  <p class="tk-lead">對著手機講中文，它會翻成日文唸出來；日本人講日文，就翻成中文。用你自己的 ChatGPT、Claude 或 Gemini API 金鑰翻譯，金鑰只存在這台手機的瀏覽器裡。</p>
+  <div class="tk-set">
+    <label>用哪一家 AI
+      <select id="tkProv"><option value="openai">ChatGPT（OpenAI）</option><option value="anthropic">Claude（Anthropic）</option><option value="gemini">Gemini（Google）</option></select></label>
+    <label>API 金鑰
+      <input id="tkKey" type="password" autocomplete="off" spellcheck="false" placeholder="貼上 API key"></label>
+    <span class="hint" id="tkKeyHint"></span>
+    <label>模型
+      <input id="tkModel" autocomplete="off" spellcheck="false"></label>
+    <span class="hint">留空就用預設。出現「模型不存在」的錯誤時，換成該家最新的便宜小模型名稱。</span>
+    <div class="tk-row"><button type="button" class="tk-btn" id="tkTest">測試翻譯</button><span class="tk-msg" id="tkMsg" aria-live="polite"></span></div>
+    <div class="tk-row"><button type="button" class="tk-btn main" id="tkOpen">🎤 開始口譯</button></div>
+  </div>
+  <ul class="tk-notes">
+    <li>ChatGPT Plus／Claude Pro／Gemini 訂閱<b style="font-weight:400">不能</b>直接用，要另外到各家的 API 後台申請金鑰（用多少付多少，口譯一整趟通常不到幾十元台幣）。</li>
+    <li>語音辨識用手機瀏覽器內建的功能，建議用 iPhone Safari 或 Android Chrome，第一次會詢問麥克風權限。不能用語音時，下方可以直接打字。</li>
+    <li>上半部是給對面的日本人看的，「對面模式」開著時會上下顛倒，手機平放在桌上兩個人都看得懂。</li>
+  </ul>
+</section>
+
 <p class="foot">資料來源：Notion「2026.11.22～11.26 熊本+福岡 五天四夜８人行」<br>打勾狀態只存在這台裝置的瀏覽器</p>
 </main>
+
+<div class="tk face" id="tk" hidden role="dialog" aria-modal="true" aria-label="中日口譯">
+  <div class="tk-half jp" lang="ja">
+    <div class="tk-who" id="tkJpWho">こちらに日本語が表示されます</div>
+    <div class="tk-big" id="tkJp"></div>
+    <button type="button" class="tk-mic" id="tkMicJa">🎤 日本語で話す</button>
+  </div>
+  <div class="tk-bar">
+    <button type="button" id="tkClose">✕ 關閉</button>
+    <span class="st" id="tkSt">準備好了</span>
+    <button type="button" id="tkFace" aria-pressed="true">對面模式</button>
+    <button type="button" id="tkSpeak" aria-pressed="true">🔊</button>
+  </div>
+  <div class="tk-half zh">
+    <div class="tk-who" id="tkZhWho">按下方按鈕講中文</div>
+    <div class="tk-big" id="tkZh"></div>
+    <form class="tk-type" id="tkForm"><input id="tkIn" placeholder="或直接打字（中文或日文）" enterkeyhint="send"><button>翻譯</button></form>
+    <button type="button" class="tk-mic" id="tkMicZh">🎤 說中文</button>
+  </div>
+</div>
 
 <div class="cv" id="cv" hidden role="dialog" aria-modal="true" aria-labelledby="cvT">
   <div class="cv-bar">
@@ -757,6 +835,105 @@ new IntersectionObserver((es,o)=>{if(es.some(e=>e.isIntersecting)){o.disconnect(
 renderCoupons();
 {const m=location.hash.match(/^#coupon-(\d+)$/);if(m&&COUPONS[m[1]-1]){history.replaceState(null,"","#coupon");openCoupon(m[1]-1,true)}}
 document.querySelectorAll("[data-copy]").forEach(b=>b.onclick=async()=>{try{await navigator.clipboard.writeText(b.dataset.copy);b.textContent="已複製"}catch(e){b.textContent="請長按複製"}setTimeout(()=>b.textContent="複製",1500)});
+/* ===== 中日口譯（自備 API 金鑰） ===== */
+const TK_DEF={openai:"gpt-4o-mini",anthropic:"claude-haiku-5-5",gemini:"gemini-2.5-flash"};
+const TK_HINT={openai:"到 platform.openai.com → API keys 建立，開頭是 sk-",anthropic:"到 console.anthropic.com → API Keys 建立，開頭是 sk-ant-",gemini:"到 aistudio.google.com → Get API key 建立"};
+const tkCfg=store.get("kf3-ai",{prov:"openai",keys:{},models:{}});
+const $=id=>document.getElementById(id);
+const tkProv=$("tkProv"),tkKey=$("tkKey"),tkModel=$("tkModel");
+function tkFill(){const p=tkCfg.prov;tkProv.value=p;tkKey.value=tkCfg.keys[p]||"";tkModel.value=tkCfg.models[p]||"";tkModel.placeholder=TK_DEF[p];$("tkKeyHint").textContent=TK_HINT[p]}
+function tkSave(){const p=tkProv.value;tkCfg.prov=p;tkCfg.keys[p]=tkKey.value.trim();tkCfg.models[p]=tkModel.value.trim();store.set("kf3-ai",tkCfg)}
+tkFill();
+tkProv.onchange=()=>{tkCfg.prov=tkProv.value;store.set("kf3-ai",tkCfg);tkFill()};
+tkKey.onchange=tkModel.onchange=tkSave;
+
+const tkHist=[];
+function tkPrompt(from){
+  const to=from==="zh"?"日文":"台灣繁體中文";
+  return `你是在日本九州旅行的台灣旅客與日本人之間的即時口譯員。把使用者給你的${from==="zh"?"中文":"日文"}翻成自然、口語的${to}。`+
+   (from==="zh"?"日文用禮貌的です／ます體，對象是店員、司機、飯店人員等。":"中文用台灣常用說法，不要用簡體字。")+
+   "只輸出翻譯本身，不要加引號、說明、拼音或其他語言。聽不懂或語音辨識明顯有錯時，照最合理的意思翻。";
+}
+async function tkTranslate(text,from){
+  tkSave();
+  const p=tkCfg.prov,key=tkCfg.keys[p],model=tkCfg.models[p]||TK_DEF[p];
+  if(!key)throw new Error("還沒有填 API 金鑰");
+  const sys=tkPrompt(from);
+  const ctx=tkHist.slice(-6).map(h=>`${h.from==="zh"?"中":"日"}：${h.src} → ${h.out}`).join("\n");
+  const user=(ctx?`（前面的對話，只供參考語境）\n${ctx}\n\n`:"")+"請翻譯：\n"+text;
+  let r,j;
+  if(p==="openai"){
+    r=await fetch("https://api.openai.com/v1/chat/completions",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+key},
+      body:JSON.stringify({model,temperature:0.2,messages:[{role:"system",content:sys},{role:"user",content:user}]})});
+    j=await r.json();if(!r.ok)throw new Error(j.error?.message||r.status);
+    return j.choices[0].message.content.trim();
+  }
+  if(p==="anthropic"){
+    r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
+      body:JSON.stringify({model,max_tokens:600,temperature:0.2,system:sys,messages:[{role:"user",content:user}]})});
+    j=await r.json();if(!r.ok)throw new Error(j.error?.message||r.status);
+    return j.content.filter(c=>c.type==="text").map(c=>c.text).join("").trim();
+  }
+  const gc={temperature:0.2};if(/2\.5-flash/.test(model))gc.thinkingConfig={thinkingBudget:0};
+  r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,{method:"POST",headers:{"Content-Type":"application/json","x-goog-api-key":key},
+    body:JSON.stringify({systemInstruction:{parts:[{text:sys}]},contents:[{role:"user",parts:[{text:user}]}],generationConfig:gc})});
+  j=await r.json();if(!r.ok)throw new Error(j.error?.message||r.status);
+  return (j.candidates?.[0]?.content?.parts||[]).map(x=>x.text||"").join("").trim();
+}
+$("tkTest").onclick=async()=>{const m=$("tkMsg");m.textContent="翻譯中…";
+  try{const t=await tkTranslate("你好，請問這附近有便利商店嗎？","zh");m.textContent="成功："+t}catch(e){m.textContent="失敗："+e.message}};
+
+/* 語音 */
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+const tk=$("tk"),tkSt=$("tkSt");
+let tkRec=null,tkBusy=false,tkSpeakOn=store.get("kf3-tk-speak",true),tkFaceOn=store.get("kf3-tk-face",true);
+function tkVoice(lang){const vs=speechSynthesis.getVoices();return vs.find(v=>v.lang.replace("_","-").toLowerCase()===lang.toLowerCase())||vs.find(v=>v.lang.toLowerCase().startsWith(lang.slice(0,2)))}
+function tkSay(text,lang){
+  if(!tkSpeakOn||!("speechSynthesis" in window))return;
+  speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang=lang;const v=tkVoice(lang);if(v)u.voice=v;u.rate=lang==="ja-JP"?0.95:1;speechSynthesis.speak(u);
+}
+function tkShow(from,src,out,live){
+  const mine=from==="zh",srcBox=$(mine?"tkZh":"tkJp"),outBox=$(mine?"tkJp":"tkZh");
+  $(mine?"tkZhWho":"tkJpWho").textContent=mine?"你說":"あなたの発言";
+  srcBox.innerHTML=live?`<span class="live">${esc(src)}</span>`:esc(src);
+  if(out!=null){$(mine?"tkJpWho":"tkZhWho").textContent=mine?"翻訳（中国語から）":"翻譯（日文→中文）";outBox.innerHTML=esc(out)}
+}
+async function tkRun(text,from){
+  text=text.trim();if(!text||tkBusy)return;
+  tkBusy=true;tkShow(from,text,null);tkSt.textContent="翻譯中…";
+  try{const out=await tkTranslate(text,from);tkHist.push({from,src:text,out});tkShow(from,text,out);tkSt.textContent="完成";tkSay(out,from==="zh"?"ja-JP":"zh-TW")}
+  catch(e){tkSt.textContent="翻譯失敗："+e.message}
+  tkBusy=false;
+}
+function tkStop(){if(tkRec){try{tkRec.stop()}catch(e){}}}
+function tkListen(from){
+  if(tkRec){tkStop();return}
+  if(!SR){tkSt.textContent="這個瀏覽器不支援語音辨識，請用下方打字";return}
+  speechSynthesis?.cancel();
+  const btn=$(from==="zh"?"tkMicZh":"tkMicJa"),rec=new SR();
+  rec.lang=from==="zh"?"zh-TW":"ja-JP";rec.interimResults=true;rec.continuous=false;rec.maxAlternatives=1;
+  let final="";
+  rec.onresult=e=>{let interim="";final="";for(const r of e.results){if(r.isFinal)final+=r[0].transcript;else interim+=r[0].transcript}tkShow(from,final+interim,null,true)};
+  rec.onerror=e=>{tkSt.textContent=e.error==="not-allowed"?"沒有麥克風權限，請到瀏覽器設定允許":e.error==="no-speech"?"沒聽到聲音，再試一次":"語音辨識錯誤："+e.error};
+  rec.onend=()=>{btn.classList.remove("on");btn.textContent=from==="zh"?"🎤 說中文":"🎤 日本語で話す";tkRec=null;if(final)tkRun(final,from)};
+  tkRec=rec;btn.classList.add("on");btn.textContent=from==="zh"?"聽你說… 再按一下結束":"聞いています… もう一度押して終了";
+  tkSt.textContent=from==="zh"?"聆聽中文中":"日本語を聞いています";
+  try{rec.start()}catch(e){tkRec=null;btn.classList.remove("on");tkSt.textContent="無法啟動語音辨識"}
+}
+$("tkMicZh").onclick=()=>tkListen("zh");
+$("tkMicJa").onclick=()=>tkListen("ja");
+$("tkForm").onsubmit=e=>{e.preventDefault();const v=$("tkIn").value;$("tkIn").value="";tkRun(v,/[぀-ヿ]/.test(v)?"ja":"zh")};
+function tkSync(){tk.classList.toggle("face",tkFaceOn);$("tkFace").setAttribute("aria-pressed",tkFaceOn);$("tkSpeak").setAttribute("aria-pressed",tkSpeakOn);$("tkSpeak").textContent=tkSpeakOn?"🔊":"🔇"}
+$("tkFace").onclick=()=>{tkFaceOn=!tkFaceOn;store.set("kf3-tk-face",tkFaceOn);tkSync()};
+$("tkSpeak").onclick=()=>{tkSpeakOn=!tkSpeakOn;store.set("kf3-tk-speak",tkSpeakOn);if(!tkSpeakOn)speechSynthesis?.cancel();tkSync()};
+$("tkOpen").onclick=()=>{
+  tkSave();if(!tkCfg.keys[tkCfg.prov]){$("tkMsg").textContent="請先貼上 API 金鑰";tkKey.focus();return}
+  tk.hidden=false;document.body.classList.add("lock");keepAwake();tkSync();
+  if(!SR)tkSt.textContent="不支援語音辨識，請用打字";
+  try{speechSynthesis.speak(new SpeechSynthesisUtterance(""))}catch(e){} /* iOS 需要先在點擊時啟用語音 */
+};
+$("tkClose").onclick=()=>{tkStop();speechSynthesis?.cancel();tk.hidden=true;document.body.classList.remove("lock");if(wake){wake.release().catch(()=>{});wake=null}};
+document.addEventListener("visibilitychange",()=>{if(!tk.hidden&&document.visibilityState==="visible")keepAwake()});
 </script>
 
 </body></html>
