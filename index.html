@@ -255,6 +255,35 @@ body.lock{overflow:hidden}
 .tk-btn{font:inherit;font-size:14px;border:2px solid var(--ink);border-radius:999px;padding:4px 14px;background:var(--paper);cursor:pointer}
 .tk-notes{margin:14px 0 0;padding-left:20px;font-size:14px;display:grid;gap:4px;color:var(--ink-soft)}
 .tk-lead{font-size:15px;margin:-4px 0 14px}
+/* 探索附近 */
+.ex-card{background:#fff;border:var(--line);border-radius:var(--r);padding:14px}
+.ex-k{font-size:11.5px;letter-spacing:.12em;color:#B4553F}
+.ex-card h3{font-weight:400;font-size:20px;margin:2px 0 4px}
+.ex-sub{font-size:13.5px;color:var(--ink-soft);margin:0 0 12px}
+.ex-loc{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:-4px 0 12px;font-size:13px;color:var(--ink-soft)}
+.ex-loc button{font:inherit;font-size:13px;border:2px solid var(--ink);border-radius:999px;background:var(--mizu);padding:1px 10px;cursor:pointer;color:var(--ink)}
+.ex-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ex-grid a{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:10px;align-items:center;text-decoration:none;background:var(--paper);border:2px solid var(--ink);border-radius:16px;padding:10px 12px;transition:transform .12s}
+.ex-grid a:active{transform:scale(.97)}
+.ex-grid .e{grid-row:1/3;font-size:28px;line-height:1}
+.ex-grid b{font-weight:400;font-size:16px}
+.ex-grid small{font-size:12px;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ex-grid a.loc{background:var(--yellow-l)}
+.ex-h{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin:20px 0 8px}
+.ex-h h3{font-weight:400;font-size:19px;margin:0}
+.ex-h .ex-k{white-space:nowrap}
+.ex-q{width:100%;font:inherit;font-size:16px;border:var(--line);border-radius:16px;padding:9px 14px;background:#fff;color:var(--ink)}
+.ex-cnt{font-size:12.5px;color:var(--ink-soft);margin:8px 2px}
+.ex-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.ex-list li{background:#fff;border:2px solid var(--ink);border-radius:16px;padding:8px 12px;display:grid;grid-template-columns:1fr auto;gap:2px 8px;align-items:center}
+.ex-list .n{font-size:15.5px;overflow-wrap:anywhere}
+.ex-list .m{grid-column:1;font-size:12.5px;color:var(--ink-soft)}
+.ex-list .d{grid-row:1/3;grid-column:2;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.ex-list .km{font-size:12.5px;background:var(--mizu-l);border:2px solid var(--ink);border-radius:8px;padding:0 6px;white-space:nowrap}
+.ex-list .acts{display:flex;gap:6px}
+.ex-list .acts a,.ex-list .acts button{font:inherit;font-size:12px;text-decoration:none;border:2px solid var(--ink);border-radius:999px;background:var(--paper);padding:0 8px;cursor:pointer;white-space:nowrap;color:var(--ink)}
+.ex-list li.food{border-left:8px solid var(--coral)} .ex-list li.sight{border-left:8px solid var(--take)} .ex-list li.stay{border-left:8px solid var(--mizu)} .ex-list li.move{border-left:8px solid var(--yellow)}
+.ex-more{font:inherit;font-size:13px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);padding:2px 12px;margin-top:8px;cursor:pointer}
 </style>
 
 <nav class="nav" aria-label="主選單">
@@ -262,6 +291,7 @@ body.lock{overflow:hidden}
     <li><a href="#home">首頁</a></li>
     <li><a href="#flight">航班</a></li>
     <li><a href="#plan">行程</a></li>
+    <li><a href="#explore">探索</a></li>
     <li><a href="#todo">清單</a></li>
     <li><a href="#stay">住宿</a></li>
     <li><a href="#coupon">優惠</a></li>
@@ -351,6 +381,24 @@ body.lock{overflow:hidden}
   <div class="days" id="days" role="tablist" aria-label="選擇日期"></div>
   <div id="dayview"></div>
   <div class="legend">交通：<span class="pill p-walk">步行</span><span class="pill p-train">電車</span><span class="pill p-car">自駕</span><span class="pill p-bus">巴士</span><span class="pill p-tour">一日遊專車</span><span class="pill p-fly">飛機</span></div>
+</section>
+
+<section id="explore">
+  <h2><span class="chip" style="background:var(--coral)"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="#fff" stroke="#3E3A39" stroke-width="2"/><path d="M16 16l5 5" stroke="#3E3A39" stroke-width="2.4" stroke-linecap="round"/><path d="M11 7.5v7M7.5 11h7" stroke="#F2A497" stroke-width="2" stroke-linecap="round"/></svg></span>探索附近</h2>
+  <div class="ex-loc"><span id="exLoc">還沒有定位</span><button type="button" id="exLocBtn">📍 更新位置</button></div>
+  <div class="ex-card">
+    <div class="ex-k">FOOD RADAR・美食雷達</div>
+    <h3>想吃點什麼？</h3>
+    <p class="ex-sub">直接開啟 Google Maps，查看你附近實際的店家、評價與營業時間。網站不自己排名店家，營業資訊以地圖為準。</p>
+    <div class="ex-grid" id="exGrid"></div>
+  </div>
+  <div class="ex-h"><h3 id="exNearT">離你最近的行程推薦</h3><span class="ex-k">NEARBY</span></div>
+  <ul class="ex-list" id="exNear"></ul>
+  <div class="ex-h"><h3>搜尋行程景點</h3><span class="ex-k" id="exN"></span></div>
+  <input class="ex-q" id="exQ" type="search" enterkeyhint="search" autocomplete="off">
+  <div class="ex-cnt" id="exCnt"></div>
+  <ul class="ex-list" id="exRes"></ul>
+  <button type="button" class="ex-more" id="exMore" hidden>顯示更多</button>
 </section>
 
 <section id="todo">
@@ -638,6 +686,7 @@ function distKm(a,b,c,d){const R=6371,r=Math.PI/180,x=Math.sin((c-a)*r/2),y=Math
 function nearest(lat,lng,only){let best=null;DAYS.forEach((d,di)=>{if(only!=null&&di!==only)return;d.stops.forEach((s,i)=>{if(!s.ll)return;const km=distKm(lat,lng,s.ll[0],s.ll[1]);if(!best||km<best.km)best={day:di,i,km}})});return best}
 function applyLoc(lat,lng,scroll){
   lastLoc=[lat,lng];
+  setTimeout(()=>{if(typeof renderExplore==="function")renderExplore()});
   const msg=document.getElementById("locmsg"),all=nearest(lat,lng);
   if(!all||all.km>80){here=null;msg.textContent=`目前不在行程範圍內（離${DAYS[all.day].area}約 ${fmtKm(all.km)}）`;renderDay(false);return}
   const target=todayI>=0?todayI:all.day,n=nearest(lat,lng,target);
@@ -656,7 +705,7 @@ function locate(scroll){
   if(!("geolocation" in navigator)){msg.textContent="這個瀏覽器不支援定位";return}
   b.disabled=true;msg.textContent="定位中…";
   navigator.geolocation.getCurrentPosition(p=>{b.disabled=false;applyLoc(p.coords.latitude,p.coords.longitude,scroll)},
-    e=>{b.disabled=false;msg.textContent=e.code===1?"沒有定位權限，請到瀏覽器設定允許此網站使用位置":"定位失敗，請稍後再試"},
+    e=>{b.disabled=false;msg.textContent=e.code===1?"沒有定位權限，請到瀏覽器設定允許此網站使用位置":"定位失敗，請稍後再試";const x=document.getElementById("exLoc");if(x)x.textContent=msg.textContent},
     {enableHighAccuracy:true,timeout:15000,maximumAge:120000});
 }
 document.getElementById("locbtn").onclick=()=>locate(true);
@@ -666,7 +715,7 @@ locate(!location.hash||location.hash==="#plan"?"auto":false);
 /* 每分鐘、以及手機從背景切回來時檢查日期；日本時間過了午夜就自動切到新的一天 */
 function checkDay(){
   const t=calcTodayI();if(t===todayI)return;
-  todayI=t;renderCount();
+  todayI=t;renderCount();if(typeof renderExplore==="function")setTimeout(renderExplore);
   if(t>=0){
     day=t;store.set("kf3-day",day);
     if(lastLoc)applyLoc(lastLoc[0],lastLoc[1],false);else{renderTabs();renderDay(true)}
@@ -818,6 +867,74 @@ document.getElementById("tkCopyPrompt").onclick=async e=>{const b=e.currentTarge
 
 /* 移除舊版存在這台手機的 API 金鑰設定 */
 try{["kf3-ai","kf3-tk-speak","kf3-tk-face"].forEach(k=>localStorage.removeItem(k))}catch(e){}
+/* ===== 探索附近：美食雷達＋行程景點搜尋 ===== */
+const EX_CAT=[["🍜","拉麵","ラーメン"],["🥢","烏龍麵","うどん"],["☕","咖啡","カフェ"],["🍶","居酒屋","居酒屋"],["🦪","當地海鮮","海鮮 料理"],["🥐","早餐","モーニング"],["🍡","甜點","スイーツ"],["🛍️","伴手禮","お土産"],["🏪","便利商店","コンビニ"],["💊","藥妝店","ドラッグストア"]];
+const EX_LOCAL={"熊本":[["🐴","馬肉料理","馬刺し"],["🍥","熊本拉麵","熊本ラーメン"]],"高千穂":[["🐄","宮崎牛","宮崎牛"],["🍙","高千穗美食","高千穂 ランチ"]],"福岡":[["🏮","屋台","屋台"],["🍲","牛雜鍋","もつ鍋"]]};
+/* 把行程裡的每一站、選項、美食推薦整理成可搜尋的清單 */
+const EX_ITEMS=[];
+DAYS.forEach((d,di)=>d.stops.forEach((s,si)=>{
+  if(s.type==="misc")return;
+  const base={day:di,si,area:d.area,ll:s.ll,parent:s.name};
+  EX_ITEMS.push({...base,kind:"stop",name:s.name,type:s.type,t:s.t,note:(s.note||"").replace(/<[^>]+>/g,""),map:s.map});
+  (s.opts||[]).forEach(o=>{if(/^方案|^從/.test(o.name))return;EX_ITEMS.push({...base,kind:"opt",name:o.name.replace(/^備案：/,""),type:s.type==="food"||s.free?"food":s.type,note:o.note||""})});
+  if(s.recs&&!s.recsHead)s.recs.forEach(r=>EX_ITEMS.push({...base,kind:"rec",name:r[0],type:"food",note:[r[1],r[2]].filter(Boolean).join("・")}));
+}));
+document.getElementById("exN").textContent=EX_ITEMS.length+" PLACES";
+document.getElementById("exQ").placeholder=`搜尋 ${EX_ITEMS.length} 個地點：神社、機場、咖啡、明太子…`;
+function exArea(){const i=todayI>=0?todayI:day;return DAYS[i].area}
+function exNearArea(){if(!lastLoc)return null;const n=nearest(lastLoc[0],lastLoc[1]);return n&&n.km<=80?DAYS[n.day].area:null}
+function exMapSearch(q){
+  if(lastLoc&&exNearArea())return`https://www.google.com/maps/search/${encodeURIComponent(q)}/@${lastLoc[0].toFixed(5)},${lastLoc[1].toFixed(5)},16z`;
+  return mapUrl(q,exNearArea()||exArea());
+}
+function renderExGrid(){
+  const area=exNearArea()||exArea(),where=exNearArea()?"你附近":area+"附近";
+  const cats=[...(EX_LOCAL[area]||[]).map(c=>[...c,1]),...EX_CAT];
+  document.getElementById("exGrid").innerHTML=cats.map(c=>`<a ${c[3]?'class="loc" ':""}href="${exMapSearch(c[2])}" target="_blank" rel="noopener"><span class="e" aria-hidden="true">${c[0]}</span><b>${c[1]}</b><small>搜尋${where} ↗</small></a>`).join("");
+}
+function exKm(it){return lastLoc&&it.ll?distKm(lastLoc[0],lastLoc[1],it.ll[0],it.ll[1]):null}
+function exRow(it){
+  const km=exKm(it),D=`Day ${it.day+1}`;
+  const meta=it.kind==="stop"?`${D}・${it.t}${it.note?"・"+it.note:""}`:`${D}・${it.kind==="rec"?"在「"+it.parent+"」":"「"+it.parent+"」的選項"}${it.note?"・"+it.note:""}`;
+  const mq=it.kind==="stop"&&it.map?it.map:it.name.replace(/^.*：/,"");
+  return `<li class="${it.type||""}"><span class="n">${esc(it.name)}</span><span class="m">${esc(meta.length>70?meta.slice(0,70)+"…":meta)}</span>
+   <span class="d">${km!=null&&it.kind==="stop"?`<span class="km">${fmtKm(km)}</span>`:""}<span class="acts"><a href="${mapUrl(mq,it.kind==="stop"&&it.map?"":it.area)}" target="_blank" rel="noopener">地圖 ↗</a><button type="button" data-go="${it.day}-${it.si}">行程</button></span></span></li>`;
+}
+function renderExNear(){
+  const t=document.getElementById("exNearT"),ul=document.getElementById("exNear");
+  let list,title;
+  if(lastLoc&&exNearArea()){
+    list=EX_ITEMS.filter(it=>it.ll&&(it.type==="food"||it.type==="sight")).map(it=>({it,km:exKm(it)})).filter(x=>x.km<=5).sort((a,b)=>a.km-b.km).slice(0,8).map(x=>x.it);
+    title=list.length?"離你最近的行程推薦（5 km 內）":"5 km 內沒有行程裡的推薦，用上面的美食雷達找找看";
+  }else{
+    const i=todayI>=0?todayI:day;list=EX_ITEMS.filter(it=>it.day===i&&(it.type==="food"||it.type==="sight")).slice(0,8);
+    title=(todayI>=0?"今天":`Day ${i+1} `)+"的行程推薦"+(lastLoc?"（你目前不在行程範圍內）":"");
+  }
+  t.textContent=title;ul.innerHTML=list.map(exRow).join("");
+}
+let exLimit=12;
+function renderExRes(){
+  const q=document.getElementById("exQ").value.trim().toLowerCase(),cnt=document.getElementById("exCnt"),more=document.getElementById("exMore");
+  let list;
+  if(!q){const i=todayI>=0?todayI:day;list=EX_ITEMS.filter(it=>it.day===i&&it.kind==="stop");cnt.textContent=`顯示${todayI>=0?"今天":" Day "+(i+1)+" "}的 ${list.length} 個站點`}
+  else{const ks=q.split(/\s+/);list=EX_ITEMS.filter(it=>{const h=(it.name+" "+it.note+" "+it.parent+" "+it.area+" day"+(it.day+1)).toLowerCase();return ks.every(k=>h.includes(k))});
+    if(lastLoc)list=list.map(it=>({it,km:exKm(it)??1e9})).sort((a,b)=>a.km-b.km).map(x=>x.it);
+    cnt.textContent=list.length?`找到 ${list.length} 個地點`:"找不到，換個關鍵字，或用上面的美食雷達搜尋 Google Maps"}
+  document.getElementById("exRes").innerHTML=list.slice(0,exLimit).map(exRow).join("");
+  more.hidden=list.length<=exLimit;
+}
+function renderExplore(){
+  const l=document.getElementById("exLoc");
+  if(!lastLoc)l.textContent="還沒有定位，先依日期顯示";
+  else{const n=nearest(lastLoc[0],lastLoc[1]);l.textContent=n.km<=80?`📍 你在${DAYS[n.day].area}附近，最近的行程點：${DAYS[n.day].stops[n.i].name}（${fmtKm(n.km)}）`:`你目前不在行程範圍內（離${DAYS[n.day].area}約 ${fmtKm(n.km)}）`}
+  renderExGrid();renderExNear();renderExRes();
+}
+document.getElementById("exQ").addEventListener("input",()=>{exLimit=12;renderExRes()});
+document.getElementById("exMore").onclick=()=>{exLimit+=20;renderExRes()};
+document.getElementById("exLocBtn").onclick=()=>{document.getElementById("exLoc").textContent="定位中…";locate(false)};
+document.getElementById("explore").addEventListener("click",e=>{const b=e.target.closest("[data-go]");if(!b)return;const[d,si]=b.dataset.go.split("-").map(Number);
+  day=d;store.set("kf3-day",day);renderTabs();renderDay(true);setTimeout(()=>{const el=document.getElementById("st"+si);el?.scrollIntoView({behavior:"smooth",block:"center"});el?.querySelector(".card")?.animate([{boxShadow:"0 0 0 4px var(--coral)"},{boxShadow:"0 0 0 0 transparent"}],{duration:1600})},300)});
+renderExplore();
 </script>
 
 </body></html>
