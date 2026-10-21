@@ -242,6 +242,15 @@ body.lock{overflow:hidden}
 .rf-ok{margin-top:14px;background:#fff;border:var(--line);border-radius:18px;padding:12px 14px}
 .rf-src{font-size:12px;color:var(--ink-soft);margin-top:10px}
 /* 口譯 */
+.tk-app{background:#fff;border:var(--line);border-radius:var(--r);padding:12px 14px;display:grid;gap:10px;margin-bottom:16px}
+.tk-app h3,.tk-set h3{font-weight:400;font-size:18px;margin:0}
+.tk-app .apps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tk-app .apps a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-decoration:none;border:var(--line);border-radius:18px;padding:10px 4px;font-size:15px;text-align:center;box-shadow:0 3px 0 var(--ink)}
+.tk-app .apps a:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+.tk-app .apps a small{font-size:11.5px;color:var(--ink-soft)}
+.tk-app .a-gpt{background:var(--take)} .tk-app .a-claude{background:var(--coral)} .tk-app .a-gem{background:var(--mizu)}
+.tk-app ol{margin:0;padding-left:20px;font-size:14px;display:grid;gap:3px}
+.tk-app pre{white-space:pre-wrap;font-family:inherit;font-size:13px;background:var(--paper);border:2px solid var(--ink);border-radius:12px;padding:8px 10px;margin:8px 0 0}
 .tk-lead{font-size:15px;margin:-4px 0 14px}
 .tk-set{background:#fff;border:var(--line);border-radius:var(--r);padding:12px 14px;display:grid;gap:10px}
 .tk-set label{display:grid;gap:4px;font-size:14px}
@@ -461,8 +470,25 @@ body.lock{overflow:hidden}
 
 <section id="talk">
   <h2><span class="chip" style="background:var(--coral)"><svg viewBox="0 0 24 24"><path d="M4 5h11a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H9l-4 3v-3H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" fill="#fff" stroke="#3E3A39" stroke-width="2" stroke-linejoin="round"/><path d="M19 9h1a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-1v3l-4-3h-3" fill="none" stroke="#3E3A39" stroke-width="2" stroke-linejoin="round"/></svg></span>中日口譯</h2>
-  <p class="tk-lead">對著手機講中文，它會翻成日文唸出來；日本人講日文，就翻成中文。用你自己的 ChatGPT、Claude 或 Gemini API 金鑰翻譯，金鑰只存在這台手機的瀏覽器裡。</p>
+  <p class="tk-lead">對著手機講中文，它會翻成日文唸出來；日本人講日文，就翻成中文。有兩種用法：直接打開你手機上的 AI App（最簡單），或在這個網頁裡用 API 金鑰。</p>
+  <div class="tk-app">
+    <h3>方法一：用手機上的 AI App</h3>
+    <div class="apps">
+      <a class="a-gpt" data-app="gpt" href="#" target="_blank" rel="noopener">ChatGPT<small>自動帶入指令</small></a>
+      <a class="a-claude" data-app="claude" href="#" target="_blank" rel="noopener">Claude<small>自動帶入指令</small></a>
+      <a class="a-gem" data-app="gem" href="#" target="_blank" rel="noopener">Gemini<small>貼上指令</small></a>
+    </div>
+    <span class="tk-msg" id="tkAppMsg" aria-live="polite"></span>
+    <ol>
+      <li>點上面的按鈕，會打開 App 並帶入口譯指令（同時也複製到剪貼簿）。</li>
+      <li>如果輸入框是空的，長按輸入框 → 貼上。</li>
+      <li>送出指令後，按 App 裡的<b style="font-weight:400">語音模式</b>按鈕（ChatGPT／Gemini Live／Claude 的聲波圖示），就可以開始對話口譯。</li>
+      <li>要結束時說「結束口譯」。</li>
+    </ol>
+    <details><summary>看口譯指令</summary><pre id="tkPromptTxt"></pre><button type="button" class="tk-btn" id="tkCopyPrompt" style="margin-top:8px">複製指令</button></details>
+  </div>
   <div class="tk-set">
+    <h3>方法二：在網頁裡用 API 金鑰</h3>
     <label>用哪一家 AI
       <select id="tkProv"><option value="openai">ChatGPT（OpenAI）</option><option value="anthropic">Claude（Anthropic）</option><option value="gemini">Gemini（Google）</option></select></label>
     <label>API 金鑰
@@ -475,7 +501,7 @@ body.lock{overflow:hidden}
     <div class="tk-row"><button type="button" class="tk-btn main" id="tkOpen">🎤 開始口譯</button></div>
   </div>
   <ul class="tk-notes">
-    <li>ChatGPT Plus／Claude Pro／Gemini 訂閱<b style="font-weight:400">不能</b>直接用，要另外到各家的 API 後台申請金鑰（用多少付多少，口譯一整趟通常不到幾十元台幣）。</li>
+    <li>方法一用你平常的 App 帳號就好（免費版也可以，語音模式的時數依各家方案）。方法二要另外到各家 API 後台申請金鑰，訂閱方案不能直接當金鑰用，API 是用多少付多少。</li>
     <li>語音辨識用手機瀏覽器內建的功能，建議用 iPhone Safari 或 Android Chrome，第一次會詢問麥克風權限。不能用語音時，下方可以直接打字。</li>
     <li>上半部是給對面的日本人看的，「對面模式」開著時會上下顛倒，手機平放在桌上兩個人都看得懂。</li>
   </ul>
@@ -835,7 +861,25 @@ new IntersectionObserver((es,o)=>{if(es.some(e=>e.isIntersecting)){o.disconnect(
 renderCoupons();
 {const m=location.hash.match(/^#coupon-(\d+)$/);if(m&&COUPONS[m[1]-1]){history.replaceState(null,"","#coupon");openCoupon(m[1]-1,true)}}
 document.querySelectorAll("[data-copy]").forEach(b=>b.onclick=async()=>{try{await navigator.clipboard.writeText(b.dataset.copy);b.textContent="已複製"}catch(e){b.textContent="請長按複製"}setTimeout(()=>b.textContent="複製",1500)});
-/* ===== 中日口譯（自備 API 金鑰） ===== */
+/* ===== 中日口譯：方法一 開啟手機 AI App 並帶入指令 ===== */
+const TK_APP_PROMPT=`接下來請你當我的中日即時口譯員，我們正在日本九州旅行（熊本、福岡）。
+規則：
+1. 聽到或看到中文，就只用日文說出翻譯；對象通常是店員、司機、飯店人員，用自然有禮貌的です／ます體。
+2. 聽到或看到日文，就只用台灣繁體中文說出翻譯，用台灣常用說法。
+3. 只說翻譯本身，不要加解釋、拼音、前言，也不要回答或評論對話內容。
+4. 語音辨識聽起來有錯時，照最合理的意思翻譯。
+5. 一直維持這個模式，直到我說「結束口譯」。
+如果明白了，請只回答：「好的，開始口譯。」`;
+const TK_APP_URL={gpt:"https://chatgpt.com/?q=",claude:"https://claude.ai/new?q=",gem:"https://gemini.google.com/app"};
+document.getElementById("tkPromptTxt").textContent=TK_APP_PROMPT;
+async function tkCopy(t){try{await navigator.clipboard.writeText(t);return true}catch(e){try{const a=document.createElement("textarea");a.value=t;a.style.position="fixed";a.style.opacity="0";document.body.appendChild(a);a.select();const ok=document.execCommand("copy");a.remove();return ok}catch(_){return false}}}
+document.querySelectorAll(".tk-app a[data-app]").forEach(a=>{
+  const k=a.dataset.app;a.href=k==="gem"?TK_APP_URL.gem:TK_APP_URL[k]+encodeURIComponent(TK_APP_PROMPT);
+  a.addEventListener("click",()=>{tkCopy(TK_APP_PROMPT).then(ok=>{document.getElementById("tkAppMsg").textContent=ok?(k==="gem"?"指令已複製，到 Gemini 輸入框長按貼上":"指令已帶入，也已複製到剪貼簿"):"沒辦法自動複製，請展開下方「看口譯指令」手動複製"})});
+});
+document.getElementById("tkCopyPrompt").onclick=async e=>{const b=e.currentTarget,ok=await tkCopy(TK_APP_PROMPT);b.textContent=ok?"已複製":"請長按上方文字複製";setTimeout(()=>b.textContent="複製指令",1500)};
+
+/* ===== 中日口譯：方法二 自備 API 金鑰 ===== */
 const TK_DEF={openai:"gpt-4o-mini",anthropic:"claude-haiku-5-5",gemini:"gemini-2.5-flash"};
 const TK_HINT={openai:"到 platform.openai.com → API keys 建立，開頭是 sk-",anthropic:"到 console.anthropic.com → API Keys 建立，開頭是 sk-ant-",gemini:"到 aistudio.google.com → Get API key 建立"};
 const tkCfg=store.get("kf3-ai",{prov:"openai",keys:{},models:{}});
