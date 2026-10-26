@@ -255,6 +255,20 @@ body.lock{overflow:hidden}
 .tk-btn{font:inherit;font-size:14px;border:2px solid var(--ink);border-radius:999px;padding:4px 14px;background:var(--paper);cursor:pointer}
 .tk-notes{margin:14px 0 0;padding-left:20px;font-size:14px;display:grid;gap:4px;color:var(--ink-soft)}
 .tk-lead{font-size:15px;margin:-4px 0 14px}
+/* 分頁：一次只顯示一頁 */
+main>section{display:none}
+main>section.on{display:block;margin-top:22px;animation:pagein .25s ease both}
+main>section#home.on{margin-top:0}
+@keyframes pagein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.toc{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+.toc a{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:10px;align-items:center;text-decoration:none;background:#fff;border:var(--line);border-radius:18px;padding:10px 12px;box-shadow:0 3px 0 var(--ink)}
+.toc a:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+.toc .e{grid-row:1/3;font-size:26px;line-height:1}
+.toc b{font-weight:400;font-size:16.5px}
+.toc small{font-size:12px;color:var(--ink-soft);line-height:1.35}
+.toc a.today{grid-column:1/-1;background:var(--yellow)}
+.toc a:last-child{grid-column:1/-1}
+.toc a.today small{color:var(--ink)}
 /* 探索附近 */
 .ex-card{background:#fff;border:var(--line);border-radius:var(--r);padding:14px}
 .ex-k{font-size:11.5px;letter-spacing:.12em;color:#B4553F}
@@ -348,6 +362,16 @@ body.lock{overflow:hidden}
       <div class="route"><span>熊本</span><span>高千穗</span><span>太宰府</span><span>博多・天神</span><span>柳川・糸島</span></div>
     </div>
   </div>
+  <nav class="toc" aria-label="內容目錄">
+    <a href="#plan" class="today" id="tocToday"><span class="e" aria-hidden="true">🗓️</span><b>每日行程</b><small>五天的行程、時間和地圖</small></a>
+    <a href="#flight"><span class="e" aria-hidden="true">✈️</span><b>航班</b><small>去程與回程時間</small></a>
+    <a href="#explore"><span class="e" aria-hidden="true">🔍</span><b>探索附近</b><small>美食雷達、景點搜尋</small></a>
+    <a href="#todo"><span class="e" aria-hidden="true">✅</span><b>清單</b><small>出發前要準備的</small></a>
+    <a href="#stay"><span class="e" aria-hidden="true">🏨</span><b>住宿</b><small>兩間飯店</small></a>
+    <a href="#coupon"><span class="e" aria-hidden="true">🎟️</span><b>優惠券</b><small>藥妝店、百貨折扣</small></a>
+    <a href="#refund"><span class="e" aria-hidden="true">💴</span><b>退稅</b><small>11/1 新制流程</small></a>
+    <a href="#talk"><span class="e" aria-hidden="true">💬</span><b>中日口譯</b><small>開啟 AI App 口譯</small></a>
+  </nav>
 </section>
 
 <section id="flight">
@@ -695,9 +719,10 @@ function applyLoc(lat,lng,scroll){
   msg.textContent=(todayI>=0?"今天":"依位置")+`顯示 Day ${target+1}`+(here?`・最近：${nm}（${fmtKm(here.km)}）`:"");
   if(target!==day){day=target;store.set("kf3-day",day);renderTabs();renderDay(true)}else renderDay(false);
   if(scroll)setTimeout(()=>{
-    if(scroll==="auto"&&((location.hash&&location.hash!=="#plan")||scrollY>300))return; /* 使用者已經自己點去別區就不打斷 */
-    const el=here?document.getElementById("st"+here.i):document.getElementById("plan");
-    el?.scrollIntoView({behavior:"smooth",block:here?"center":"start"});
+    if(scroll==="auto"&&((location.hash&&location.hash!=="#plan")||scrollY>300))return; /* 使用者已經自己點去別頁就不打斷 */
+    const sw=curPage!=="plan";if(sw){history.replaceState(null,"","#plan");showPage("plan")}
+    const el=here?document.getElementById("st"+here.i):null;
+    if(el)setTimeout(()=>el.scrollIntoView({behavior:"smooth",block:"center"}),sw?80:0);
   },350);
 }
 function locate(scroll){
@@ -738,8 +763,27 @@ function renderList(){
 }
 
 const links=[...document.querySelectorAll(".nav a")];
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+e.target.id))}),{rootMargin:"-45% 0px -50% 0px"});
-document.querySelectorAll("main section").forEach(s=>io.observe(s));
+/* ===== 分頁：每個區塊是獨立的一頁，網址 #plan、#flight… 可以直接分享或加到書籤 ===== */
+const PAGES=[...document.querySelectorAll("main>section")].map(s=>s.id);
+const BASE_TITLE=document.title;
+let curPage=null;
+function pageOf(h){const id=(h||"").replace(/^#/,"").split("-")[0];return PAGES.includes(id)?id:"home"}
+function showPage(id){
+  if(id===curPage)return;
+  curPage=id;
+  document.querySelectorAll("main>section").forEach(s=>s.classList.toggle("on",s.id===id));
+  links.forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+id));
+  const on=links.find(a=>a.classList.contains("on"));if(on)on.parentElement.parentElement.scrollLeft=on.offsetLeft-60;
+  const h=document.querySelector(`#${id} h2`);document.title=id==="home"?BASE_TITLE:(h?h.textContent.trim():id)+"｜"+BASE_TITLE;
+  const de=document.documentElement;de.style.scrollBehavior="auto";window.scrollTo(0,0);
+  requestAnimationFrame(()=>{window.scrollTo(0,0);de.style.scrollBehavior=""});
+}
+function route(){showPage(pageOf(location.hash))}
+window.addEventListener("hashchange",route);
+window.addEventListener("popstate",route);
+document.querySelector(".nav").addEventListener("click",e=>{const a=e.target.closest("a");if(a&&a.getAttribute("href")===location.hash)window.scrollTo({top:0,behavior:"smooth"})});
+route();
+{const t=document.getElementById("tocToday"),i=todayI>=0?todayI:-1;if(i>=0)t.querySelector("small").textContent=`今天 Day ${i+1}：${DAYS[i].title}`}
 
 renderTabs();renderDay(false);renderList();
 
@@ -933,7 +977,7 @@ document.getElementById("exQ").addEventListener("input",()=>{exLimit=12;renderEx
 document.getElementById("exMore").onclick=()=>{exLimit+=20;renderExRes()};
 document.getElementById("exLocBtn").onclick=()=>{document.getElementById("exLoc").textContent="定位中…";locate(false)};
 document.getElementById("explore").addEventListener("click",e=>{const b=e.target.closest("[data-go]");if(!b)return;const[d,si]=b.dataset.go.split("-").map(Number);
-  day=d;store.set("kf3-day",day);renderTabs();renderDay(true);setTimeout(()=>{const el=document.getElementById("st"+si);el?.scrollIntoView({behavior:"smooth",block:"center"});el?.querySelector(".card")?.animate([{boxShadow:"0 0 0 4px var(--coral)"},{boxShadow:"0 0 0 0 transparent"}],{duration:1600})},300)});
+  day=d;store.set("kf3-day",day);renderTabs();renderDay(true);location.hash="plan";setTimeout(()=>{const el=document.getElementById("st"+si);el?.scrollIntoView({behavior:"smooth",block:"center"});el?.querySelector(".card")?.animate([{boxShadow:"0 0 0 4px var(--coral)"},{boxShadow:"0 0 0 0 transparent"}],{duration:1600})},300)});
 renderExplore();
 </script>
 
