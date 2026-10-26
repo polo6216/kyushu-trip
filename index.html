@@ -297,6 +297,7 @@ main>section#home.on{margin-top:0}
 .ex-list .acts{display:flex;gap:6px}
 .ex-list .acts a,.ex-list .acts button{font:inherit;font-size:12px;text-decoration:none;border:2px solid var(--ink);border-radius:999px;background:var(--paper);padding:0 8px;cursor:pointer;white-space:nowrap;color:var(--ink)}
 .ex-list li.food{border-left:8px solid var(--coral)} .ex-list li.sight{border-left:8px solid var(--take)} .ex-list li.stay{border-left:8px solid var(--mizu)} .ex-list li.move{border-left:8px solid var(--yellow)}
+.ex-list li.ex-empty{display:block;font-size:14px;color:var(--ink-soft);background:var(--paper);border-style:dashed}
 .ex-more{font:inherit;font-size:13px;border:2px solid var(--ink);border-radius:999px;background:var(--paper);padding:2px 12px;margin-top:8px;cursor:pointer}
 </style>
 
@@ -951,8 +952,10 @@ function renderExNear(){
     list=EX_ITEMS.filter(it=>it.ll&&(it.type==="food"||it.type==="sight")).map(it=>({it,km:exKm(it)})).filter(x=>x.km<=5).sort((a,b)=>a.km-b.km).slice(0,8).map(x=>x.it);
     title=list.length?"離你最近的行程推薦（5 km 內）":"5 km 內沒有行程裡的推薦，用上面的美食雷達找找看";
   }else{
-    const i=todayI>=0?todayI:day;list=EX_ITEMS.filter(it=>it.day===i&&(it.type==="food"||it.type==="sight")).slice(0,8);
-    title=(todayI>=0?"今天":`Day ${i+1} `)+"的行程推薦"+(lastLoc?"（你目前不在行程範圍內）":"");
+    /* 不在九州時不列出行程（那是「每日行程」頁的內容），只說明這裡會出現什麼 */
+    t.textContent="附近的行程推薦";
+    ul.innerHTML=`<li class="ex-empty">${lastLoc?"你目前不在行程範圍內。":"還沒有定位。"}到了熊本、高千穗或福岡再打開這頁，會列出你附近 5 km 內、行程裡排好的店家和景點。</li>`;
+    return;
   }
   t.textContent=title;ul.innerHTML=list.map(exRow).join("");
 }
@@ -960,7 +963,7 @@ let exLimit=12;
 function renderExRes(){
   const q=document.getElementById("exQ").value.trim().toLowerCase(),cnt=document.getElementById("exCnt"),more=document.getElementById("exMore");
   let list;
-  if(!q){const i=todayI>=0?todayI:day;list=EX_ITEMS.filter(it=>it.day===i&&it.kind==="stop");cnt.textContent=`顯示${todayI>=0?"今天":" Day "+(i+1)+" "}的 ${list.length} 個站點`}
+  if(!q){list=[];cnt.textContent="輸入關鍵字搜尋行程裡的地點，例如：神社、拉麵、明太子、機場"}
   else{const ks=q.split(/\s+/);list=EX_ITEMS.filter(it=>{const h=(it.name+" "+it.note+" "+it.parent+" "+it.area+" day"+(it.day+1)).toLowerCase();return ks.every(k=>h.includes(k))});
     if(lastLoc)list=list.map(it=>({it,km:exKm(it)??1e9})).sort((a,b)=>a.km-b.km).map(x=>x.it);
     cnt.textContent=list.length?`找到 ${list.length} 個地點`:"找不到，換個關鍵字，或用上面的美食雷達搜尋 Google Maps"}
